@@ -14,7 +14,7 @@ const Landing = () => {
             <Grid container direction="row">
                 <Grid container direction="column">
                     <Grid item sm>
-                    <Typography variant="h3" color="inherit" noWrap align='center' paddingTop={4}>
+                    <Typography className='title-text' variant="h3" noWrap>
                         <b>Welcome to Zoommates!</b>
                     </Typography>
                     </Grid>

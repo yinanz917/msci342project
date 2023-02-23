@@ -16,3 +16,9 @@ code {
 img {
   padding: 2%
 }
+
+.title-text {
+  color: black;
+  text-align: center;
+  padding-top: 28px;
+}
