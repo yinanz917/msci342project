@@ -7,7 +7,7 @@ const Landing = () => {
 
     return (
         <Grid>
-            <NavBar/>
+            <NavBar />
             <Typography variant="h3" color="inherit" noWrap align='center'>
                 Welcome to Zoommates Landing Page!
             </Typography>
