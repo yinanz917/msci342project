@@ -8,7 +8,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-<<<<<<< HEAD
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { MenuItem } from '@mui/material';
@@ -19,12 +18,6 @@ import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
 
-=======
-import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
->>>>>>> 863de0a (basic info and housing)
 import NavBar from '../Navigation/NavBar';
 
 const Profile = () => {
@@ -33,7 +26,6 @@ const Profile = () => {
   const [enteredAge, setAge] = React.useState('');
   const [selectedSex, setSex] = React.useState('');
   const [selectedPronouns, setPronouns] = React.useState('');
-<<<<<<< HEAD
 
   const [enteredBudget, setBudget] = React.useState('');
   const [enteredLocation, setLocation] = React.useState('');
@@ -44,9 +36,6 @@ const Profile = () => {
   const [hobbyList, setHobbyList] = React.useState([]);
 
   const [submit, setSubmit] = React.useState(false);
-=======
-  const [enteredBudget, setBudget] = React.useState('');
->>>>>>> 863de0a (basic info and housing)
 
   const handleAgeInput = (event) => {
     setAge(event.target.value);
@@ -64,7 +53,6 @@ const Profile = () => {
     setBudget(event.target.value);
   }
 
-<<<<<<< HEAD
   const handleLocationInput = (event) => {
     setLocation(event.target.value);
   }
@@ -95,8 +83,6 @@ const Profile = () => {
     setSubmit(true);
   }
 
-=======
->>>>>>> 863de0a (basic info and housing)
   return (
     <div>
       <NavBar />
@@ -107,20 +93,12 @@ const Profile = () => {
             Create your profile
           </Typography>
           <Typography variant="body1" color="inherit" noWrap align='center'>
-<<<<<<< HEAD
             Fill out this questionnaire about yourself to set up your profile.
-=======
-            Tell us about you! Fill out this questionnaire about yourself to set up your profile.
->>>>>>> 863de0a (basic info and housing)
           </Typography>
         </Container>
       </Grid>
 
-<<<<<<< HEAD
       <Grid marginTop={8} id='Basic Info'>
-=======
-      <Grid marginTop={8}>
->>>>>>> 863de0a (basic info and housing)
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             1. Basic Info
@@ -151,64 +129,37 @@ const Profile = () => {
         </Container>
       </Grid>
 
-<<<<<<< HEAD
       <Grid marginTop={8} id='Housing Details'>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
-=======
-
-      <Grid marginTop={8}>
-        <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left'>
->>>>>>> 863de0a (basic info and housing)
             2. Housing Details
           </Typography>
 
           <Grid container wrap="nowrap" spacing={4} direction="column">
-<<<<<<< HEAD
             <Grid item id='budget'>
-=======
-            <Grid item id='age'>
->>>>>>> 863de0a (basic info and housing)
               <Budget
                 onType={handleBudgetInput}
                 userBudget={enteredBudget}
               />
             </Grid>
 
-<<<<<<< HEAD
             <Grid item id='location'>
               <Location
                 onType={handleLocationInput}
                 userLocation={enteredLocation}
               />
-=======
-            <Grid item id='age'>
-
-            </Grid>
-
-            <Grid item id='age'>
-
->>>>>>> 863de0a (basic info and housing)
             </Grid>
           </Grid>
         </Container>
       </Grid>
 
-<<<<<<< HEAD
       <Grid marginTop={8} id='Lifestyle'>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
-=======
-      <Grid marginTop={8}>
-        <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left'>
->>>>>>> 863de0a (basic info and housing)
             3. Lifestyle
           </Typography>
 
           <Grid container wrap="nowrap" spacing={4} direction="column">
-<<<<<<< HEAD
             <Grid item id='cleanliness'>
               <Cleanliness
                 onChange={handleCleanLevel}
@@ -235,24 +186,11 @@ const Profile = () => {
                 onSelect={handleHobbyList}
                 userHobbies={hobbyList}
               />
-=======
-            <Grid item id='age'>
-
-            </Grid>
-
-            <Grid item id='age'>
-
-            </Grid>
-
-            <Grid item id='age'>
-
->>>>>>> 863de0a (basic info and housing)
             </Grid>
           </Grid>
         </Container>
       </Grid>
 
-<<<<<<< HEAD
       <Grid marginTop={8} id='Submit'>
         <Container maxWidth="sm">
           <Button
@@ -278,17 +216,6 @@ const Profile = () => {
   );
 }
 
-=======
-      <Typography>
-        {enteredAge}, {selectedPronouns}, {selectedSex}, {enteredBudget}
-      </Typography>
-    </div >
-
-  );
-}
-
-
->>>>>>> 863de0a (basic info and housing)
 const Age = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
 
@@ -315,20 +242,8 @@ const Age = (props) => {
 }
 
 const Sex = (props) => {
-<<<<<<< HEAD
   const sex = ['Female', 'Male', 'Other'];
 
-=======
-  // const [errMessage, setErrMessage] = React.useState('');
-  const sex = ['Female', 'Male', 'Other'];
-
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please select the rating.");
-  //   };
-  // }, [props.isEmpty, props.submit])
-
->>>>>>> 863de0a (basic info and housing)
   return (
     <FormControl fullWidth>
       <FormLabel>What is your sex?</FormLabel>
@@ -372,10 +287,6 @@ const Pronouns = (props) => {
   )
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 863de0a (basic info and housing)
 const Budget = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
 
@@ -394,11 +305,7 @@ const Budget = (props) => {
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           size="small"
           placeholder="Enter an approximate number"
-<<<<<<< HEAD
           variant='outlined'
-=======
-          variant='outlined'      
->>>>>>> 863de0a (basic info and housing)
           onChange={props.onType}
         />
       </FormControl>
@@ -406,7 +313,6 @@ const Budget = (props) => {
   )
 }
 
-<<<<<<< HEAD
 const Location = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
 
@@ -575,7 +481,5 @@ const Hobbies = (props) => {
     </div>
   );
 }
-=======
->>>>>>> 863de0a (basic info and housing)
 
 export default Profile;
