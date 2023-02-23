@@ -208,11 +208,13 @@ const Profile = () => {
           } */}
         </Container>
       </Grid>
-
+       
+      {/* FOR TESTING VALUES, DELETE WHEN NOT NEEDED
       <Typography>
         {enteredAge}, {selectedPronouns}, {selectedSex}, {enteredBudget}, {enteredLocation}, {cleanLevel}, {noiseLevel}, {hasPet}
         {hobbyList}
-      </Typography>
+      </Typography> */}
+
     </div >
   );
 }
