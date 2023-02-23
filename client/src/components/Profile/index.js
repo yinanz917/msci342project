@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
