@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
@@ -187,6 +188,15 @@ const Profile = () => {
                 userHobbies={hobbyList}
               />
             </Grid>
+
+            <Grid item id='hobbies'>
+              <Hobbies
+                onSelect={handleHobbyList}
+                userHobbies={hobbyList}
+              />
+            </Grid>
+
+
           </Grid>
         </Container>
       </Grid>
@@ -214,7 +224,6 @@ const Profile = () => {
 
     </div >
   );
-}
 
 const Age = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
