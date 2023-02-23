@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
@@ -17,7 +16,7 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
-import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
 
 import NavBar from '../Navigation/NavBar';
 
@@ -35,7 +34,6 @@ const Profile = () => {
   const [noiseLevel, setNoiseLevel] = React.useState('');
   const [hasPet, setHasPet] = React.useState('');
   const [hobbyList, setHobbyList] = React.useState([]);
-
 
   const [submit, setSubmit] = React.useState(false);
 
@@ -76,11 +74,9 @@ const Profile = () => {
     );
   };
 
-
   const handlePetSelect = (event) => {
     setHasPet(event.target.value);
   }
-
 
   // TODO
   const handleSubmit = (event) => {
@@ -97,10 +93,11 @@ const Profile = () => {
             Create your profile
           </Typography>
           <Typography variant="body1" color="inherit" noWrap align='center'>
-            Tell us about you! Fill out this questionnaire about yourself to set up your profile.
+            Fill out this questionnaire about yourself to set up your profile.
           </Typography>
         </Container>
       </Grid>
+
 
       <Grid marginTop={8}>
         <Container maxWidth="sm" margin={16}>
@@ -133,6 +130,7 @@ const Profile = () => {
         </Container>
       </Grid>
 
+
       <Grid marginTop={8}>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
@@ -156,6 +154,7 @@ const Profile = () => {
           </Grid>
         </Container>
       </Grid>
+
 
       <Grid marginTop={8}>
         <Container maxWidth="sm" margin={16}>
@@ -191,9 +190,22 @@ const Profile = () => {
                 userHobbies={hobbyList}
               />
             </Grid>
-
-
           </Grid>
+        </Container>
+      </Grid>
+
+      <Grid marginTop={8}>
+        <Container maxWidth="sm">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Submit Profile
+          </Button>
+          {/* {(submit && allValid) && // shows succcess state if submitted and all valid
+            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! Your review has been received.</Typography>
+          } */}
         </Container>
       </Grid>
 
@@ -202,9 +214,7 @@ const Profile = () => {
         {hobbyList}
       </Typography>
     </div >
-
   );
-
 }
 
 const Age = (props) => {
@@ -385,7 +395,7 @@ const NoiseLevel = (props) => {
     <div>
       <FormControl fullWidth>
         <FormLabel style={{ paddingBottom: 12 }}>How much noise do you typically make at home? Rank your level of noise.</FormLabel>
-        <Stack spacing={4} direction="row" alignItems="center">
+        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
           <Typography variant="body2" align="center">Absolute silence</Typography>
           <Slider
             onChange={props.onChange}
@@ -424,7 +434,7 @@ const Pets = (props) => {
 
 const Hobbies = (props) => {
   const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
+  const ITEM_PADDING_TOP = 16;
   const MenuProps = {
     PaperProps: {
       style: {
@@ -446,7 +456,6 @@ const Hobbies = (props) => {
     'Photography',
   ];
 
-
   return (
     <div>
       <FormControl fullWidth>
@@ -456,7 +465,6 @@ const Hobbies = (props) => {
           multiple
           value={props.userHobbies}
           onChange={props.onSelect}
-          input={<OutlinedInput id="select-multiple-chip" label="Select some hobbies" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
@@ -467,12 +475,7 @@ const Hobbies = (props) => {
           MenuProps={MenuProps}
         >
           {hobbies.map((hobby) => (
-            <MenuItem
-              key={hobby}
-              value={hobby}
-            >
-              {hobby}
-            </MenuItem>
+            <MenuItem key={hobby} value={hobby}>{hobby}</MenuItem>
           ))}
         </Select>
       </FormControl>
