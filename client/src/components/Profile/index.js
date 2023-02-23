@@ -8,10 +8,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+
 import NavBar from '../Navigation/NavBar';
 
 const Profile = () => {
@@ -21,6 +20,9 @@ const Profile = () => {
   const [selectedSex, setSex] = React.useState('');
   const [selectedPronouns, setPronouns] = React.useState('');
   const [enteredBudget, setBudget] = React.useState('');
+  const [enteredLocation, setLocation] = React.useState('');
+
+  const [submit, setSubmit] = React.useState(false);
 
   const handleAgeInput = (event) => {
     setAge(event.target.value);
@@ -37,6 +39,16 @@ const Profile = () => {
   const handleBudgetInput = (event) => {
     setBudget(event.target.value);
   }
+
+  const handleLocationInput = (event) => {
+    setLocation(event.target.value);
+  }
+
+
+  // TODO
+  // const handleSubmit = (event) => {
+  //   setSubmit(true);
+  // }
 
   return (
     <div>
@@ -87,32 +99,44 @@ const Profile = () => {
 
       <Grid marginTop={8}>
         <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left'>
+          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             2. Housing Details
           </Typography>
 
           <Grid container wrap="nowrap" spacing={4} direction="column">
-            <Grid item id='age'>
+            <Grid item id='budget'>
               <Budget
                 onType={handleBudgetInput}
                 userBudget={enteredBudget}
               />
             </Grid>
 
-            <Grid item id='age'>
+            <Grid item id='location'>
+              <Location
+                onType={handleLocationInput}
+                userLocation={enteredLocation}
+              />
+            </Grid>
+
+            <Grid item id='date-picker'>
+              {/* <Dates>
+                onChange={handleDatePicker}
+                userDates={dateRange} 
+              </Dates> */}
+            </Grid>
+
+            <Grid item id='num-roomates'>
 
             </Grid>
 
-            <Grid item id='age'>
 
-            </Grid>
           </Grid>
         </Container>
       </Grid>
 
       <Grid marginTop={8}>
         <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left'>
+          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             3. Lifestyle
           </Typography>
 
@@ -219,7 +243,6 @@ const Pronouns = (props) => {
   )
 }
 
-
 const Budget = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
 
@@ -238,7 +261,7 @@ const Budget = (props) => {
           startAdornment={<InputAdornment position="start">$</InputAdornment>}
           size="small"
           placeholder="Enter an approximate number"
-          variant='outlined'      
+          variant='outlined'
           onChange={props.onType}
         />
       </FormControl>
@@ -246,5 +269,53 @@ const Budget = (props) => {
   )
 }
 
+const Location = (props) => {
+  // const [errMessage, setErrMessage] = React.useState('');
+
+  // React.useEffect(() => {
+  //   if (props.isEmpty && props.submit) {
+  //     setErrMessage("Please enter your review title.");
+  //   };
+  // }, [props.isEmpty, props.submit])
+
+  return (
+    <div>
+      <FormControl fullWidth>
+        <FormLabel style={{ paddingBottom: 12 }}>In which city are you looking for roommates to live with?</FormLabel>
+        <TextField
+          id="single-input"
+          size="small"
+          placeholder="Enter a city"
+          variant='outlined'
+          onChange={props.onType}
+          helperText="Ex. Seattle"
+        />
+      </FormControl>
+    </div>
+  )
+}
+
+// const Dates = (props) => {
+
+//   return (
+//     <LocalizationProvider
+//       dateAdapter={AdapterDayjs}
+//       localeText={{ start: 'Check-in', end: 'Check-out' }}
+//     >
+//       <DateRangePicker
+//         value={props.dateRange}
+//         onChange={props.onChange}
+//         renderInput={(startProps, endProps) => (
+//           <React.Fragment>
+//             <TextField {...startProps} />
+//             <Box sx={{ mx: 2 }}> to </Box>
+//             <TextField {...endProps} />
+//           </React.Fragment>
+//         )}
+//       />
+//     </LocalizationProvider>
+//   );
+
+// }
 
 export default Profile;
