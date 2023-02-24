@@ -78,7 +78,7 @@ const Profile = () => {
     setHasPet(event.target.value);
   }
 
-  // TODO
+  // TODO @yinan
   const handleSubmit = (event) => {
     setSubmit(true);
   }
@@ -98,8 +98,7 @@ const Profile = () => {
         </Container>
       </Grid>
 
-
-      <Grid marginTop={8}>
+      <Grid marginTop={8} id='Basic Info'>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             1. Basic Info
@@ -130,8 +129,7 @@ const Profile = () => {
         </Container>
       </Grid>
 
-
-      <Grid marginTop={8}>
+      <Grid marginTop={8} id='Housing Details'>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             2. Housing Details
@@ -155,8 +153,7 @@ const Profile = () => {
         </Container>
       </Grid>
 
-
-      <Grid marginTop={8}>
+      <Grid marginTop={8} id='Lifestyle'>
         <Container maxWidth="sm" margin={16}>
           <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
             3. Lifestyle
@@ -194,7 +191,7 @@ const Profile = () => {
         </Container>
       </Grid>
 
-      <Grid marginTop={8}>
+      <Grid marginTop={8} id='Submit'>
         <Container maxWidth="sm">
           <Button
             variant="contained"
