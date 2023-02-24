@@ -10,6 +10,7 @@ const Landing = () => {
 
     return (
 <<<<<<< HEAD
+<<<<<<< HEAD
         <Grid container direction="column">
             <NavBar/>
             <Grid container direction="row">
@@ -30,6 +31,8 @@ const Landing = () => {
                 </Container>
             </Grid>
 =======
+=======
+>>>>>>> f0e11f9b4adc9e00fee5193bce7dc72bee0fc4f2
         <Grid>
             <NavBar />
             <Typography variant="h3" color="inherit" noWrap align='center'>

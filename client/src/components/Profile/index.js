@@ -187,6 +187,7 @@ const Profile = () => {
                 userHobbies={hobbyList}
               />
             </Grid>
+<<<<<<< HEAD
 
             <Grid item id='hobbies'>
               <Hobbies
@@ -196,6 +197,8 @@ const Profile = () => {
             </Grid>
 
 
+=======
+>>>>>>> f0e11f9b4adc9e00fee5193bce7dc72bee0fc4f2
           </Grid>
         </Container>
       </Grid>
@@ -223,6 +226,10 @@ const Profile = () => {
 
     </div >
   );
+<<<<<<< HEAD
+=======
+}
+>>>>>>> f0e11f9b4adc9e00fee5193bce7dc72bee0fc4f2
 
 const Age = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
