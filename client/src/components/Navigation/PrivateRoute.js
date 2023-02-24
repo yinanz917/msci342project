@@ -4,6 +4,8 @@ import Home from '../Home';
 import Landing from "../Landing";
 import Matches from "../Matches";
 import Chat from "../Chat";
+import Login from "../Login";
+import SignUp from "../SignUp";
 import history from './history';
 
 export default function PrivateRoute({
@@ -19,6 +21,8 @@ export default function PrivateRoute({
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/landing" exact component={Landing} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/signup" exact component={SignUp} />
         <Route path="/matches" exact component={Matches} />
         <Route path="/chat" exact component={Chat} />
       </Switch>
