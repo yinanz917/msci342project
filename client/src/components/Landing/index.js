@@ -9,6 +9,7 @@ import '../../index.css';
 const Landing = () => {
 
     return (
+<<<<<<< HEAD
         <Grid container direction="column">
             <NavBar/>
             <Grid container direction="row">
@@ -28,6 +29,13 @@ const Landing = () => {
                     <img height="100%" width="100%" src={houseImage} alt="An image of a house"/>
                 </Container>
             </Grid>
+=======
+        <Grid>
+            <NavBar />
+            <Typography variant="h3" color="inherit" noWrap align='center'>
+                Welcome to Zoommates Landing Page!
+            </Typography>
+>>>>>>> 863de0a (basic info and housing)
         </Grid>
     );
 }
