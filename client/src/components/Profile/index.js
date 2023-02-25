@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -20,7 +21,6 @@ import Button from '@mui/material/Button';
 
 import NavBar from '../Navigation/NavBar';
 
-<<<<<<< HEAD
 const Profile = () => {
 
   //defining states
@@ -37,32 +37,41 @@ const Profile = () => {
   const [hobbyList, setHobbyList] = React.useState([]);
 
   const [submit, setSubmit] = React.useState(false);
+  const [allValid, setValid] = React.useState(false);
+
 
   const handleAgeInput = (event) => {
+    reset();
     setAge(event.target.value);
   }
 
   const handleSexSelection = (event) => {
+    reset();
     setSex(event.target.value);
   }
 
   const handlePronounsSelection = (event) => {
+    reset();
     setPronouns(event.target.value);
   }
 
   const handleBudgetInput = (event) => {
+    reset();
     setBudget(event.target.value);
   }
 
   const handleLocationInput = (event) => {
+    reset();
     setLocation(event.target.value);
   }
 
   const handleCleanLevel = (event) => {
+    reset();
     setCleanLevel(event.target.value);
   }
 
   const handleNoiseLevel = (event) => {
+    reset();
     setNoiseLevel(event.target.value);
   }
 
@@ -70,19 +79,42 @@ const Profile = () => {
     const {
       target: { value },
     } = event;
+    reset();
     setHobbyList(
       typeof value === 'string' ? value.split(',') : value,
     );
   };
 
   const handlePetSelect = (event) => {
+    reset();
     setHasPet(event.target.value);
   }
 
-  // TODO @yinan
+  // Submission functions @yinan
+  const isEmpty = (input) => (input === "");
+
+  const reset = () => { // function that resets submit and valid states
+    setSubmit(false);
+    setValid(false);
+  }
+
   const handleSubmit = (event) => {
     setSubmit(true);
+    // call API HERE
+
+    if (!(isEmpty(enteredAge) ||
+      isEmpty(selectedSex) ||
+      isEmpty(selectedPronouns) ||
+      isEmpty(enteredBudget) ||
+      isEmpty(enteredLocation) ||
+      isEmpty(cleanLevel) ||
+      isEmpty(noiseLevel) ||
+      isEmpty(hasPet) ||
+      isEmpty(hobbyList))) {
+      setValid(true); // if all fields are not empty, sets allValid to true
+    }
   }
+
 
   return (
     <div>
@@ -110,6 +142,8 @@ const Profile = () => {
               <Age
                 onType={handleAgeInput}
                 userAge={enteredAge}
+                isEmpty={isEmpty(enteredAge)}
+                submit={submit}
               />
             </Grid>
 
@@ -117,6 +151,8 @@ const Profile = () => {
               <Sex
                 onSelect={handleSexSelection}
                 userSex={selectedSex}
+                isEmpty={isEmpty(selectedSex)}
+                submit={submit}
               />
             </Grid>
 
@@ -124,6 +160,8 @@ const Profile = () => {
               <Pronouns
                 onSelect={handlePronounsSelection}
                 userPronouns={selectedPronouns}
+                isEmpty={isEmpty(selectedPronouns)}
+                submit={submit}
               />
             </Grid>
           </Grid>
@@ -141,6 +179,8 @@ const Profile = () => {
               <Budget
                 onType={handleBudgetInput}
                 userBudget={enteredBudget}
+                isEmpty={isEmpty(enteredBudget)}
+                submit={submit}
               />
             </Grid>
 
@@ -148,6 +188,8 @@ const Profile = () => {
               <Location
                 onType={handleLocationInput}
                 userLocation={enteredLocation}
+                isEmpty={isEmpty(enteredLocation)}
+                submit={submit}
               />
             </Grid>
           </Grid>
@@ -165,6 +207,8 @@ const Profile = () => {
               <Cleanliness
                 onChange={handleCleanLevel}
                 userCleanLevel={cleanLevel}
+                isEmpty={isEmpty(cleanLevel)}
+                submit={submit}
               />
             </Grid>
 
@@ -172,6 +216,8 @@ const Profile = () => {
               <NoiseLevel
                 onChange={handleNoiseLevel}
                 userNoiseLevel={noiseLevel}
+                isEmpty={isEmpty(noiseLevel)}
+                submit={submit}
               />
             </Grid>
 
@@ -179,6 +225,8 @@ const Profile = () => {
               <Pets
                 onSelect={handlePetSelect}
                 userHasPet={hasPet}
+                isEmpty={isEmpty(hasPet)}
+                submit={submit}
               />
             </Grid>
 
@@ -186,16 +234,10 @@ const Profile = () => {
               <Hobbies
                 onSelect={handleHobbyList}
                 userHobbies={hobbyList}
+                isEmpty={isEmpty(hobbyList)}
+                submit={submit}
               />
             </Grid>
-
-            <Grid item id='hobbies'>
-              <Hobbies
-                onSelect={handleHobbyList}
-                userHobbies={hobbyList}
-              />
-            </Grid>
-
 
           </Grid>
         </Container>
@@ -210,9 +252,9 @@ const Profile = () => {
           >
             Submit Profile
           </Button>
-          {/* {(submit && allValid) && // shows succcess state if submitted and all valid
-            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! Your review has been received.</Typography>
-          } */}
+          {(submit && allValid) && // shows succcess state if submitted and all valid
+            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! You've completed your profile.</Typography>
+          }
         </Container>
       </Grid>
 
@@ -226,28 +268,28 @@ const Profile = () => {
   );
 }
 
-=======
->>>>>>> ce9f9758c6e39809a98eaa1ddf4e360b4ad3e7a5
 const Age = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
+  const [errMessage, setErrMessage] = React.useState('');
 
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please enter your review title.");
-  //   };
-  // }, [props.isEmpty, props.submit])
+  React.useEffect(() => {
+    if (props.isEmpty && props.submit) {
+      setErrMessage("Please enter your age.");
+    };
+  }, [props.isEmpty, props.submit])
 
   return (
     <div>
-      <FormControl fullWidth>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
         <FormLabel style={{ paddingBottom: 12 }}>What is your age?</FormLabel>
         <TextField
           id="single-input"
           size="small"
+          // error={(props.submit && props.isEmpty)}
           placeholder="Enter your age"
           variant='outlined'
           onChange={props.onType}
         />
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
       </FormControl>
     </div>
   )
@@ -255,32 +297,38 @@ const Age = (props) => {
 
 const Sex = (props) => {
   const sex = ['Female', 'Male', 'Other'];
+  const [errMessage, setErrMessage] = React.useState('');
+
+  React.useEffect(() => {
+    if (props.isEmpty && props.submit) {
+      setErrMessage("Please enter your sex.");
+    };
+  }, [props.isEmpty, props.submit])
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth error={(props.isEmpty && props.submit)}>
       <FormLabel>What is your sex?</FormLabel>
       <RadioGroup
         onChange={props.onSelect}
-      // error={(props.isEmpty && props.submit)}
       >
         {sex.map((sex) => (
           <FormControlLabel value={sex} control={<Radio color="primary" />} label={sex} />
         ))}
       </RadioGroup>
-      {/* <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText> */}
+      <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
     </FormControl>
   )
 }
 
 const Pronouns = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
+  const [errMessage, setErrMessage] = React.useState('');
   const pronouns = ['She/her', 'He/him', 'They/them'];
 
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please select the rating.");
-  //   };
-  // }, [props.isEmpty, props.submit])
+  React.useEffect(() => {
+    if (props.isEmpty && props.submit) {
+      setErrMessage("Please select your pronouns.");
+    };
+  }, [props.isEmpty, props.submit])
 
   return (
     <FormControl fullWidth>
@@ -288,29 +336,29 @@ const Pronouns = (props) => {
       <RadioGroup
         row
         onChange={props.onSelect}
-      // error={(props.isEmpty && props.submit)}
+        error={(props.isEmpty && props.submit)}
       >
         {pronouns.map((pronouns) => (
           <FormControlLabel value={pronouns} control={<Radio color="primary" />} label={pronouns} />
         ))}
       </RadioGroup>
-      {/* <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText> */}
+      <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
     </FormControl>
   )
 }
 
 const Budget = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
+  const [errMessage, setErrMessage] = React.useState('');
 
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please enter your review title.");
-  //   };
-  // }, [props.isEmpty, props.submit])
+  React.useEffect(() => {
+    if (props.isEmpty && props.submit) {
+      setErrMessage("Please enter your approximate budget.");
+    };
+  }, [props.isEmpty, props.submit])
 
   return (
     <div>
-      <FormControl fullWidth>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
         <FormLabel style={{ paddingBottom: 12 }}>What's your monthly max budget?</FormLabel>
         <OutlinedInput
           id="outlined-adornment-amount"
@@ -320,6 +368,7 @@ const Budget = (props) => {
           variant='outlined'
           onChange={props.onType}
         />
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
       </FormControl>
     </div>
   )
@@ -494,208 +543,4 @@ const Hobbies = (props) => {
   );
 }
 
-const Profile = () => {
-
-  //defining states
-  const [enteredAge, setAge] = React.useState('');
-  const [selectedSex, setSex] = React.useState('');
-  const [selectedPronouns, setPronouns] = React.useState('');
-
-  const [enteredBudget, setBudget] = React.useState('');
-  const [enteredLocation, setLocation] = React.useState('');
-
-  const [cleanLevel, setCleanLevel] = React.useState('');
-  const [noiseLevel, setNoiseLevel] = React.useState('');
-  const [hasPet, setHasPet] = React.useState('');
-  const [hobbyList, setHobbyList] = React.useState([]);
-
-  const [submit, setSubmit] = React.useState(false);
-
-  const handleAgeInput = (event) => {
-    setAge(event.target.value);
-  }
-
-  const handleSexSelection = (event) => {
-    setSex(event.target.value);
-  }
-
-  const handlePronounsSelection = (event) => {
-    setPronouns(event.target.value);
-  }
-
-  const handleBudgetInput = (event) => {
-    setBudget(event.target.value);
-  }
-
-  const handleLocationInput = (event) => {
-    setLocation(event.target.value);
-  }
-
-  const handleCleanLevel = (event) => {
-    setCleanLevel(event.target.value);
-  }
-
-  const handleNoiseLevel = (event) => {
-    setNoiseLevel(event.target.value);
-  }
-
-  const handleHobbyList = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setHobbyList(
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
-
-  const handlePetSelect = (event) => {
-    setHasPet(event.target.value);
-  }
-
-  // TODO @yinan
-  const handleSubmit = (event) => {
-    setSubmit(true);
-  }
-
-  return (
-    <div>
-      <NavBar />
-
-      <Grid marginTop={2}>
-        <Container maxWidth="md">
-          <Typography variant="h3" gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
-            Create your profile
-          </Typography>
-          <Typography variant="body1" color="inherit" noWrap align='center'>
-            Fill out this questionnaire about yourself to set up your profile.
-          </Typography>
-        </Container>
-      </Grid>
-
-      <Grid marginTop={8} id='Basic Info'>
-        <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
-            1. Basic Info
-          </Typography>
-
-          <Grid container wrap="nowrap" spacing={4} direction="column">
-            <Grid item id='age'>
-              <Age
-                onType={handleAgeInput}
-                userAge={enteredAge}
-              />
-            </Grid>
-
-            <Grid item id='sex'>
-              <Sex
-                onSelect={handleSexSelection}
-                userSex={selectedSex}
-              />
-            </Grid>
-
-            <Grid item id='pronouns'>
-              <Pronouns
-                onSelect={handlePronounsSelection}
-                userPronouns={selectedPronouns}
-              />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grid>
-
-      <Grid marginTop={8} id='Housing Details'>
-        <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
-            2. Housing Details
-          </Typography>
-
-          <Grid container wrap="nowrap" spacing={4} direction="column">
-            <Grid item id='budget'>
-              <Budget
-                onType={handleBudgetInput}
-                userBudget={enteredBudget}
-              />
-            </Grid>
-
-            <Grid item id='location'>
-              <Location
-                onType={handleLocationInput}
-                userLocation={enteredLocation}
-              />
-            </Grid>
-          </Grid>
-        </Container>
-      </Grid>
-
-      <Grid marginTop={8} id='Lifestyle'>
-        <Container maxWidth="sm" margin={16}>
-          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
-            3. Lifestyle
-          </Typography>
-
-          <Grid container wrap="nowrap" spacing={4} direction="column">
-            <Grid item id='cleanliness'>
-              <Cleanliness
-                onChange={handleCleanLevel}
-                userCleanLevel={cleanLevel}
-              />
-            </Grid>
-
-            <Grid item id='noise-level'>
-              <NoiseLevel
-                onChange={handleNoiseLevel}
-                userNoiseLevel={noiseLevel}
-              />
-            </Grid>
-
-            <Grid item id='pets'>
-              <Pets
-                onSelect={handlePetSelect}
-                userHasPet={hasPet}
-              />
-            </Grid>
-
-            <Grid item id='hobbies'>
-              <Hobbies
-                onSelect={handleHobbyList}
-                userHobbies={hobbyList}
-              />
-            </Grid>
-
-            <Grid item id='hobbies'>
-              <Hobbies
-                onSelect={handleHobbyList}
-                userHobbies={hobbyList}
-              />
-            </Grid>
-
-
-          </Grid>
-        </Container>
-      </Grid>
-
-      <Grid marginTop={8} id='Submit'>
-        <Container maxWidth="sm">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Submit Profile
-          </Button>
-          {/* {(submit && allValid) && // shows succcess state if submitted and all valid
-            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! Your review has been received.</Typography>
-          } */}
-        </Container>
-      </Grid>
-       
-      {/* FOR TESTING VALUES, DELETE WHEN NOT NEEDED
-      <Typography>
-        {enteredAge}, {selectedPronouns}, {selectedSex}, {enteredBudget}, {enteredLocation}, {cleanLevel}, {noiseLevel}, {hasPet}
-        {hobbyList}
-      </Typography> */}
-
-    </div >
-  );
-    }
-  export default Profile;
+export default Profile;
