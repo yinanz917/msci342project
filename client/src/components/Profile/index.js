@@ -20,6 +20,7 @@ import Button from '@mui/material/Button';
 
 import NavBar from '../Navigation/NavBar';
 
+<<<<<<< HEAD
 const Profile = () => {
 
   //defining states
@@ -225,6 +226,8 @@ const Profile = () => {
   );
 }
 
+=======
+>>>>>>> ce9f9758c6e39809a98eaa1ddf4e360b4ad3e7a5
 const Age = (props) => {
   // const [errMessage, setErrMessage] = React.useState('');
 
@@ -491,4 +494,208 @@ const Hobbies = (props) => {
   );
 }
 
-export default Profile;
+const Profile = () => {
+
+  //defining states
+  const [enteredAge, setAge] = React.useState('');
+  const [selectedSex, setSex] = React.useState('');
+  const [selectedPronouns, setPronouns] = React.useState('');
+
+  const [enteredBudget, setBudget] = React.useState('');
+  const [enteredLocation, setLocation] = React.useState('');
+
+  const [cleanLevel, setCleanLevel] = React.useState('');
+  const [noiseLevel, setNoiseLevel] = React.useState('');
+  const [hasPet, setHasPet] = React.useState('');
+  const [hobbyList, setHobbyList] = React.useState([]);
+
+  const [submit, setSubmit] = React.useState(false);
+
+  const handleAgeInput = (event) => {
+    setAge(event.target.value);
+  }
+
+  const handleSexSelection = (event) => {
+    setSex(event.target.value);
+  }
+
+  const handlePronounsSelection = (event) => {
+    setPronouns(event.target.value);
+  }
+
+  const handleBudgetInput = (event) => {
+    setBudget(event.target.value);
+  }
+
+  const handleLocationInput = (event) => {
+    setLocation(event.target.value);
+  }
+
+  const handleCleanLevel = (event) => {
+    setCleanLevel(event.target.value);
+  }
+
+  const handleNoiseLevel = (event) => {
+    setNoiseLevel(event.target.value);
+  }
+
+  const handleHobbyList = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setHobbyList(
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
+
+  const handlePetSelect = (event) => {
+    setHasPet(event.target.value);
+  }
+
+  // TODO @yinan
+  const handleSubmit = (event) => {
+    setSubmit(true);
+  }
+
+  return (
+    <div>
+      <NavBar />
+
+      <Grid marginTop={2}>
+        <Container maxWidth="md">
+          <Typography variant="h3" gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
+            Create your profile
+          </Typography>
+          <Typography variant="body1" color="inherit" noWrap align='center'>
+            Fill out this questionnaire about yourself to set up your profile.
+          </Typography>
+        </Container>
+      </Grid>
+
+      <Grid marginTop={8} id='Basic Info'>
+        <Container maxWidth="sm" margin={16}>
+          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
+            1. Basic Info
+          </Typography>
+
+          <Grid container wrap="nowrap" spacing={4} direction="column">
+            <Grid item id='age'>
+              <Age
+                onType={handleAgeInput}
+                userAge={enteredAge}
+              />
+            </Grid>
+
+            <Grid item id='sex'>
+              <Sex
+                onSelect={handleSexSelection}
+                userSex={selectedSex}
+              />
+            </Grid>
+
+            <Grid item id='pronouns'>
+              <Pronouns
+                onSelect={handlePronounsSelection}
+                userPronouns={selectedPronouns}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+      </Grid>
+
+      <Grid marginTop={8} id='Housing Details'>
+        <Container maxWidth="sm" margin={16}>
+          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
+            2. Housing Details
+          </Typography>
+
+          <Grid container wrap="nowrap" spacing={4} direction="column">
+            <Grid item id='budget'>
+              <Budget
+                onType={handleBudgetInput}
+                userBudget={enteredBudget}
+              />
+            </Grid>
+
+            <Grid item id='location'>
+              <Location
+                onType={handleLocationInput}
+                userLocation={enteredLocation}
+              />
+            </Grid>
+          </Grid>
+        </Container>
+      </Grid>
+
+      <Grid marginTop={8} id='Lifestyle'>
+        <Container maxWidth="sm" margin={16}>
+          <Typography variant="h5" color="inherit" noWrap align='left' paddingBottom={2}>
+            3. Lifestyle
+          </Typography>
+
+          <Grid container wrap="nowrap" spacing={4} direction="column">
+            <Grid item id='cleanliness'>
+              <Cleanliness
+                onChange={handleCleanLevel}
+                userCleanLevel={cleanLevel}
+              />
+            </Grid>
+
+            <Grid item id='noise-level'>
+              <NoiseLevel
+                onChange={handleNoiseLevel}
+                userNoiseLevel={noiseLevel}
+              />
+            </Grid>
+
+            <Grid item id='pets'>
+              <Pets
+                onSelect={handlePetSelect}
+                userHasPet={hasPet}
+              />
+            </Grid>
+
+            <Grid item id='hobbies'>
+              <Hobbies
+                onSelect={handleHobbyList}
+                userHobbies={hobbyList}
+              />
+            </Grid>
+
+            <Grid item id='hobbies'>
+              <Hobbies
+                onSelect={handleHobbyList}
+                userHobbies={hobbyList}
+              />
+            </Grid>
+
+
+          </Grid>
+        </Container>
+      </Grid>
+
+      <Grid marginTop={8} id='Submit'>
+        <Container maxWidth="sm">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Submit Profile
+          </Button>
+          {/* {(submit && allValid) && // shows succcess state if submitted and all valid
+            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! Your review has been received.</Typography>
+          } */}
+        </Container>
+      </Grid>
+       
+      {/* FOR TESTING VALUES, DELETE WHEN NOT NEEDED
+      <Typography>
+        {enteredAge}, {selectedPronouns}, {selectedSex}, {enteredBudget}, {enteredLocation}, {cleanLevel}, {noiseLevel}, {hasPet}
+        {hobbyList}
+      </Typography> */}
+
+    </div >
+  );
+    }
+  export default Profile;

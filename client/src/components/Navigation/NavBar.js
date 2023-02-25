@@ -11,10 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import CottageIcon from '@mui/icons-material/Cottage';
 import { Link } from "react-router-dom";
 
-const pages = ['Profile', 'Matches', 'Chat'];
+const pages = ['Login', 'Profile', 'Matches', 'Chat'];
 const settings = ['Account', 'Logout'];
 
 const NavBar = () => {
@@ -40,7 +40,7 @@ const NavBar = () => {
         <AppBar position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+                    <CottageIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     {/* The href argument is the filepath to navigate to when clicking the "Zoommates" logo */}
                     <Typography
                         variant="h6"
@@ -98,7 +98,7 @@ const NavBar = () => {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <CottageIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     {/* The href argument is the filepath to navigate to when clicking the "Zoommates" logo */}
                     <Typography
                         variant="h5"
