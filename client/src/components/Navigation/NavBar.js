@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import CottageIcon from '@mui/icons-material/Cottage';
 import { Link } from "react-router-dom";
 
-const pages = ['Login', 'Landing', 'Matches', 'Chat'];
-const settings = ['Profile', 'Account', 'Logout'];
+const pages = ['Login', 'Profile', 'Matches', 'Chat'];
+const settings = ['Account', 'Logout'];
 
 const NavBar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);

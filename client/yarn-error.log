@@ -1,0 +1,98 @@
+Arguments: 
+  /usr/local/bin/node /opt/homebrew/Cellar/yarn/1.22.18/libexec/bin/yarn.js start
+
+PATH: 
+  /var/folders/mj/wk9frdb964sghwc48txs0p400000gn/T/yarn--1677215812660-0.8713075708886424:/Users/yzhang/node-react-app/node_modules/.bin:/Users/yzhang/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/var/folders/mj/wk9frdb964sghwc48txs0p400000gn/T/yarn--1677215811942-0.5516187624666642:/Users/yzhang/node-react-app/node_modules/.bin:/Users/yzhang/.config/yarn/link/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.18
+
+Node version: 
+  16.15.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/yzhang/node-react-app/client/package.json: Unexpected token < in JSON at position 382
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/Cellar/yarn/1.22.18/libexec/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/Cellar/yarn/1.22.18/libexec/lib/cli.js:310:30)
+      at /opt/homebrew/Cellar/yarn/1.22.18/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "proxy": "http://localhost:5000/",
+    "name": "node-react-app",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@emotion/react": "^11.10.6",
+      "@emotion/styled": "^11.10.6",
+      "@material-ui/core": "^4.0.0",
+      "@material-ui/icons": "^4.0.0",
+      "@material-ui/lab": "^4.0.0-alpha.13",
+      "@material-ui/styles": "^4.0.0",
+      "@material/ripple": "^4.0.0",
+  <<<<<<< HEAD
+      "@mui/icons-material": "^5.11.9",
+  =======
+      "firebase": "^9.17.1",
+  >>>>>>> 166f387411cf0f648189cae07d083c6267523420
+      "install": "^0.12.2",
+      "mathjs": "^5.10.3",
+      "node-fetch": "^2.6.1",
+      "prop-types": "^15.7.2",
+      "react": "^16.8.6",
+      "react-gsap": "^1.2.0",
+      "react-hot-loader": "^4.12.19",
+      "react-redux": "^7.1.0",
+      "react-router-dom": "^5.0.1",
+      "react-scripts": "^3.4.0",
+      "react-with-firebase-auth": "^1.0.3",
+      "recompose": "^0.30.0",
+      "typeface-roboto": "^0.0.54",
+      "uuid": "^8.3.2"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "jest",
+      "cypress": "cypress open",
+      "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+      "extends": "react-app"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    },
+    "devDependencies": {
+      "@babel/core": "^7.20.12",
+      "@babel/preset-env": "^7.20.2",
+      "@babel/preset-react": "^7.18.6",
+      "@testing-library/react": "^12.1.2",
+      "babel-jest": "^24.9.0",
+      "cypress": "^10.9.0",
+      "jest": "^24.9.0",
+      "react-dom": "^16.8.6",
+      "react-test-renderer": "^16.8.6",
+      "ts-jest": "^29.0.5"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
