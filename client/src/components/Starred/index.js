@@ -16,6 +16,14 @@ const Starred = (props) => {
         {name :"Yinan Zhang", picture: "https://media.licdn.com/dms/image/C4E03AQG9NqDyKiM7xA/profile-displayphoto-shrink_800_800/0/1636655410891?e=1682553600&v=beta&t=2p-PKSLrMmCxCLXEmswjWrmdZNmVWwqniYm4uDMuONg", username:"yinan123"},
         {name :"Andre Larocque", picture: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1682553600&v=beta&t=LYvZMSl4ZfGWWWw4A7-OvfrhbySZz8JCMbhmRsHntVw", username:"bandre"},
         {name :"Vyomesh Iyengar", picture: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1682553600&v=beta&t=tIU-Df1ZhV_PI4RlaHoeTQFw1_eutkeYGGKdwlRCEqc", username:"yumyom"},
+        {name :"Keegan Fernandes", picture: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_800_800/0/1673411388008?e=1682553600&v=beta&t=8MFCx50CEDI3j7u02wn66QJFEoMoUX3uyCGv51XQghA", username:"soccerboi"},
+        {name :"Yinan Zhang", picture: "https://media.licdn.com/dms/image/C4E03AQG9NqDyKiM7xA/profile-displayphoto-shrink_800_800/0/1636655410891?e=1682553600&v=beta&t=2p-PKSLrMmCxCLXEmswjWrmdZNmVWwqniYm4uDMuONg", username:"yinan123"},
+        {name :"Andre Larocque", picture: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1682553600&v=beta&t=LYvZMSl4ZfGWWWw4A7-OvfrhbySZz8JCMbhmRsHntVw", username:"bandre"},
+        {name :"Vyomesh Iyengar", picture: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1682553600&v=beta&t=tIU-Df1ZhV_PI4RlaHoeTQFw1_eutkeYGGKdwlRCEqc", username:"yumyom"},
+        {name :"Keegan Fernandes", picture: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_800_800/0/1673411388008?e=1682553600&v=beta&t=8MFCx50CEDI3j7u02wn66QJFEoMoUX3uyCGv51XQghA", username:"soccerboi"},
+        {name :"Yinan Zhang", picture: "https://media.licdn.com/dms/image/C4E03AQG9NqDyKiM7xA/profile-displayphoto-shrink_800_800/0/1636655410891?e=1682553600&v=beta&t=2p-PKSLrMmCxCLXEmswjWrmdZNmVWwqniYm4uDMuONg", username:"yinan123"},
+        {name :"Andre Larocque", picture: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1682553600&v=beta&t=LYvZMSl4ZfGWWWw4A7-OvfrhbySZz8JCMbhmRsHntVw", username:"bandre"},
+        {name :"Vyomesh Iyengar", picture: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1682553600&v=beta&t=tIU-Df1ZhV_PI4RlaHoeTQFw1_eutkeYGGKdwlRCEqc", username:"yumyom"},
         {name :"Keegan Fernandes", picture: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_800_800/0/1673411388008?e=1682553600&v=beta&t=8MFCx50CEDI3j7u02wn66QJFEoMoUX3uyCGv51XQghA", username:"soccerboi"}
     ]
     return (
@@ -27,9 +35,9 @@ const Starred = (props) => {
             </Typography>
             </Container>
             <Container>
-            <Grid item xs={6} s={4} md ={3} direction="column">
+            <Grid spacing={4} container direction="row">
                 {people.map((person) => (
-                    <Grid item>
+                    <Grid item xs={6} sm={6} md={4} >
                     <Card sx={{ maxWidth: 345, marginTop: 4}} >
                     <CardHeader
                         avatar={
