@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
+// adding profile details into uProfile database
 app.post('/api/addReview', (req, res) => {
 	let connection = mysql.createConnection(config);
 	let movieID = req.body.movieID;
