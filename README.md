@@ -1,5 +1,7 @@
-# Zoommates. 
-## [Description here]
+# Zoommates.
+
+## About Zoommates 🚀 💛
+Zoommates is a platform that allows
 
 
 ### Running locally
