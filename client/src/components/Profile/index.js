@@ -144,8 +144,15 @@ const Profile = () => {
         //authorization: `Bearer ${this.state.token}`
       },
       body: JSON.stringify({
-        Age: enteredAge
-
+        age: enteredAge,
+        sex: selectedSex,
+        pronouns: selectedPronouns,
+        budget: enteredBudget,
+        city: enteredLocation,
+        clean: cleanLevel,
+        noise: noiseLevel,
+        pets: hasPet,
+        hobbies: hobbyList
       })
     });
     const body = await response.json();

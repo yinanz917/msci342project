@@ -1,7 +1,7 @@
 let mysql = require('mysql');
 let config = require('./config.js');
 
-let account = require('/account.js')
+let account = require('./account.js')
 
 const fetch = require('node-fetch');
 const express = require("express");
@@ -41,10 +41,32 @@ app.post('/api/loadUserSettings', (req, res) => {
 });
 
 app.post('/api/setMyProfile', (req, res) => {
+	let id = account.id;
+	let username = account.username;
+	let age = req.body.age;
+	let sex = req.body.sex;
+	let pronouns = req.body.pronouns;
+	let budget = req.body.budget;
+	let city = req.body.city;
+	let clean = req.body.clean;
+	let noise = req.body.noise;
+	let pets = req.body.pets;
+	let hobbies = req.body.hobbies;
 
+	let connection = mysql.createConnection(config);
+	let sql = `INSERT INTO a3larocq.personal_profile(zoommates_account_userID, username, age, sex, pronouns, budget, city, clean, noise, pets, hobbies) values (?,?,?,?,?,?,?,?,?,?,?);`;
+	let data = [id, username, age, sex, pronouns, budget, city, clean, noise, pets, hobbies]
 
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+	});
+	connection.end();
 
 });
+
 
 
 
