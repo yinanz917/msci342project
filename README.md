@@ -2,12 +2,7 @@
 Last Updated: March 2, 2023
 
 ## About Zoommates 🚀 💛
-Zoommates is a platform that allows
-
-
-
-
-
+Zoommates is a platform that helps students find a roommate that they enjoy living with who could also potentially be a great friend. We aim to create a system that helps better facilitate the roommate search process so that we can help connect students who share similar interests and lifestyles.
 
 
 ### Running locally
