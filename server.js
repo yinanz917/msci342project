@@ -1,5 +1,8 @@
 let mysql = require('mysql');
 let config = require('./config.js');
+
+let account = require('/account.js')
+
 const fetch = require('node-fetch');
 const express = require("express");
 const path = require("path");
@@ -12,6 +15,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
+
 
 
 app.post('/api/loadUserSettings', (req, res) => {
@@ -34,6 +38,12 @@ app.post('/api/loadUserSettings', (req, res) => {
 		res.send({ express: string });
 	});
 	connection.end();
+});
+
+app.post('/api/setMyProfile', (req, res) => {
+
+
+
 });
 
 
