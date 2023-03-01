@@ -13,6 +13,27 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
+app.post('/api/addReview', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let movieID = req.body.movieID;
+	let userID = req.body.userID;
+	let reviewTitle = req.body.reviewTitle;
+	let reviewContent = req.body.reviewContent;
+	let reviewScore = req.body.reviewScore;
+
+	// update all fields 
+	let sql = 'INSERT INTO yn3zhang.review (reviewTitle, reviewContent, reviewScore, user_userID, movies_id) VALUES (?, ?, ?, ?, ?);';
+	console.log(sql);
+	let data = [reviewTitle, reviewContent, reviewScore, userID, movieID];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+	});
+	connection.end();
+});
 
 app.post('/api/loadUserSettings', (req, res) => {
 
