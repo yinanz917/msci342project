@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -20,271 +21,8 @@ import Button from '@mui/material/Button';
 
 import NavBar from '../Navigation/NavBar';
 
-const Age = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
+const serverURL = ""; // dev mode
 
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please enter your review title.");
-  //   };
-  // }, [props.isEmpty, props.submit])
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel style={{ paddingBottom: 12 }}>What is your age?</FormLabel>
-        <TextField
-          id="single-input"
-          size="small"
-          placeholder="Enter your age"
-          variant='outlined'
-          onChange={props.onType}
-        />
-      </FormControl>
-    </div>
-  )
-}
-
-const Sex = (props) => {
-  const sex = ['Female', 'Male', 'Other'];
-
-  return (
-    <FormControl fullWidth>
-      <FormLabel>What is your sex?</FormLabel>
-      <RadioGroup
-        onChange={props.onSelect}
-      // error={(props.isEmpty && props.submit)}
-      >
-        {sex.map((sex) => (
-          <FormControlLabel value={sex} control={<Radio color="primary" />} label={sex} />
-        ))}
-      </RadioGroup>
-      {/* <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText> */}
-    </FormControl>
-  )
-}
-
-const Pronouns = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
-  const pronouns = ['She/her', 'He/him', 'They/them'];
-
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please select the rating.");
-  //   };
-  // }, [props.isEmpty, props.submit])
-
-  return (
-    <FormControl fullWidth>
-      <FormLabel>What are your pronouns?</FormLabel>
-      <RadioGroup
-        row
-        onChange={props.onSelect}
-      // error={(props.isEmpty && props.submit)}
-      >
-        {pronouns.map((pronouns) => (
-          <FormControlLabel value={pronouns} control={<Radio color="primary" />} label={pronouns} />
-        ))}
-      </RadioGroup>
-      {/* <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText> */}
-    </FormControl>
-  )
-}
-
-const Budget = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
-
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please enter your review title.");
-  //   };
-  // }, [props.isEmpty, props.submit])
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel style={{ paddingBottom: 12 }}>What's your monthly max budget?</FormLabel>
-        <OutlinedInput
-          id="outlined-adornment-amount"
-          startAdornment={<InputAdornment position="start">$</InputAdornment>}
-          size="small"
-          placeholder="Enter an approximate number"
-          variant='outlined'
-          onChange={props.onType}
-        />
-      </FormControl>
-    </div>
-  )
-}
-
-const Location = (props) => {
-  // const [errMessage, setErrMessage] = React.useState('');
-
-  // React.useEffect(() => {
-  //   if (props.isEmpty && props.submit) {
-  //     setErrMessage("Please enter your review title.");
-  //   };
-  // }, [props.isEmpty, props.submit])
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel style={{ paddingBottom: 12 }}>In which city are you looking for roommates to live with?</FormLabel>
-        <TextField
-          id="single-input"
-          size="small"
-          placeholder="Enter a city"
-          variant='outlined'
-          onChange={props.onType}
-          helperText="Ex. Seattle"
-        />
-      </FormControl>
-    </div>
-  )
-}
-
-const Cleanliness = (props) => {
-
-  const levels = [
-    { value: 1, label: '1' },
-    { value: 2, label: '2' },
-    { value: 3, label: '3' },
-    { value: 4, label: '4' },
-    { value: 5, label: '5' },
-    { value: 6, label: '6' },
-    { value: 7, label: '7' },
-    { value: 8, label: '8' },
-    { value: 9, label: '9' },
-    { value: 10, label: '10' },
-  ];
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel style={{ paddingBottom: 12 }}>How tidy are you with your space? Rank your level of cleanliness.</FormLabel>
-        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
-          <Typography variant="body2" align="center">Not very clean</Typography>
-          <Slider
-            onChange={props.onChange}
-            defaultValue={5}
-            step={1}
-            min={1}
-            max={10}
-            marks={levels}
-          />
-          <Typography variant="body2" align="center">Extremely clean</Typography>
-        </Stack>
-      </FormControl>
-    </div>
-  );
-}
-
-const NoiseLevel = (props) => {
-
-  const levels = [
-    { value: 1, label: '1' },
-    { value: 2, label: '2' },
-    { value: 3, label: '3' },
-    { value: 4, label: '4' },
-    { value: 5, label: '5' },
-    { value: 6, label: '6' },
-    { value: 7, label: '7' },
-    { value: 8, label: '8' },
-    { value: 9, label: '9' },
-    { value: 10, label: '10' },
-  ];
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel style={{ paddingBottom: 12 }}>How much noise do you typically make at home? Rank your level of noise.</FormLabel>
-        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
-          <Typography variant="body2" align="center">Absolute silence</Typography>
-          <Slider
-            onChange={props.onChange}
-            defaultValue={5}
-            step={1}
-            min={1}
-            max={10}
-            marks={levels}
-          />
-          <Typography variant="body2" align="center">Constant noise</Typography>
-        </Stack>
-      </FormControl>
-    </div>
-  );
-}
-
-const Pets = (props) => {
-  const options = ['Yes', 'No'];
-
-  return (
-    <FormControl fullWidth>
-      <FormLabel>Do you have any pets?</FormLabel>
-      <RadioGroup
-        row
-        onChange={props.onSelect}
-      // error={(props.isEmpty && props.submit)}
-      >
-        {options.map((options) => (
-          <FormControlLabel value={options} control={<Radio color="primary" />} label={options} />
-        ))}
-      </RadioGroup>
-      {/* <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText> */}
-    </FormControl>
-  )
-}
-
-const Hobbies = (props) => {
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 16;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-  const hobbies = [
-    'Hiking',
-    'Reading',
-    'Singing',
-    'Dancing',
-    'Sports',
-    'Gaming',
-    'Cooking',
-    'Writing',
-    'Travelling',
-    'Photography',
-  ];
-
-  return (
-    <div>
-      <FormControl fullWidth>
-        <FormLabel>Let us know some some of your hobbies are! Select as many as you want.</FormLabel>
-        <Select
-          id="demo-multiple-chip"
-          multiple
-          value={props.userHobbies}
-          onChange={props.onSelect}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {hobbies.map((hobby) => (
-            <MenuItem key={hobby} value={hobby}>{hobby}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
-}
 
 const Profile = () => {
 
@@ -302,32 +40,41 @@ const Profile = () => {
   const [hobbyList, setHobbyList] = React.useState([]);
 
   const [submit, setSubmit] = React.useState(false);
+  const [allValid, setValid] = React.useState(false);
+
 
   const handleAgeInput = (event) => {
+    reset();
     setAge(event.target.value);
   }
 
   const handleSexSelection = (event) => {
+    reset();
     setSex(event.target.value);
   }
 
   const handlePronounsSelection = (event) => {
+    reset();
     setPronouns(event.target.value);
   }
 
   const handleBudgetInput = (event) => {
+    reset();
     setBudget(event.target.value);
   }
 
   const handleLocationInput = (event) => {
+    reset();
     setLocation(event.target.value);
   }
 
   const handleCleanLevel = (event) => {
+    reset();
     setCleanLevel(event.target.value);
   }
 
   const handleNoiseLevel = (event) => {
+    reset();
     setNoiseLevel(event.target.value);
   }
 
@@ -335,18 +82,83 @@ const Profile = () => {
     const {
       target: { value },
     } = event;
+    reset();
     setHobbyList(
       typeof value === 'string' ? value.split(',') : value,
     );
   };
 
   const handlePetSelect = (event) => {
+    reset();
     setHasPet(event.target.value);
   }
 
-  // TODO @yinan
+  // Submission functions @yinan
+  const isEmpty = (input) => (input === '');
+
+  const reset = () => { // function that resets submit and valid states
+    setSubmit(false);
+    setValid(false);
+  }
+
   const handleSubmit = (event) => {
     setSubmit(true);
+
+    setMyProfile();
+
+    if (!(isEmpty(enteredAge) ||
+      isEmpty(selectedSex) ||
+      isEmpty(selectedPronouns) ||
+      isEmpty(enteredBudget) ||
+      isEmpty(enteredLocation) ||
+      isEmpty(cleanLevel) ||
+      isEmpty(noiseLevel) ||
+      isEmpty(hasPet) ||
+      isEmpty(hobbyList))) {
+      setValid(true); // if all fields are not empty, sets allValid to true
+    }
+  }
+
+  /**
+   * API CALLS TODO
+   * @andre
+   */
+
+  const setMyProfile = async () => {
+    callApiSetMyProfile()
+      .then(res => {
+        console.log("callApiSetMyProfile returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiSetMyProfile parsed: ", parsed[0])
+      });
+  }
+
+  const callApiSetMyProfile = async () => {
+    const url = serverURL + "/api/setMyProfile";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //authorization: `Bearer ${this.state.token}`
+      },
+      body: JSON.stringify({
+        age: enteredAge,
+        sex: selectedSex,
+        pronouns: selectedPronouns,
+        budget: enteredBudget,
+        city: enteredLocation,
+        clean: cleanLevel,
+        noise: noiseLevel,
+        pets: hasPet,
+        hobbies: hobbyList
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log("Found profile: ", body);
+    return body;
   }
 
   return (
@@ -375,6 +187,8 @@ const Profile = () => {
               <Age
                 onType={handleAgeInput}
                 userAge={enteredAge}
+                isEmpty={isEmpty(enteredAge)}
+                submit={submit}
               />
             </Grid>
 
@@ -382,6 +196,8 @@ const Profile = () => {
               <Sex
                 onSelect={handleSexSelection}
                 userSex={selectedSex}
+                isEmpty={isEmpty(selectedSex)}
+                submit={submit}
               />
             </Grid>
 
@@ -389,6 +205,8 @@ const Profile = () => {
               <Pronouns
                 onSelect={handlePronounsSelection}
                 userPronouns={selectedPronouns}
+                isEmpty={isEmpty(selectedPronouns)}
+                submit={submit}
               />
             </Grid>
           </Grid>
@@ -406,6 +224,8 @@ const Profile = () => {
               <Budget
                 onType={handleBudgetInput}
                 userBudget={enteredBudget}
+                isEmpty={isEmpty(enteredBudget)}
+                submit={submit}
               />
             </Grid>
 
@@ -413,6 +233,8 @@ const Profile = () => {
               <Location
                 onType={handleLocationInput}
                 userLocation={enteredLocation}
+                isEmpty={isEmpty(enteredLocation)}
+                submit={submit}
               />
             </Grid>
           </Grid>
@@ -430,6 +252,8 @@ const Profile = () => {
               <Cleanliness
                 onChange={handleCleanLevel}
                 userCleanLevel={cleanLevel}
+                isEmpty={isEmpty(cleanLevel)}
+                submit={submit}
               />
             </Grid>
 
@@ -437,6 +261,8 @@ const Profile = () => {
               <NoiseLevel
                 onChange={handleNoiseLevel}
                 userNoiseLevel={noiseLevel}
+                isEmpty={isEmpty(noiseLevel)}
+                submit={submit}
               />
             </Grid>
 
@@ -444,6 +270,8 @@ const Profile = () => {
               <Pets
                 onSelect={handlePetSelect}
                 userHasPet={hasPet}
+                isEmpty={isEmpty(hasPet)}
+                submit={submit}
               />
             </Grid>
 
@@ -451,16 +279,10 @@ const Profile = () => {
               <Hobbies
                 onSelect={handleHobbyList}
                 userHobbies={hobbyList}
+                isEmpty={isEmpty(hobbyList)}
+                submit={submit}
               />
             </Grid>
-
-            <Grid item id='hobbies'>
-              <Hobbies
-                onSelect={handleHobbyList}
-                userHobbies={hobbyList}
-              />
-            </Grid>
-
 
           </Grid>
         </Container>
@@ -472,22 +294,270 @@ const Profile = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            // component={Link} 
+            // to="/myprofile"
           >
             Submit Profile
           </Button>
-          {/* {(submit && allValid) && // shows succcess state if submitted and all valid
-            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! Your review has been received.</Typography>
-          } */}
+          {(submit && allValid) && // shows succcess state if submitted and all valid
+            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! You've completed your profile.</Typography>
+          }
         </Container>
       </Grid>
-       
-      {/* FOR TESTING VALUES, DELETE WHEN NOT NEEDED
-      <Typography>
-        {enteredAge}, {selectedPronouns}, {selectedSex}, {enteredBudget}, {enteredLocation}, {cleanLevel}, {noiseLevel}, {hasPet}
-        {hobbyList}
-      </Typography> */}
-
     </div >
   );
-    }
-  export default Profile;
+}
+
+const Age = (props) => {
+  const errMessage = 'Please enter your age.';
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel style={{ paddingBottom: 12 }}>What is your age?</FormLabel>
+        <TextField
+          id="single-input"
+          size="small"
+          placeholder="Enter your age"
+          variant='outlined'
+          onChange={props.onType}
+          
+        />
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  )
+}
+
+const Sex = (props) => {
+  const sex = ['Female', 'Male', 'Other'];
+  const errMessage = 'Please enter your sex.';
+
+  return (
+    <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+      <FormLabel>What is your sex?</FormLabel>
+      <RadioGroup
+        onChange={props.onSelect}
+      >
+        {sex.map((sex) => (
+          <FormControlLabel value={sex} control={<Radio color="primary" />} label={sex} />
+        ))}
+      </RadioGroup>
+      <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+    </FormControl>
+  )
+}
+
+const Pronouns = (props) => {
+  const errMessage = 'Please select your pronouns.';
+  const pronouns = ['She/her', 'He/him', 'They/them'];
+
+  return (
+    <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+      <FormLabel>What are your pronouns?</FormLabel>
+      <RadioGroup
+        row
+        onChange={props.onSelect}
+      >
+        {pronouns.map((pronouns) => (
+          <FormControlLabel value={pronouns} control={<Radio color="primary" />} label={pronouns} />
+        ))}
+      </RadioGroup>
+      <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+    </FormControl>
+  )
+}
+
+const Budget = (props) => {
+  const errMessage = 'Please enter your approximate budget.';
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel style={{ paddingBottom: 12 }}>What's your monthly max budget?</FormLabel>
+        <OutlinedInput
+          id="outlined-adornment-amount"
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
+          size="small"
+          placeholder="Enter an approximate number"
+          variant='outlined'
+          onChange={props.onType}
+        />
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  )
+}
+
+const Location = (props) => {
+  const errMessage = 'Please enter your location.';
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel style={{ paddingBottom: 12 }}>In which city are you looking for roommates to live with?</FormLabel>
+        <TextField
+          id="single-input"
+          size="small"
+          placeholder="Enter a city"
+          variant='outlined'
+          onChange={props.onType}
+          helperText={(props.submit && props.isEmpty) ? '' : ("Ex. Seattle")}
+        />
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  )
+}
+
+const Cleanliness = (props) => {
+  const errMessage = 'Please indicate a level.';
+
+  const levels = [
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+    { value: 6, label: '6' },
+    { value: 7, label: '7' },
+    { value: 8, label: '8' },
+    { value: 9, label: '9' },
+    { value: 10, label: '10' },
+  ];
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel style={{ paddingBottom: 12 }}>How tidy are you with your space? Rank your level of cleanliness.</FormLabel>
+        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
+          <Typography variant="body2" align="center">Not very clean</Typography>
+          <Slider
+            onChange={props.onChange}
+            defaultValue={5}
+            step={1}
+            min={1}
+            max={10}
+            marks={levels}
+          />
+          <Typography variant="body2" align="center">Extremely clean</Typography>
+        </Stack>
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  );
+}
+
+const NoiseLevel = (props) => {
+  const errMessage = 'Please indicate a level.';
+
+  const levels = [
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+    { value: 6, label: '6' },
+    { value: 7, label: '7' },
+    { value: 8, label: '8' },
+    { value: 9, label: '9' },
+    { value: 10, label: '10' },
+  ];
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel style={{ paddingBottom: 12 }}>How much noise do you typically make at home? Rank your level of noise.</FormLabel>
+        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
+          <Typography variant="body2" align="center">Absolute silence</Typography>
+          <Slider
+            onChange={props.onChange}
+            defaultValue={5}
+            step={1}
+            min={1}
+            max={10}
+            marks={levels}
+          />
+          <Typography variant="body2" align="center">Constant noise</Typography>
+        </Stack>
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  );
+}
+
+const Pets = (props) => {
+  const errMessage = 'Please choose Yes or No.';
+  const options = ['Yes', 'No'];
+
+  return (
+    <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+      <FormLabel>Do you have any pets?</FormLabel>
+      <RadioGroup
+        row
+        onChange={props.onSelect}
+      >
+        {options.map((options) => (
+          <FormControlLabel value={options} control={<Radio color="primary" />} label={options} />
+        ))}
+      </RadioGroup>
+      <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+    </FormControl>
+  )
+}
+
+const Hobbies = (props) => {
+  const errMessage = 'Please select at least one hobby.';
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 16;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+  const hobbies = [
+    'Hiking',
+    'Reading',
+    'Singing',
+    'Dancing',
+    'Sports',
+    'Gaming',
+    'Cooking',
+    'Writing',
+    'Travelling',
+    'Photography',
+  ];
+
+  return (
+    <div>
+      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
+        <FormLabel>Let us know some some of your hobbies are! Select as many as you want.</FormLabel>
+        <Select
+          id="demo-multiple-chip"
+          multiple
+          value={props.userHobbies}
+          error={(props.isEmpty && props.submit)}
+          onChange={props.onSelect}
+          renderValue={(selected) => (
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+              {selected.map((value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </Box>
+          )}
+          MenuProps={MenuProps}
+        >
+          {hobbies.map((hobby) => (
+            <MenuItem key={hobby} value={hobby}>{hobby}</MenuItem>
+          ))}
+        </Select>
+        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
+      </FormControl>
+    </div>
+  );
+}
+
+export default Profile;

@@ -31,4 +31,5 @@ const Landing = () => {
         </Grid>
     );
 }
+
 export default Landing;
