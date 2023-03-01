@@ -291,6 +291,8 @@ const Profile = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            // component={Link} 
+            // to="/myprofile"
           >
             Submit Profile
           </Button>
@@ -316,7 +318,7 @@ const Age = (props) => {
           placeholder="Enter your age"
           variant='outlined'
           onChange={props.onType}
-          helperText={(props.submit && props.isEmpty) ? '' : ("Ex. 21 (numeric values only)")}
+          
         />
         <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
       </FormControl>
