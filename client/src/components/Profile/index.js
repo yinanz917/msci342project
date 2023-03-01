@@ -103,7 +103,8 @@ const Profile = () => {
 
   const handleSubmit = (event) => {
     setSubmit(true);
-    // call API HERE
+
+    setMyProfile();
 
     if (!(isEmpty(enteredAge) ||
       isEmpty(selectedSex) ||
@@ -123,7 +124,7 @@ const Profile = () => {
    * @andre
    */
 
-  const setMyProfile = () => {
+  const setMyProfile = async () => {
     callApiSetMyProfile()
       .then(res => {
         console.log("callApiSetMyProfile returned: ", res)
@@ -143,13 +144,15 @@ const Profile = () => {
         //authorization: `Bearer ${this.state.token}`
       },
       body: JSON.stringify({
-        //@andre todo: link these to database
-        // [dataBaseName]: [const name]
-        // userID: userID,
-        // movieID: movieID,
-        // reviewTitle: enteredTitle,
-        // reviewContent: enteredReview,
-        // reviewScore: selectedRating
+        age: enteredAge,
+        sex: selectedSex,
+        pronouns: selectedPronouns,
+        budget: enteredBudget,
+        city: enteredLocation,
+        clean: cleanLevel,
+        noise: noiseLevel,
+        pets: hasPet,
+        hobbies: hobbyList
       })
     });
     const body = await response.json();
