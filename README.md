@@ -1,4 +1,5 @@
 # Zoommates.
+Last Updated: March 2, 2023
 
 ## About Zoommates 🚀 💛
 Zoommates is a platform that allows
@@ -21,3 +22,7 @@ $ npm run dev
 ```
 
 Navigate to `localhost:3000` in your browser and give it a look 👀
+
+### Cheers
+
+Built with ❤️ by Keegan, Vyomesh, Yinan, Andre
