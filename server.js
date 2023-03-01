@@ -13,6 +13,23 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
+app.post('/api/loadStarred', (res) => {
+
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT * FROM a3larocq.zoommates_account;`;
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
 
 app.post('/api/loadUserSettings', (req, res) => {
 
