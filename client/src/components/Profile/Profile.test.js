@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect';
 import Profile from './Profiletest.js';
 
 describe('myProfile', () => {
-  it('should render a Button', () => {
+  it('should render a Text Field and a Button', () => {
     const { getByRole } = render(
     <Router>
        <Profile /> 

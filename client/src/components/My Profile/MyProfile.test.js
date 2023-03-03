@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect';
 import MyProfile from './MyProfile.js';
 
 describe('myProfile', () => {
-  it('should render a TextField and a Button', () => {
+  it('should render a Button', () => {
     const { getByRole } = render(
     <Router>
        <MyProfile /> 
@@ -17,15 +17,6 @@ describe('myProfile', () => {
     expect(button).toBeTruthy();
   });
 
-  // it('should call a function when the button is clicked', () => {
-  //   const { getByRole, history } = render(
-  //   <Router>
-  //      <MyProfile /> 
-  //   </Router>);
-  //   const button = getByRole('button');
-  //   fireEvent.click(button);
-  //   expect(button.getAttribute("to")).toBe('/profile');
-  // });
 
   it('should call a function when the button is clicked', () => {
     const { getByRole } = render(
