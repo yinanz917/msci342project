@@ -11,7 +11,42 @@ import { Link } from 'react-router-dom';
 import NavBar from '../Navigation/NavBar';
 import '../../index.css';
 
-const myProfile = (props) => {
+
+const serverURL = "";
+
+const MyProfile = (props) => {
+
+  const [profile, setProfile] = React.useState([]);
+
+  React.useEffect(() => {
+        loadProfile();
+      }, []);
+
+    const loadProfile = () => {
+    callApiLoadProfile()
+      .then(res => {
+        console.log("test2");
+        console.log("callApiLoadProfile returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiLoadProfile parsed: ", parsed);
+        setProfile(parsed);
+      })
+  }
+
+  const callApiLoadProfile= async () => {
+    const url = serverURL + "/api/loadProfile";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
 
   /** @ andre to-do: connect these variables to data base */
   const name = 'Yinan Zhang';
@@ -20,10 +55,10 @@ const myProfile = (props) => {
   const pronouns = 'she/her';
   const budget = '2300';
   const location = 'Seattle';
-  const cleanliness = '9';
-  const noiseLevel = '7';
   const hasPet = 'False';
   const hobbyList = ["Dancing", "Hiking", "Singing"];
+
+
 
   return (
     <div>
@@ -47,63 +82,63 @@ const myProfile = (props) => {
 
             </Grid>
             <Grid>
-              <Typography variant='h2' paddingTop={4}>{name} &#128037;</Typography>
+            {/* <Typography variant="overline" display="block" paddingTop={4}>UserName</Typography> */}
+                  {profile.map((person) => (
+                  <Typography variant='h2'>{person.username}</Typography>
+                ))}
 
               <Stack direction="row" spacing={8}>
                 <Box>
                   <Typography variant="overline" display="block" paddingTop={4}>Age</Typography>
-                  <Typography variant='h5'>{age}</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.age}</Typography>
+                ))}
                 </Box>
 
                 <Box>
                   <Typography variant="overline" display="block" paddingTop={4}>Sex</Typography>
-                  <Typography variant='h5'>{sex}</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.sex}</Typography>
+                ))}
                 </Box>
 
                 <Box>
                   <Typography variant="overline" display="block" paddingTop={4}>Pronouns</Typography>
-                  <Typography variant='h5'>{pronouns}</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.pronouns}</Typography>
+                  ))}
                 </Box>
               </Stack>
 
               <Grid container spacing={8} paddingTop={8}>
                 <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Monthly Budget 💰</Typography>
-                  <Typography variant='body1'>${budget}</Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Monthly Budget</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.budget}</Typography>
+                  ))}
                 </Grid>
 
                 <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Location 📍</Typography>
-                  <Typography variant='body1'>{location}</Typography>
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={8}>
-                <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Cleanliness 🧼</Typography>
-                  <Typography variant='body1'>{cleanliness}/10</Typography>
-                </Grid>
-
-                <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Noise Level 🔊</Typography>
-                  <Typography variant='body1'>{noiseLevel}/10</Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Location</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.city}</Typography>
+                  ))}
                 </Grid>
               </Grid>
-
+              
               <Grid container spacing={8}>
                 <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Has Pets 🐶</Typography>
-                  <Typography variant='body1'>{hasPet}</Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Has Pets 🐶</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.pets}</Typography>
+                  ))}
                 </Grid>
-
+                
                 <Grid item>
-                  <Typography variant="overline" display="block" paddingTop={4}>Hobbies 🏓</Typography>
-                  <Typography variant="body1">
-                    {
-                      hobbyList.map((hobby, index) =>
-                        (hobby) + (index != hobbyList.length - 1 ? ', ' : ' '))
-                    }
-                  </Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Hobbies</Typography>
+                  {profile.map((person) => (
+                  <Typography variant='h5'>{person.hobbies}</Typography>
+                  ))}
                 </Grid>
               </Grid>
 
@@ -119,4 +154,4 @@ const myProfile = (props) => {
   );
 }
 
-export default myProfile;
+export default MyProfile;
