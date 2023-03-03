@@ -16,9 +16,10 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
-app.post('/api/loadStarred', (res) => {
+app.post('/api/loadStarred', (req, res) => {
 
 	let connection = mysql.createConnection(config);
+	let userID = req.body.userID;
 
 	let sql = `SELECT * FROM a3larocq.zoommates_account;`;
 	console.log(sql);
