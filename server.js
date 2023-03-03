@@ -58,21 +58,43 @@ app.post('/api/loadUserSettings', (req, res) => {
 });
 
 app.post('/api/setMyProfile', (req, res) => {
-	let id = account.id;
 	let username = account.username;
 	let age = req.body.age;
 	let sex = req.body.sex;
 	let pronouns = req.body.pronouns;
 	let budget = req.body.budget;
 	let city = req.body.city;
-	let clean = req.body.clean;
-	let noise = req.body.noise;
 	let pets = req.body.pets;
 	let hobbies = req.body.hobbies;
 
 	let connection = mysql.createConnection(config);
-	let sql = `INSERT INTO a3larocq.personal_profile(zoommates_account_userID, username, age, sex, pronouns, budget, city, clean, noise, pets, hobbies) values (?,?,?,?,?,?,?,?,?,?,?);`;
-	let data = [id, username, age, sex, pronouns, budget, city, clean, noise, pets, hobbies]
+	let sql = `INSERT INTO a3larocq.personal_profile(username, age, sex, pronouns, budget, city, pets, hobbies) values (?,?,?,?,?,?,?,?);`;
+	let data = [username, age, sex, pronouns, budget, city, pets, hobbies]
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+	});
+	connection.end();
+
+});
+
+app.post('/api/setMyQuestions', (req, res) => {
+	let id = account.id;
+	let AgeMax = req.body.AgeMax;
+	let AgeMin = req.body.AgeMin;
+	let ZMSex = req.body.ZMSex;
+	let Clean = req.body.Clean;
+	let Noise = req.body.Noise;
+	let Share = req.body.Share;
+	let Social = req.body.Social;
+	let Guest = req.body.Guest;
+
+	let connection = mysql.createConnection(config);
+	let sql = `INSERT INTO a3larocq.zoommate_profile(zoommates_account_userId, AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest) values (?,?,?,?,?,?,?,?,?);`;
+	let data = [id, AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest]
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
