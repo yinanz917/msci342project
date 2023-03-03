@@ -54,6 +54,24 @@ app.post('/api/loadProfile', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/loadZProfile', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	let userID = req.body.userID;
+
+	let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = 1;`;
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
 
 app.post('/api/loadUserSettings', (req, res) => {
 
