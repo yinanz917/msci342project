@@ -34,8 +34,6 @@ const Profile = () => {
   const [enteredBudget, setBudget] = React.useState('');
   const [enteredLocation, setLocation] = React.useState('');
 
-  const [cleanLevel, setCleanLevel] = React.useState('');
-  const [noiseLevel, setNoiseLevel] = React.useState('');
   const [hasPet, setHasPet] = React.useState('');
   const [hobbyList, setHobbyList] = React.useState([]);
 
@@ -68,16 +66,6 @@ const Profile = () => {
     setLocation(event.target.value);
   }
 
-  const handleCleanLevel = (event) => {
-    reset();
-    setCleanLevel(event.target.value);
-  }
-
-  const handleNoiseLevel = (event) => {
-    reset();
-    setNoiseLevel(event.target.value);
-  }
-
   const handleHobbyList = (event) => {
     const {
       target: { value },
@@ -103,15 +91,14 @@ const Profile = () => {
 
   const handleSubmit = (event) => {
     setSubmit(true);
-    // call API HERE
+
+    setMyProfile();
 
     if (!(isEmpty(enteredAge) ||
       isEmpty(selectedSex) ||
       isEmpty(selectedPronouns) ||
       isEmpty(enteredBudget) ||
       isEmpty(enteredLocation) ||
-      isEmpty(cleanLevel) ||
-      isEmpty(noiseLevel) ||
       isEmpty(hasPet) ||
       isEmpty(hobbyList))) {
       setValid(true); // if all fields are not empty, sets allValid to true
@@ -123,7 +110,7 @@ const Profile = () => {
    * @andre
    */
 
-  const setMyProfile = () => {
+  const setMyProfile = async () => {
     callApiSetMyProfile()
       .then(res => {
         console.log("callApiSetMyProfile returned: ", res)
@@ -143,13 +130,14 @@ const Profile = () => {
         //authorization: `Bearer ${this.state.token}`
       },
       body: JSON.stringify({
-        //@andre todo: link these to database
-        // [dataBaseName]: [const name]
-        // userID: userID,
-        // movieID: movieID,
-        // reviewTitle: enteredTitle,
-        // reviewContent: enteredReview,
-        // reviewScore: selectedRating
+        age: enteredAge,
+        sex: selectedSex,
+        pronouns: selectedPronouns,
+        budget: enteredBudget,
+        city: enteredLocation,
+
+        pets: hasPet,
+        hobbies: hobbyList
       })
     });
     const body = await response.json();
@@ -245,23 +233,6 @@ const Profile = () => {
           </Typography>
 
           <Grid container wrap="nowrap" spacing={4} direction="column">
-            <Grid item id='cleanliness'>
-              <Cleanliness
-                onChange={handleCleanLevel}
-                userCleanLevel={cleanLevel}
-                isEmpty={isEmpty(cleanLevel)}
-                submit={submit}
-              />
-            </Grid>
-
-            <Grid item id='noise-level'>
-              <NoiseLevel
-                onChange={handleNoiseLevel}
-                userNoiseLevel={noiseLevel}
-                isEmpty={isEmpty(noiseLevel)}
-                submit={submit}
-              />
-            </Grid>
 
             <Grid item id='pets'>
               <Pets
@@ -291,6 +262,8 @@ const Profile = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            // component={Link} 
+            // to="/myprofile"
           >
             Submit Profile
           </Button>
@@ -316,7 +289,7 @@ const Age = (props) => {
           placeholder="Enter your age"
           variant='outlined'
           onChange={props.onType}
-          helperText={(props.submit && props.isEmpty) ? '' : ("Ex. 21 (numeric values only)")}
+          
         />
         <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
       </FormControl>
@@ -403,82 +376,6 @@ const Location = (props) => {
       </FormControl>
     </div>
   )
-}
-
-const Cleanliness = (props) => {
-  const errMessage = 'Please indicate a level.';
-
-  const levels = [
-    { value: 1, label: '1' },
-    { value: 2, label: '2' },
-    { value: 3, label: '3' },
-    { value: 4, label: '4' },
-    { value: 5, label: '5' },
-    { value: 6, label: '6' },
-    { value: 7, label: '7' },
-    { value: 8, label: '8' },
-    { value: 9, label: '9' },
-    { value: 10, label: '10' },
-  ];
-
-  return (
-    <div>
-      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
-        <FormLabel style={{ paddingBottom: 12 }}>How tidy are you with your space? Rank your level of cleanliness.</FormLabel>
-        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
-          <Typography variant="body2" align="center">Not very clean</Typography>
-          <Slider
-            onChange={props.onChange}
-            defaultValue={5}
-            step={1}
-            min={1}
-            max={10}
-            marks={levels}
-          />
-          <Typography variant="body2" align="center">Extremely clean</Typography>
-        </Stack>
-        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
-      </FormControl>
-    </div>
-  );
-}
-
-const NoiseLevel = (props) => {
-  const errMessage = 'Please indicate a level.';
-
-  const levels = [
-    { value: 1, label: '1' },
-    { value: 2, label: '2' },
-    { value: 3, label: '3' },
-    { value: 4, label: '4' },
-    { value: 5, label: '5' },
-    { value: 6, label: '6' },
-    { value: 7, label: '7' },
-    { value: 8, label: '8' },
-    { value: 9, label: '9' },
-    { value: 10, label: '10' },
-  ];
-
-  return (
-    <div>
-      <FormControl fullWidth error={(props.isEmpty && props.submit)}>
-        <FormLabel style={{ paddingBottom: 12 }}>How much noise do you typically make at home? Rank your level of noise.</FormLabel>
-        <Stack spacing={4} direction="row" alignItems="center" paddingBottom={4}>
-          <Typography variant="body2" align="center">Absolute silence</Typography>
-          <Slider
-            onChange={props.onChange}
-            defaultValue={5}
-            step={1}
-            min={1}
-            max={10}
-            marks={levels}
-          />
-          <Typography variant="body2" align="center">Constant noise</Typography>
-        </Stack>
-        <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
-      </FormControl>
-    </div>
-  );
 }
 
 const Pets = (props) => {
