@@ -40,7 +40,6 @@ const ZoommateQuestionnaire = () => {
     const [submit, setSubmit] = React.useState(false);
     const [allValid, setValid] = React.useState(false);
   
-  
     const handleMaxAgeInput = (event) => {
       reset();
       setMaxAge(event.target.value);
