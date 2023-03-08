@@ -9,6 +9,7 @@ import Chat from "../Chat";
 import Starred from "../Starred";
 import Login from "../Login";
 import SignUp from "../SignUp";
+import ZoommateProfile from "../Zoommate";
 import history from './history';
 
 export default function PrivateRoute({
@@ -26,11 +27,12 @@ export default function PrivateRoute({
         <Route path="/landing" exact component={Landing} />
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={SignUp} />
-        <Route path="/profile" exact component={Profile} />
-        <Route path="/myprofile" exact component={MyProfile} />
+        <Route path="/profiles" exact component={MyProfile} />
+        <Route path="/myprofile" exact component={Profile} />
         <Route path="/matches" exact component={Matches} />
         <Route path="/chat" exact component={Chat} />
         <Route path="/starred" exact component={Starred} />
+        <Route path="/zoommateprofile" exact component={ZoommateProfile} />
         <Route path="/chat" exact component={Chat} />
       </Switch>
     </Router>
