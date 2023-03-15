@@ -97,7 +97,6 @@ const MyProfile = (props) => {
   return (
     <div>
       <NavBar />
-
       <Grid marginY={8}>
         <Container maxWidth="md">
           <Typography className='title-text' variant="h3" marginBottom={8}>Profiles of your Zoommate Experience</Typography>
@@ -186,11 +185,6 @@ const MyProfile = (props) => {
             <Typography variant='h3' charset ='UTF-8'>Profile Reviews 📋 </Typography>
           </Grid>
           <Grid>
-            {/* {profile.map((person)=>
-            <Grid marginTop={8} marginBottom={4}>
-            <Typography variant='h4' charset ='UTF-8'>{person.username}'s average score is 9 </Typography>
-          </Grid>
-            )} */}
             {reviews.map((review) => (
               <Grid>
               <Grid marginTop={4}>

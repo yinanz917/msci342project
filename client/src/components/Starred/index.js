@@ -68,7 +68,7 @@ const Starred = (props) => {
                         title= {<Typography gutterBottom variant="h5" component="h2">
                         {person.name}
                      </Typography>}
-                        subheader={person.username}
+                        subheader= "Compatability score: "
                     />
                     <CardActions>
                         <Button size="medium" variant="contained" startIcon={<ChatIcon/>}>Chat</Button>
