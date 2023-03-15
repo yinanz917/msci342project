@@ -22,3 +22,16 @@ img {
   text-align: center;
   padding-top: 28px;
 }
+
+.div-form-style {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  flex-direction: column;
+}
+
+.label-text {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 500;
+}
