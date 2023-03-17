@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
 import IconButton from '@mui/material/IconButton';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -42,9 +43,11 @@ const Matches = () => {
         { profileID: 2, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
         { profileID: 3, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
         { profileID: 4, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 5, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" }
+        { profileID: 5, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 6, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" }
     ]
 
+    //stateful list
     const [profiles, setVisibleProfiles] = React.useState(people);
 
     const handleRemoveProfile = (person) => {
@@ -54,7 +57,9 @@ const Matches = () => {
     };
 
     const handleStarred = (event) => {
+        starred = profiles.starred;
         setStarred(!profiles.starred);
+        profiles.starred = starred;
     }
 
     const [starred, setStarred] = React.useState(people.starred);
@@ -73,12 +78,11 @@ const Matches = () => {
         <div>
             <NavBar />
             <Grid>
-
                 <Typography variant="h3" marginTop={2} gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
                     Here Are Your Matches!
                 </Typography>
                 <Container>
-                    <Stack direction="row" spacing={4}>
+                    <Stack direction="row" spacing={4} marginTop={4}>
                         <Button variant="outlined" startIcon={<RefreshIcon />}>
                             Refresh
                         </Button>
@@ -87,79 +91,19 @@ const Matches = () => {
                         </Button>
                     </Stack>
 
-                    <Grid container marginTop={4} spacing={4} direction="row" >
-                        {profiles.map((profile) => {
+                    <Grid container marginTop={4} spacing={4} direction="row">
+                        {profiles.slice(0, 5).map((profile) => {
                             return (
-                                <Grid item>
-                                    <Card sx={{ maxWidth: 200 }}>
-                                        <CardMedia
-                                            sx={{ height: 200 }}
-                                            image={profile.photo}
-                                            title="green iguana"
-                                        />
-
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                {profile.name}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {profile.sex} | {profile.age}
-                                            </Typography>
-                                        </CardContent>
-
-                                        <CardActions>
-                                            <Button size="small" onClick={handleClickOpen}>View Profile</Button>
-                                            <Dialog open={open} onClose={handleClose} fullWidth='sm'>
-                                                <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
-                                                <DialogContent>
-                                                    <DialogContentText spacing={4}>
-                                                        <Stack direction='row' spacing={4}>
-                                                            <Avatar
-                                                                alt="Andre Laroque"
-                                                                sx={{ width: 240, height: 240 }}
-                                                                src={profile.photo} />
-                                                            <div>
-                                                                <Typography variant='h4'>{profile.name}</Typography>
-                                                                <Typography><b>Sex:</b> {profile.sex}</Typography>
-                                                                <Typography><b>Age:</b> {profile.age}</Typography>
-                                                                <Typography><b>Age:</b> {profile.age}</Typography>
-                                                            </div>
-                                                        </Stack>
-                                                        <Typography><b>Sex:</b> {profile.sex}</Typography>
-                                                        <Typography><b>Age:</b> {profile.age}</Typography>
-                                                        <Typography><b>Age:</b> {profile.age}</Typography>
-
-
-
-                                                    </DialogContentText>
-
-                                                </DialogContent>
-                                                <DialogActions>
-                                                    <Button onClick={handleClose}>Back to Matches</Button>
-                                                </DialogActions>
-                                            </Dialog>
-
-                                            <IconButton aria-label="add to favorites">
-                                                <StarBorderIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="reject">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
+                                <MatchProfile
+                                    profile={profile}
+                                    onClick={handleClickOpen}
+                                    open={open}
+                                    onClose={handleClose}
+                                />
                             );
                         }
                         )}
                     </Grid>
-
-                    {/* <MatchesList
-                        profileList={profiles}
-                        onDelete={handleRemoveProfile}
-                        onClickView={handleOpen}
-                        open={open}
-                        onClose={handleClose}
-                    /> */}
                 </Container>
 
             </Grid>
@@ -168,101 +112,79 @@ const Matches = () => {
     );
 }
 
-// // const MatchesList = (props) => {
-// return (
-//     <div>
-//         <Grid container marginTop={4} spacing={4} direction="row" >
-//             {props.profileList.map((profile) => {
-//                 return (
-//                     <Match
-//                         profile={profile}
-//                         onRemoveProfile={props.onDelete}
-//                     />
-//                 );
-//             }
-//             )}
-//         </Grid>
-//     </div>
-// )
-// }
+const MatchProfile = (props) => {
+    const [starred, setStarred] = React.useState(false);
 
+    const handleStarred = (event) => {
+        starred = props.profile.starred;
+        setStarred(!props.profiles.starred);
+        props.profiles.starred = starred;
+    }
 
-// const Match = ({ profile, onRemoveProfile, onClickView, open, onClose }) => {
+    return (
+        <div>
+            <Grid item>
+                <Card sx={{ maxWidth: 200 }}>
+                    <CardMedia
+                        sx={{ height: 200 }}
+                        image={props.profile.photo}
+                        title="green iguana"
+                    />
 
-//     const handleRemoveProfile = () => {
-//         onRemoveProfile(profile);
-//     }
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {props.profile.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {props.profile.sex} | {props.profile.age}
+                        </Typography>
+                    </CardContent>
 
-//     const style = {
-//         position: 'absolute',
-//         top: '50%',
-//         left: '50%',
-//         transform: 'translate(-50%, -50%)',
-//         width: 400,
-//         bgcolor: 'background.paper',
-//         border: '2px solid #000',
-//         boxShadow: 24,
-//         p: 4,
-//     };
+                    <CardActions>
+                        <Button size="small" onClick={props.onClick}>View Profile</Button>
 
+                        <Dialog open={props.open} onClose={props.onClose} fullWidth='sm' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
+                            <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
+                            <DialogContent>
+                                <DialogContentText spacing={4}>
+                                    <Stack direction='row' spacing={4}>
+                                        <Avatar
+                                            alt="Andre Laroque"
+                                            sx={{ width: 240, height: 240 }}
+                                            src={props.profile.photo} />
+                                        <div>
+                                            <Typography variant='h4'>{props.profile.name}</Typography>
+                                            <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                            <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                            <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                        </div>
+                                    </Stack>
+                                    <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                    <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                    <Typography><b>Age:</b> {props.profile.age}</Typography>
 
-//     // const handleOpen = () => setOpen(true);
-//     // const handleClose = () => setOpen(false);
+                                </DialogContentText>
 
-//     return (
-//         <Grid item>
-//             <Card sx={{ maxWidth: 200 }}>
-//                 <CardMedia
-//                     sx={{ height: 200 }}
-//                     image={profile.photo}
-//                     title="green iguana"
-//                 />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={props.onClose}>Back to Matches</Button>
+                            </DialogActions>
+                        </Dialog>
 
-//                 <CardContent>
-//                     <Typography gutterBottom variant="h5" component="div">
-//                         {profile.name}
-//                     </Typography>
-//                     <Typography variant="body2" color="text.secondary">
-//                         {profile.sex} | {profile.age}
-//                     </Typography>
-//                 </CardContent>
-
-//                 <CardActions>
-//                     <Button size="small" onClick={onClickView}>View Profile</Button>
-//                     <Modal
-//                         open={open}
-//                         onClose={onClose}
-//                         aria-labelledby="modal-modal-title"
-//                         aria-describedby="modal-modal-description"
-//                     >
-//                         <Box sx={style}>
-//                             <Typography id="modal-modal-title" variant="h6" component="h2">
-//                                 Text in a modal
-//                             </Typography>
-//                             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-//                                 Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-//                             </Typography>
-//                         </Box>
-//                     </Modal>
-
-//                     <IconButton aria-label="add to favorites">
-//                         <StarBorderIcon />
-//                     </IconButton>
-//                     <IconButton aria-label="reject" onClick={handleRemoveProfile}>
-//                         <DeleteIcon />
-//                     </IconButton>
-//                 </CardActions>
-//             </Card>
-//         </Grid>
-//     );
-// }
+                        <IconButton aria-label="add to favorites" onStar={handleStarred}>
+                            {(props.profile.starred)
+                                ? <StarIcon color="primary" />
+                                : <StarBorderIcon />
+                            }
+                        </IconButton>
+                        <IconButton aria-label="reject">
+                            <DeleteIcon />
+                        </IconButton>
+                    </CardActions>
+                </Card>
+            </Grid>
+        </div>
+    );
+}
 
 export default Matches;
-
-{/* <IconButton aria-label="add to favorites">
-{profile.starred}
-{(profile.starred)
-    ? <StarIcon color="primary" />
-    : <StarBorderIcon />
-}
-</IconButton> */}
