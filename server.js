@@ -144,5 +144,33 @@ app.post('/api/setMyQuestions', (req, res) => {
 
 });
 
+app.post('/api/addUser', (req, res) => {
+	//console.log(req);
+	let connection = mysql.createConnection(config);
+
+	let sql = `INSERT INTO a3larocq.zoommates_account (firstName, lastName, email, pw, stat) VALUES (?, ?, ?, ?, ?)`;
+	console.log(sql);
+
+	const data = [
+		req.body.firstName,
+		req.body.lastName,
+		req.body.email,
+		req.body.pw,
+		req.body.stat
+	];
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		console.log(string);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
