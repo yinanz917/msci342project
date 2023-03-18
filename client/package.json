@@ -12,7 +12,7 @@
     "@material/ripple": "^4.0.0",
     "@mui/icons-material": "^5.11.9",
     "@testing-library/jest-dom": "^5.16.5",
-    "firebase": "^9.17.1",
+    "firebase": "8.10.0",
     "install": "^0.12.2",
     "mathjs": "^5.10.3",
     "moment": "^2.29.4",
