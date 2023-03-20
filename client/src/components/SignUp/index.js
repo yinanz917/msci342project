@@ -1,14 +1,22 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from '@mui/material';
 import '../../index.css';
 import { EmailField, PasswordField } from '../Login';
+import { useRef, useState } from 'react';
+import { useAuth } from '../Firebase/context';
 
 const serverURL = "";
 
 const SignUp = () => {
+
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const passwordConfirmRef = useRef()
+    const { signup } = useAuth()
+    const history = useHistory()
 
     const [enteredFirstName, setFirstName] = React.useState('');
     const [enteredLastName, setLastName] = React.useState('');
@@ -70,55 +78,79 @@ const SignUp = () => {
         return body;
     }
 
-    const validate = () => {
-        setFirstNameError(false)
-        setLastNameError(false)
-        setEmailError(false)
-        setPasswordError(false)
-        setReenteredPasswordError(false)
-
-        setFirstNameErrorMsg('')
-        setLastNameErrorMsg('')
-        setEmailErrorMsg('')
-        setPasswordErrorMsg('')
-        setReenteredPasswordErrorMsg('')
-
-        // TODO: If fields are not empty and setEmailError == false, then callApiAddUser
-        // TODO: Create logic to test if enteredEmail is a valid email address
-        if (enteredFirstName != '' && enteredLastName != '' && enteredEmail != '' && enteredPassword != '' && reenteredPassword != '') {
-            callApiAddUser();
-        }
-
-        if (enteredFirstName === '') {
+    async function handleSubmit() {
+        let errors = false;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        if (enteredFirstName === '') { //tests field is not empty
             setFirstNameError(true)
             setFirstNameErrorMsg('Please enter your first name')
+            errors = true;
+        } else {
+            setFirstNameError(false)
+            setFirstNameErrorMsg('')
         }
-
-        if (enteredLastName === '') {
+    
+        if (enteredLastName === '') { //tests field is not empty
             setLastNameError(true)
             setLastNameErrorMsg('Please enter your last name')
+            errors = true;
+        } else {
+            setLastNameError(false)
+            setLastNameErrorMsg('')
         }
-
-        if (enteredEmail === '') {
+    
+        if (enteredEmail === '') { //tests field is not empty
             setEmailError(true)
             setEmailErrorMsg('Please enter your email')
+            errors = true;
+        } else if (!emailRegex.test(enteredEmail)) { //tests if email was in valid form
+            setEmailError(true)
+            setEmailErrorMsg('Please enter a valid email address')
+            errors = true;
+        } else {
+            setEmailError(false)
+            setEmailErrorMsg('')
         }
-
-        if (enteredPassword === '') {
+    
+        if (enteredPassword === '') { //tests field is not empty
             setPasswordError(true)
             setPasswordErrorMsg('Please enter a password')
+            errors = true;
+        } else if (enteredPassword.length < 6) { //tests password is at least 6 characters long per Google Firebase
+            setPasswordError(true)
+            setPasswordErrorMsg('Password must be at least 6 characters long')
+            errors = true;
+        } else {
+            setPasswordError(false)
+            setPasswordErrorMsg('')
         }
-
-        if (reenteredPassword === '') {
+    
+        if (reenteredPassword === '') { //tests field is not empty
             setReenteredPasswordError(true)
             setReenteredPasswordErrorMsg('Please re-enter your password')
+            errors = true;
+        } else if (passwordRef.current.value !== passwordConfirmRef.current.value) { //tests password and reenterd password match
+            setReenteredPasswordError(true);
+            setReenteredPasswordErrorMsg('The password you re-entered does not match');
+            errors = true;
+        } else {
+            setReenteredPasswordError(false)
+            setReenteredPasswordErrorMsg('')
         }
-
-        if (enteredPassword != reenteredPassword) {
-            setReenteredPasswordError(true)
-            setReenteredPasswordErrorMsg('The password you re-entered does not match')
+    
+        if (errors) {
+            return;
         }
-
+    
+        try {
+            await signup(emailRef.current.value, passwordRef.current.value) //creates account in Firebase (see context.js)
+            callApiAddUser()
+            history.push('/') //navigate to landing page once successfully made an account
+        } catch {
+            setEmailError(true);
+            setEmailErrorMsg('An account with this email already exists');
+        }
     }
 
     return (
@@ -137,17 +169,17 @@ const SignUp = () => {
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Email Address:</label>
-                    <EmailField handleEmailChange={handleEmailChange} emailError={emailError} emailErrorMsg={emailErrorMsg}></EmailField>
+                    <EmailField handleEmailChange={handleEmailChange} emailError={emailError} emailErrorMsg={emailErrorMsg} emailRef={emailRef}></EmailField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Password:</label>
-                    <PasswordField handlePasswordChange={handlePasswordChange} passwordError={passwordError} passwordErrorMsg={passwordErrorMsg}></PasswordField>
+                    <PasswordField handlePasswordChange={handlePasswordChange} passwordError={passwordError} passwordErrorMsg={passwordErrorMsg} passwordRef={passwordRef}></PasswordField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Re-enter Password:</label>
-                    <PasswordField handlePasswordChange={handleReenteredPasswordChange} passwordError={reenteredPasswordError} passwordErrorMsg={reenteredPasswordErrorMsg}></PasswordField>
+                    <PasswordField handlePasswordChange={handleReenteredPasswordChange} passwordError={reenteredPasswordError} passwordErrorMsg={reenteredPasswordErrorMsg} passwordRef={passwordConfirmRef}></PasswordField>
                 </div>
-                <Button onClick={validate} style={{ padding: "1rem", marginTop: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#2563EB", color: "#ffffff", width: "100%", borderWidth: "1px", borderColor: "#3B82F6" }} variant="contained" disableElevation>Sign Up</Button>
+                <Button onClick={handleSubmit} style={{ padding: "1rem", marginTop: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#2563EB", color: "#ffffff", width: "100%", borderWidth: "1px", borderColor: "#3B82F6" }} variant="contained" disableElevation>Sign Up</Button>
                 <Typography align='center'>
                     Already have an account? <Link to="/login">Login</Link>
                 </Typography>

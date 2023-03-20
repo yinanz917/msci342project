@@ -4,6 +4,7 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
+import { AuthProvider } from '../Firebase/context';
 
 import Home from '../Home';
 import PrivateRoute from '../Navigation/PrivateRoute.js';
@@ -31,11 +32,13 @@ class App extends Component {
 
   render() {
     return (
-	  <Router>
-	    <div>
-        <PrivateRoute exact path="/" component={Home}/>
-	    </div>
-	  </Router>
+      <AuthProvider>
+        <Router>
+          <div>
+            <PrivateRoute exact path="/" component={Home} />
+          </div>
+        </Router>
+      </AuthProvider>
     );
   }
 }
