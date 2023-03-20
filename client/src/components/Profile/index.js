@@ -15,14 +15,14 @@ import { MenuItem } from '@mui/material';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import NavBar from '../Navigation/NavBar';
+import { Link } from 'react-router-dom';
 
 const serverURL = ""; // dev mode
-
 
 const Profile = () => {
 
@@ -40,7 +40,22 @@ const Profile = () => {
   const [submit, setSubmit] = React.useState(false);
   const [allValid, setValid] = React.useState(false);
 
+  // for snack bar
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  // info variables
   const handleAgeInput = (event) => {
     reset();
     setAge(event.target.value);
@@ -81,7 +96,10 @@ const Profile = () => {
     setHasPet(event.target.value);
   }
 
-  // Submission functions @yinan
+  // Submission functions
+
+  // const history = useHistory();
+
   const isEmpty = (input) => (input === '');
 
   const reset = () => { // function that resets submit and valid states
@@ -91,8 +109,12 @@ const Profile = () => {
 
   const handleSubmit = (event) => {
     setSubmit(true);
-
+    setOpen(true);
     setMyProfile();
+
+    // if (allValid && submit) {
+    //   history.push("/profiles");
+    // }
 
     if (!(isEmpty(enteredAge) ||
       isEmpty(selectedSex) ||
@@ -105,10 +127,7 @@ const Profile = () => {
     }
   }
 
-  /**
-   * API CALLS TODO
-   * @andre
-   */
+  // API calls to backend
 
   const setMyProfile = async () => {
     callApiSetMyProfile()
@@ -150,7 +169,7 @@ const Profile = () => {
     <div>
       <NavBar />
 
-      <Grid marginTop={2}>
+      <Grid marginY={4}>
         <Container maxWidth="md">
           <Typography variant="h3" gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
             Create your profile
@@ -256,19 +275,25 @@ const Profile = () => {
         </Container>
       </Grid>
 
-      <Grid marginTop={8} id='Submit'>
+      <Grid marginY={8} id='Submit'>
         <Container maxWidth="sm">
+
           <Button
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            // component={Link} 
-            // to="/myprofile"
-          >
-            Submit Profile
+            component={(allValid && submit) && Link}
+            to="/profiles"
+          > Submit Profile
           </Button>
-          {(submit && allValid) && // shows succcess state if submitted and all valid
-            <Typography variant="subtitle2" display="block" style={{ color: 'green', paddingTop: 12 }}>Success! You've completed your profile.</Typography>
+          {(allValid && submit) &&
+            <div>
+              <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                  Success! Your profile has been submitted.
+                </Alert>
+              </Snackbar>
+            </div>
           }
         </Container>
       </Grid>
@@ -289,7 +314,7 @@ const Age = (props) => {
           placeholder="Enter your age"
           variant='outlined'
           onChange={props.onType}
-          
+
         />
         <FormHelperText>{(props.submit && props.isEmpty) && (errMessage)}</FormHelperText>
       </FormControl>
