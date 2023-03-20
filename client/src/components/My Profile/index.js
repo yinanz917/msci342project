@@ -21,20 +21,25 @@ const MyProfile = (props) => {
   const [profile, setProfile] = React.useState([]);
   const [zprofile, setZProfile] = React.useState([]);
 
-  const reviews = 
-  [{name:"Vyomesh Iyengar", photo:"https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4", score:"5.0", review:"Amazing roommate, was very clean and always helped out with the dishes!" },
-  {name:"Andre Larocque", photo:"https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk", score:"4.0", review:"Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! " },
-  {name:"Keegan Fernandes", photo:"https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_100_100/0/1673411388008?e=1683158400&v=beta&t=9NrzIE8R3NYrVh7vK9B1G6PVQ-aSZVn7IpMGGIuIIPE", score:"5.0", review:"Sick!" },
-  {name:"Harry Potter", photo:"https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg", score:"3.5", review:"Very cool" },
-  {name:"Hermione Granger", photo:"https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Hermione_Granger_poster.jpg/220px-Hermione_Granger_poster.jpg", score:"4.0", review:"Do better." }
-  ]
+  const reviews =
+    [{ name: "Vyomesh Iyengar", photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4", score: "5.0", review: "Amazing roommate, was very clean and always helped out with the dishes!" },
+    { name: "Andre Larocque", photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk", score: "4.0", review: "Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! " },
+    { name: "Keegan Fernandes", photo: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_100_100/0/1673411388008?e=1683158400&v=beta&t=9NrzIE8R3NYrVh7vK9B1G6PVQ-aSZVn7IpMGGIuIIPE", score: "5.0", review: "Sick!" },
+    { name: "Harry Potter", photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg", score: "3.5", review: "Very cool" },
+    { name: "Hermione Granger", photo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Hermione_Granger_poster.jpg/220px-Hermione_Granger_poster.jpg", score: "4.0", review: "Do better." }
+    ]
 
   const avgScore = 0;
-  const score =0;
+  const score = 0;
 
   React.useEffect(() => {
     loadProfile();
   }, []);
+
+  React.useEffect(() => {
+    loadZProfile();
+  }, []);
+
 
   // Calling user profiles
   const loadProfile = () => {
@@ -62,7 +67,7 @@ const MyProfile = (props) => {
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
-  
+
 
   React.useEffect(() => {
     loadZProfile();
@@ -114,7 +119,7 @@ const MyProfile = (props) => {
               </Grid>
 
               <Grid item paddingTop={4}>
-                <Button variant="outlined" paddingTop={8} component={Link} to="/profile">Edit Profile</Button>
+                <Button variant="outlined" paddingTop={8} component={Link} to="/myprofile">Edit Profile</Button>
               </Grid>
 
 
@@ -181,112 +186,128 @@ const MyProfile = (props) => {
 
             </Grid>
           </Stack>
-          <Grid>
-          <Grid marginTop={8} marginBottom={4}>
-            <Typography variant='h3' charset ='UTF-8'>Profile Reviews 📋 </Typography>
-          </Grid>
-          <Grid>
-            {/* {profile.map((person)=>
-            <Grid marginTop={8} marginBottom={4}>
-            <Typography variant='h4' charset ='UTF-8'>{person.username}'s average score is 9 </Typography>
-          </Grid>
-            )} */}
-            {reviews.map((review) => (
-              <Grid>
-              <Grid marginTop={4}>
-              <Stack direction="row" spacing={4}>
-                <Avatar
-                  alt={review.name}
-                  sx={{ width: 56, height: 56 }}
-                  src={review.photo} />
-                <Stack direction="column">
-                <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
-                <Typography variant='h6'>{review.review} </Typography>
-                <Typography variant='overline'><b>{review.name}</b></Typography>
-                </Stack>
-              </Stack>
-              </Grid>
-              </Grid>
-            ))}
-          </Grid>
-          </Grid>
+
 
           <Divider>
             <Chip margin={4} label="Zoommate Profile" />
           </Divider>
 
-          <Typography paddingTop={8}>Here are your hard filters for Zoommates:</Typography>
+          <Typography paddingTop={8}>These are traits of your ideal roommate</Typography>
 
           <Grid>
             <Stack direction="row">
+              {profile.map((person) => (
+                <Typography variant='h2'>My Zoommate</Typography>
+              ))}
               <Grid item paddingTop={4}>
-                <Button variant="outlined" paddingTop={8} component={Link} to="/zoommateprofile">Edit Questionnaire</Button>
+                <Button variant="outlined" paddingTop={8} component={Link} to="/zoommateprofile">Edit Profile</Button>
               </Grid>
             </Stack>
+
 
             <Stack direction="row" spacing={8}>
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Max Age</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.AgeMax}</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.age}</Typography>
                 ))}
               </Box>
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Min Age</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.AgeMin}</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.sex}</Typography>
                 ))}
               </Box>
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Preferred Sex</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.ZMSex}</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.pronouns}</Typography>
                 ))}
               </Box>
             </Stack>
 
-            <Grid container spacing={4} paddingTop={8}>
+            <Grid container spacing={4} paddingY={8}>
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Cleanliness</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.Clean}</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.budget}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Noise Level</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.Noise}</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.city}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
-                <Typography variant="overline" display="block" paddingTop={4}>Sharing Level</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.Share}</Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Share Level</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.pets}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
-                <Typography variant="overline" display="block" paddingTop={4}>Sociable Level</Typography>
-                {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.Social}</Typography>
+                <Typography variant="overline" display="block" paddingTop={4}>Social Level</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.hobbies}</Typography>
+                ))}
+              </Grid>
+
+              <Grid item>
+                <Typography variant="overline" display="block" paddingTop={4}>Social Level</Typography>
+                {profile.map((person) => (
+                  <Typography variant='h5'>{person.hobbies}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Weekly Guests</Typography>
-                {zprofile.map((person) => (
+                {profile.map((person) => (
                   <Typography variant='h5'>{person.Guest}</Typography>
                 ))}
               </Grid>
             </Grid>
 
+            <Divider>
+              <Chip label="Reviews" />
+            </Divider>
+
+            <Grid marginTop={8} marginBottom={4}>
+              <Typography variant='h3' charset='UTF-8'>Profile Reviews 📋 </Typography>
+            </Grid>
+            <Grid>
+              {/* {profile.map((person)=>
+            <Grid marginTop={8} marginBottom={4}>
+            <Typography variant='h4' charset ='UTF-8'>{person.username}'s average score is 9 </Typography>
           </Grid>
-        </Container>
-      </Grid>
+            )} */}
+              {reviews.map((review) => (
+                <Grid>
+                  <Grid marginTop={4}>
+                    <Stack direction="row" spacing={4}>
+                      <Avatar
+                        alt={review.name}
+                        sx={{ width: 56, height: 56 }}
+                        src={review.photo} />
+                      <Stack direction="column">
+                        <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
+                        <Typography variant='h6'>{review.review} </Typography>
+                        <Typography variant='overline'><b>{review.name}</b></Typography>
+                      </Stack>
+                    </Stack>
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+
+          </Grid>
+
+        </Container >
+      </Grid >
     </div >
   );
 }

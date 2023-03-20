@@ -27,8 +27,8 @@ export default function PrivateRoute({
         <Route path="/landing" exact component={Landing} />
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={SignUp} />
-        <Route path="/profile" exact component={Profile} />
-        <Route path="/myprofile" exact component={MyProfile} />
+        <Route path="/profiles" exact component={MyProfile} />
+        <Route path="/myprofile" exact component={Profile} />
         <Route path="/matches" exact component={Matches} />
         <Route path="/chat" exact component={Chat} />
         <Route path="/starred" exact component={Starred} />
