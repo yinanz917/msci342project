@@ -12,6 +12,7 @@ import NavBar from '../Navigation/NavBar';
 import IconButton from '@mui/material/IconButton';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { blue } from '@mui/material/colors';
+import Button from '@mui/material/Button';
 
 const serverURL = "";
 
@@ -57,7 +58,8 @@ return body;
 return (
     <Grid container>
         <NavBar/>
-        <Grid>
+        
+        
         <Stack direction="column">
         <Box sx={{
         overflowY: "scroll",
@@ -86,13 +88,17 @@ return (
         ))}
         </Box>
         </Stack>
-        </Grid>  
+        
         {/* this needs to be connected to a secondary map from an api which brings the chat information for the specific selected user */}
-        <Grid>
-            <Container>
-        <Typography variant='h4'>Person name</Typography>
-        </Container>
+        <Grid backgroundColor="blue" container justifyContent="space-between" alignItems="center">
+            <Grid item>
+                <Typography variant='h4' paddingTop={2}><b>Person name</b></Typography>
+            </Grid>*
+            <Grid item>
+                <Button size="medium"><b>View Profile</b></Button>
+            </Grid>
         </Grid>
+        
     </Grid>
 );
 }
