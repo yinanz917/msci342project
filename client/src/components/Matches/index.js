@@ -66,7 +66,6 @@ const Matches = () => {
     const [firstTime, setFirstTime] = React.useState(true);
     const [clickEdit, setClickEdit] = React.useState(false);
 
-
     const [starred, setStarred] = React.useState(initialProfiles.starred);
 
     // reviews 
@@ -75,7 +74,7 @@ const Matches = () => {
     }
 
     const handleAddReview = (event) => {
-        const newList = reviews.concat({
+        const newReview = reviews.concat({
             name: "John Doe",
             photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk",
             score: "4.7",
@@ -84,17 +83,24 @@ const Matches = () => {
 
         setClickEdit(false);
 
-        if (!hasReview) {
-            setReviews(newList);
+        if (!hasReview) {        
+            setReviews(newReview);
             setHasReview(true);
             setFirstTime(false);
         } 
+
+        if (clickEdit) {
+            const current = [...reviews];
+            const edit = current.find(user => user.name === 'John Doe');
+            edit.review = userReview;
+            setReviews(current);
+        }
     }
 
     const handleEditReview = (event) => {
         setClickEdit(true);
         setFirstTime(false);
-        setUserReview(userReview);
+        setHasReview(true);
     }
 
     // TO-DO: favouriting 
@@ -169,11 +175,11 @@ const MatchProfile = (props) => {
     const [starred, setStarred] = React.useState(false);
     const [buttonMessage, setButtonMessage] = React.useState('Add Review');
 
-    React.useEffect(() => { 
+    React.useEffect(() => {
         if (props.edit) {
-          setButtonMessage("Save Review.");
+            setButtonMessage("Save Review.");
         };
-      }, [props.edit])
+    }, [props.edit])
 
     const handleStarred = (event) => {
         starred = props.profile.starred;
@@ -248,7 +254,7 @@ const MatchProfile = (props) => {
                                     {(props.firstTime || props.edit) ?
                                         <div>
                                             <Stack marginTop={4} spacing={2}>
-                                                <Typography variant='h6'>Your review {props.userReview}</Typography>
+                                                <Typography variant='h6'>Your review</Typography>
                                                 <TextField
                                                     id="outlined-multiline-static"
                                                     multiline
