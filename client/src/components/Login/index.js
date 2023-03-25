@@ -86,7 +86,7 @@ const Login = () => {
     
         try {
             await login(emailRef.current.value, passwordRef.current.value) //logs in to already created account (see context.js)
-            history.push('/') //navigate to landing page once successfully signed in
+            history.push('/home') //navigate to landing page once successfully signed in
         } catch {
             setEmailError(true);
             setEmailErrorMsg('Entered an incorrect email or password or don\'t have an account');
