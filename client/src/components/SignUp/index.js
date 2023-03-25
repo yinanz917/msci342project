@@ -146,7 +146,7 @@ const SignUp = () => {
         try {
             await signup(emailRef.current.value, passwordRef.current.value) //creates account in Firebase (see context.js)
             callApiAddUser()
-            history.push('/') //navigate to landing page once successfully made an account
+            history.push('/home') //navigate to landing page once successfully made an account
         } catch {
             setEmailError(true);
             setEmailErrorMsg('An account with this email already exists');
@@ -181,7 +181,7 @@ const SignUp = () => {
                 </div>
                 <Button onClick={handleSubmit} style={{ padding: "1rem", marginTop: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#2563EB", color: "#ffffff", width: "100%", borderWidth: "1px", borderColor: "#3B82F6" }} variant="contained" disableElevation>Sign Up</Button>
                 <Typography align='center'>
-                    Already have an account? <Link to="/login">Login</Link>
+                    Already have an account? <Link to="/">Login</Link>
                 </Typography>
             </div>
         </div>
