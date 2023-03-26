@@ -28,18 +28,6 @@ import NavBar from '../Navigation/NavBar';
 import { Container, Stack } from '@mui/system';
 
 const Matches = () => {
-
-    //for dialog
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     // @andre directly pull from database
     const initialProfiles = [
         { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
@@ -60,48 +48,7 @@ const Matches = () => {
 
     //stateful list
     const [profiles, setVisibleProfiles] = React.useState(initialProfiles);
-    const [reviews, setReviews] = React.useState(initialReviews);
-    const [userReview, setUserReview] = React.useState(''); // new review to be added 
-    const [hasReview, setHasReview] = React.useState(false);
-    const [firstTime, setFirstTime] = React.useState(true);
-    const [clickEdit, setClickEdit] = React.useState(false);
-
     const [starred, setStarred] = React.useState(initialProfiles.starred);
-
-    // reviews 
-    const handleEnteredReview = (event) => {
-        setUserReview(event.target.value);
-    }
-
-    const handleAddReview = (event) => {
-        const newReview = reviews.concat({
-            name: "John Doe",
-            photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk",
-            score: "4.7",
-            review: userReview,
-        });
-
-        setClickEdit(false);
-
-        if (!hasReview) {
-            setReviews(newReview);
-            setHasReview(true);
-            setFirstTime(false);
-        }
-
-        if (clickEdit) {
-            const current = [...reviews];
-            const edit = current.find(user => user.name === 'John Doe');
-            edit.review = userReview;
-            setReviews(current);
-        }
-    }
-
-    const handleEditReview = (event) => {
-        setClickEdit(true);
-        setFirstTime(false);
-        setHasReview(true);
-    }
 
     // TO-DO: favouriting 
 
@@ -150,17 +97,7 @@ const Matches = () => {
                                 <Grid item>
                                     <MatchProfile
                                         profile={profile}
-                                        onClick={handleClickOpen}
-                                        open={open}
-                                        onClose={handleClose}
-                                        reviews={reviews}
-                                        onAdd={handleAddReview}
-                                        onChange={handleEnteredReview}
-                                        userReview={userReview}
-                                        hasReview={hasReview}
-                                        firstTime={firstTime}
-                                        onEdit={handleEditReview}
-                                        edit={clickEdit}
+                                        initialReviews={initialReviews}
                                     />
                                 </Grid>
                             );
@@ -175,13 +112,15 @@ const Matches = () => {
 
 const MatchProfile = (props) => {
     const [starred, setStarred] = React.useState(false);
-    const [buttonMessage, setButtonMessage] = React.useState('Add Review');
+    const [open, setOpen] = React.useState(false);
 
-    React.useEffect(() => {
-        if (props.edit) {
-            setButtonMessage("Save Review.");
-        };
-    }, [props.edit])
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleStarred = (event) => {
         starred = props.profile.starred;
@@ -191,7 +130,6 @@ const MatchProfile = (props) => {
 
     return (
         <div>
-            {/* <Grid item> */}
             <Card sx={{ maxWidth: 200 }}>
                 <CardMedia
                     sx={{ height: 200 }}
@@ -208,81 +146,14 @@ const MatchProfile = (props) => {
                 </CardContent>
 
                 <CardActions>
-                    <Button size="small" onClick={props.onClick}>View Profile</Button>
+                    <Button size="small" onClick={handleClickOpen}>View Profile</Button>
 
-                    <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
-                        <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
-                        <DialogContent>
-                            <DialogContentText spacing={4}>
-                                <Stack direction='row' spacing={4} marginBottom={4}>
-                                    <Avatar
-                                        alt="Andre Laroque"
-                                        sx={{ width: 240, height: 240 }}
-                                        src={props.profile.photo} />
-                                    <div>
-                                        <Typography variant='h4'>{props.profile.name}</Typography>
-                                        <Typography><b>Sex:</b> {props.profile.sex}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Sex:</b> {props.profile.sex}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                    </div>
-                                </Stack>
-
-                                <Divider>
-                                    <Chip margin={4} label="Reviews" />
-                                </Divider>
-
-                                {props.reviews.map((review) => (
-                                    <Grid>
-                                        <Grid marginTop={4}>
-                                            <Stack direction="row" spacing={4}>
-                                                <Avatar
-                                                    alt={review.name}
-                                                    sx={{ width: 56, height: 56 }}
-                                                    src={review.photo} />
-                                                <Stack direction="column">
-                                                    <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
-                                                    <Typography variant='body'>{review.review} </Typography>
-                                                    <Typography variant='overline'><b>{review.name}</b></Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Grid>
-                                    </Grid>
-                                ))}
-
-                                {(props.firstTime || props.edit) ?
-                                    <div>
-                                        <Stack marginTop={4} spacing={2}>
-                                            <Typography variant='h6'>Your review</Typography>
-                                            <TextField
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                placeholder="Write your review here!"
-                                                defaultValue={props.userReview}
-                                                fullWidth
-                                                onChange={props.onChange}
-                                            />
-                                            <Button variant="contained" size="small" onClick={props.onAdd}>
-                                                {buttonMessage}
-                                            </Button>
-                                        </Stack>
-                                    </div>
-                                    :
-                                    <div>
-                                        <Button variant='text' onClick={props.onEdit}>Edit Review</Button>
-                                    </div>
-                                }
-
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={props.onClose}>Back to Matches</Button>
-                        </DialogActions>
-                    </Dialog>
-
+                    <ProfileDialog
+                        profile={props.profile}
+                        initialReviews={props.initialReviews}
+                        open={open}
+                        onClose={handleClose}
+                    />
                     <IconButton aria-label="add to favorites" onStar={handleStarred}>
                         {(props.profile.starred)
                             ? <StarIcon color="primary" />
@@ -296,6 +167,156 @@ const MatchProfile = (props) => {
             </Card>
         </div>
     );
+}
+
+export function ProfileDialog(props) {
+    const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
+    const [reviewScore, setReviewScore] = React.useState('');
+    const [reviews, setReviews] = React.useState(props.initialReviews);
+    const [hasReview, setHasReview] = React.useState(false);
+    const [firstTime, setFirstTime] = React.useState(true);
+    const [clickEdit, setClickEdit] = React.useState(false);
+    const [buttonMessage, setButtonMessage] = React.useState('Add Review');
+
+    React.useEffect(() => {
+        if (clickEdit) {
+            setButtonMessage("Save Review");
+        };
+    }, [clickEdit])
+
+    // reviews 
+    const handleEnteredReview = (event) => {
+        setUserReview(event.target.value);
+    }
+
+    const handleReviewScore = (event) => {
+        setReviewScore(event.target.value);
+    }
+
+    const handleAddReview = (event) => {
+
+        // update with user info 
+        const newReview = reviews.concat({
+            name: "John Doe",
+            photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk",
+            score: reviewScore,
+            review: userReview,
+        });
+
+        setClickEdit(false);
+
+        if (!hasReview) {
+            setReviews(newReview);
+            setHasReview(true);
+            setFirstTime(false);
+        }
+
+        if (clickEdit) {
+            const current = [...reviews];
+            const edit = current.find(user => user.name === 'John Doe'); // replace with user ID or name
+            edit.review = userReview;
+            edit.score = reviewScore
+            setReviews(current);
+        }
+    }
+
+    const handleEditReview = (event) => {
+        setClickEdit(true);
+        setFirstTime(false);
+        setHasReview(true);
+    }
+
+    return (
+        <div>
+            <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
+                <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
+                <DialogContent>
+                    <DialogContentText spacing={4}>
+                        <Stack direction='row' spacing={4} marginBottom={4}>
+                            <Avatar
+                                alt="Andre Laroque"
+                                sx={{ width: 240, height: 240 }}
+                                src={props.profile.photo} />
+                            <div>
+                                <Typography variant='h4'>{props.profile.name}</Typography>
+                                <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                            </div>
+                        </Stack>
+
+                        <Divider>
+                            <Chip margin={4} label="Reviews" />
+                        </Divider>
+
+                        {reviews.map((review) => (
+                            <Grid>
+                                <Grid marginTop={4}>
+                                    <Stack direction="row" spacing={4}>
+                                        <Avatar
+                                            alt={review.name}
+                                            sx={{ width: 56, height: 56 }}
+                                            src={review.photo} />
+                                        <Stack direction="column">
+                                            <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
+                                            <Typography variant='body'>{review.review} </Typography>
+                                            <Typography variant='overline'><b>{review.name}</b></Typography>
+                                        </Stack>
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        ))}
+
+                        {(firstTime || clickEdit) ?
+                            <div>
+                                <Stack marginTop={4} spacing={2} direction='column'>
+                                    <Typography variant='h6'>Your review</Typography>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        multiline
+                                        rows={3}
+                                        placeholder="Write your review here!"
+                                        defaultValue={userReview}
+                                        fullWidth
+                                        onChange={handleEnteredReview}
+                                    />
+                                    <Typography variant='body'>Rating</Typography>
+                                    <Stack direction='row' alignItems='center' spacing={2}>
+                                        <TextField
+                                            id="outlined-basic"
+                                            size="small"
+                                            placeholder='0.0'
+                                            defaultValue={reviewScore}
+                                            onChange={handleReviewScore}
+                                            width="8px"
+                                        />
+                                        <Typography variant='body'>/5.0</Typography>
+                                    </Stack>
+                                </Stack>
+                                <Box marginTop={2}>
+                                    <Button variant="contained" alignSelf='flex-start' size="small" onClick={handleAddReview} width="24px">
+                                        {buttonMessage}
+                                    </Button>
+                                </Box>
+
+                            </div>
+                            :
+                            <div>
+                                <Button variant='text' onClick={handleEditReview}>Edit Review</Button>
+                            </div>
+                        }
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={props.onClose}>Back to Matches</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    )
 }
 
 export default Matches;
