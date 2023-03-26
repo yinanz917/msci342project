@@ -195,7 +195,7 @@ const MyProfile = (props) => {
           <Typography paddingTop={8}>These are traits of your ideal roommate</Typography>
 
           <Grid>
-            <Stack direction="row">
+            <Stack direction='row' display='flex' justifyContent='space-between'>
               {profile.map((person) => (
                 <Typography variant='h2'>My Zoommate</Typography>
               ))}
