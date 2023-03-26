@@ -131,7 +131,7 @@ const Matches = () => {
         <div>
             <NavBar />
             <Grid>
-                <Typography variant="h3" marginTop={2} gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
+                <Typography variant="h3" marginY={4} gutterTop color="inherit" noWrap align='center'>
                     Here Are Your Matches!
                 </Typography>
                 <Container>
@@ -196,7 +196,6 @@ const MatchProfile = (props) => {
                 <CardMedia
                     sx={{ height: 200 }}
                     image={props.profile.photo}
-                    title="green iguana"
                 />
 
                 <CardContent>
@@ -295,7 +294,6 @@ const MatchProfile = (props) => {
                     </IconButton>
                 </CardActions>
             </Card>
-            {/* </Grid> */}
         </div>
     );
 }

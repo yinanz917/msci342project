@@ -200,7 +200,7 @@ const MyProfile = (props) => {
                 <Typography variant='h2'>My Zoommate</Typography>
               ))}
               <Grid item paddingTop={4}>
-                <Button variant="outlined" paddingTop={8} component={Link} to="/zoommateprofile">Edit Profile</Button>
+                <Button variant="outlined" paddingTop={8} component={Link} to="/zmprofile">Edit Profile</Button>
               </Grid>
             </Stack>
 
