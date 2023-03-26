@@ -169,7 +169,7 @@ const MatchProfile = (props) => {
     );
 }
 
-export function ProfileDialog(props) {
+export function ProfileDialog (props) {
     const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
     const [reviewScore, setReviewScore] = React.useState('');
     const [reviews, setReviews] = React.useState(props.initialReviews);
