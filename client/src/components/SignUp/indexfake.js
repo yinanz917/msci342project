@@ -10,7 +10,6 @@ import { useAuth } from '../Firebase/context';
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import { doc, setDoc } from 'firebase/firestore'
-import { auth } from "../Firebase/firebase";
 
 const serverURL = "";
 
@@ -24,8 +23,6 @@ const SignUp = () => {
     const passwordConfirmRef = useRef()
     const { signup } = useAuth()
     const history = useHistory()
-
-    const res = "";
 
     const [enteredFirstName, setFirstName] = React.useState('');
     const [enteredLastName, setLastName] = React.useState('');
@@ -153,25 +150,18 @@ const SignUp = () => {
         }
     
         try {
-            await signup(auth, emailRef.current.value, passwordRef.current.value) //creates account in Firebase (see context.js)
+            await signup(emailRef.current.value, passwordRef.current.value) //creates account in Firebase (see context.js)
+            await firebase.firestore().setDoc(firebase.firestore().doc(db, "users", res.user.uid), {
+                userUID: res.user.uid,
+                first: firstRef.current.value,
+                last: lastRef.current.value,
+                email: emailRef.current.value
+              });
             callApiAddUser()
-            history.push('/home') //navigate to landing page once successfully made an account
+            history.push('/home') //navigate to landing page once successfully made an account 
         } catch {
             setEmailError(true);
             setEmailErrorMsg('An account with this email already exists');
-        }
-
-        try {
-            // await firebase.firestore().setDoc(firebase.firestore().doc(db, "users", res.user.uid), {
-            //     userUID: res.user.uid,
-            //     first: firstRef.current.value,
-            //     last: lastRef.current.value,
-            //     email: emailRef.current.value
-            //   });
-            console.log({firstRef})
-        } catch {
-            setEmailError(true);
-            setEmailErrorMsg('I am an apple pie');
         }
     }
 
@@ -183,11 +173,11 @@ const SignUp = () => {
             <div style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '30%' }}>
                 <div className='div-form-style'>
                     <label className='label-text'>First Name:</label>
-                    <NameField handleNameChange={handleFirstNameChange} nameError={firstNameError} nameErrorMsg={firstNameErrorMsg} inputRef={firstRef}></NameField>
+                    <NameField handleNameChange={handleFirstNameChange} nameError={firstNameError} nameErrorMsg={firstNameErrorMsg}></NameField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Last Name:</label>
-                    <NameField handleNameChange={handleLastNameChange} nameError={lastNameError} nameErrorMsg={lastNameErrorMsg} inputRef={lastRef}></NameField>
+                    <NameField handleNameChange={handleLastNameChange} nameError={lastNameError} nameErrorMsg={lastNameErrorMsg}></NameField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Email Address:</label>

@@ -3,14 +3,27 @@ import '../Chat/index.css';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import {collection, query, where} from 'firebase/firestore'
+import { useState } from 'react';
 
 const Search = () => {
+
+    const [username, setUsername] = useState("")
+    const [user, setUser] = useState(null)
+    const [err, setErr] = useState(false)
+
+    const handleSearch = () => {};
+
+    const handleKey = e=>{
+        e.code ==="Enter" && handleSearch();
+    };
+
     return(
         <div className='search'>
             <div className='searchForm'>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                 <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input" label="Search for a Zoommate" variant="standard" fullWidth />
+                <TextField id="input" label="Search for a Zoommate" variant="standard" fullWidth  onKeyDown={{handleKey}} onChange={e=>setUsername(e.target.value)}/>
             </Box>
             </div>
             <div className='userChat'>
