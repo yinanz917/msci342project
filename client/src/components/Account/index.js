@@ -3,7 +3,9 @@ import Typography from '@mui/material/Typography';
 import '../../index.css';
 import { useAuth } from '../Firebase/context';
 import NavBar from '../Navigation/NavBar';
-import { Avatar, Button, Grid, TextField } from '@mui/material';
+import { Snackbar, Divider, Container, Stack, Avatar, Button, Grid, TextField } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
 
 const serverURL = "";
 
@@ -12,6 +14,22 @@ const Account = () => {
     const email = currentUser.email
     const [accountInfo, setAccountInfo] = React.useState(null);
     const [photo, setPhoto] = React.useState(null);
+    const [submit, setSubmit] = React.useState(false);
+
+    // for snack bar
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     React.useEffect(() => {
         getAccountInfo();
@@ -68,6 +86,7 @@ const Account = () => {
 
     const handleFileChange = (event) => {
         setPhoto(event.target.value);
+        setSubmit(false);
     }
 
     const handleUploadPhoto = () => {
@@ -78,35 +97,74 @@ const Account = () => {
             .catch((error) => {
                 console.log(error);
             });
+            
+        setOpen(true);
+        setSubmit(true);
     }
 
     return (
         <div>
             <NavBar />
-            <Typography className='title-text' variant="h3" noWrap>
-                <b>Account</b>
-            </Typography>
 
-            <div style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '30%' }}>
-                {accountInfo && (
-                    <>
-                        <Avatar
-                            alt={accountInfo[0].firstName}
-                            sx={{ width: 240, height: 240 }}
-                            src={accountInfo[0].photo}
-                        />
-                        <p><b>Email:</b> {email}</p>
-                        <p><b>First Name:</b> {accountInfo[0].firstName}</p>
-                        <p><b>Last Name:</b> {accountInfo[0].lastName}</p>
-                        <div style={{ marginTop: '20px' }}>
-                            {/* <input type="text" placeholder="Enter link to profile photo" onChange={handleFileChange} /> */}
-                            <TextField label="Enter link to profile photo" variant="outlined" size="small" onChange={handleFileChange} />
-                            <Button variant="contained" color="primary" onClick={handleUploadPhoto}>Add Profile Photo</Button>
-                        </div>
-                    </>
-                )}
-            </div>
-        </div>
+            <Grid marginY={4}>
+                <Container maxWidth="sm">
+                    <Typography className='title-text' variant="h3">
+                        Account
+                    </Typography>
+
+                    <Stack direction='row' spacing={4} marginY={4}>
+                        {accountInfo && (
+                            <>
+                                <Avatar
+                                    alt={accountInfo[0].firstName}
+                                    sx={{ width: 240, height: 240 }}
+                                    src={accountInfo[0].photo}
+                                />
+                                <Stack>
+                                    <Typography variant="overline" display="block" paddingTop={2}>Email</Typography>
+                                    <Typography>{email}</Typography>
+                                    <Typography variant="overline" display="block" paddingTop={2}>First Name</Typography>
+
+                                    <Typography>{accountInfo[0].firstName}</Typography>
+                                    <Typography variant="overline" display="block" paddingTop={2}>Last Name</Typography>
+
+                                    <Typography>{accountInfo[0].lastName}</Typography>
+                                </Stack>
+                            </>
+                        )}
+                    </Stack>
+
+                    <Divider />
+                    <Grid container direction="column" spacing={2} marginY={4} >
+                        <Grid item>
+                            <Typography variant='h6'>Want to upload a profile photo?</Typography>
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                placeholder="Enter link to profile photo"
+                                variant="outlined"
+                                helperText="You may get this link from any platform for any photo online."
+                                size="small"
+                                fullWidth
+                                onChange={handleFileChange} />
+                        </Grid>
+                        <Grid item marginTop={2}>
+                            <Button width="24px" variant="contained" color="primary" onClick={handleUploadPhoto}>Add Photo</Button>
+                            {(submit) &&
+                                <div>
+                                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                            Success! Your profile picture has been uploaded.
+                                        </Alert>
+                                    </Snackbar>
+                                </div>
+                            }
+                        </Grid>
+                    </Grid>
+
+                </Container>
+            </Grid>
+        </div >
     )
 
 }
