@@ -1,8 +1,8 @@
 let account = {
     id : '1',
-    username    : 'beeban',
-    email    : 'beeban',
-    password: 'beeban',
+    username    : 'Vyomesh',
+    email    : 'v2iyenga@uwaterloo.ca',
+    password: 'test123',
     status: 'active'
   };
    

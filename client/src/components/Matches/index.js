@@ -27,7 +27,38 @@ import TextField from '@mui/material/TextField';
 import NavBar from '../Navigation/NavBar';
 import { Container, Stack } from '@mui/system';
 
+const serverURL = "";
+
 const Matches = () => {
+
+    React.useEffect(() => {
+        loadMatches();
+      }, []);
+    const loadMatches = () => {
+    callApiLoadMatches()
+      .then(res => {
+        
+        var parsed = JSON.parse(res.express);
+       
+        setProfiles(parsed);
+      })
+  }
+
+  const callApiLoadMatches = async () => {
+    const url = serverURL + "/api/loadProfile";
+   
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
     // @andre directly pull from database
     const initialProfiles = [
         { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
