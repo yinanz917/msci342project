@@ -16,7 +16,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useAuth } from '../Firebase/context';
 
 
-
+const serverURL = "";
 const pages = ['Profiles', 'MyProfile', 'Matches', 'Chat', 'Starred', 'ZMProfile'];
 const settings = ['Account', 'Logout'];
 
@@ -42,6 +42,9 @@ const NavBar = () => {
     const { logout, currentUser } = useAuth()
     const history = useHistory()
 
+    const email = currentUser.email
+    const [profile, setProfile] = React.useState(null);
+
     async function handleLogout() {
         try {
             await logout()
@@ -49,6 +52,40 @@ const NavBar = () => {
         } catch {
             console.log('failed to logout')
         }
+    }
+
+    React.useEffect(() => {
+        console.log('test console');
+        getProfilePicture();
+    }, []);
+
+    const getProfilePicture = () => {
+        callApiGetProfilePicture()
+            .then(res => {
+                console.log("callApiGetProfilePicture returned: ", res)
+                var parsed = JSON.parse(res.express);
+                console.log("callApiGetProfilePicture parsed: ", parsed)
+                setProfile(parsed);
+            });
+    }
+
+    //API to get first name, last name, and photo
+    const callApiGetProfilePicture = async () => {
+        const url = serverURL + "/api/getProfilePicture";
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
     }
 
     return (
@@ -148,7 +185,8 @@ const NavBar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt={currentUser.email} src="/static/images/avatar/2.jpg" />
+                                {/* <Avatar alt={currentUser.email} src={profile[0].photo} /> */}
+                                <Avatar alt={currentUser.email} src={profile && profile[0] && profile[0].photo} />
                             </IconButton>
                         </Tooltip>
                         <Menu

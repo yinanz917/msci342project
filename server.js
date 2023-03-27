@@ -215,5 +215,25 @@ app.post('/api/uploadProfilePhoto', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/getProfilePicture', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT photo FROM zoommates_account WHERE email = ?`;
+	console.log(sql);
+	let data = [req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
