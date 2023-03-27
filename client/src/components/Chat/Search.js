@@ -3,8 +3,11 @@ import '../Chat/index.css';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import 'firebase/firestore';
 import {collection, query, where} from 'firebase/firestore'
 import { useState } from 'react';
+import db from "../Firebase/firebase";
+import firebase from "firebase/app";
 
 const Search = () => {
 
@@ -12,29 +15,42 @@ const Search = () => {
     const [user, setUser] = useState(null)
     const [err, setErr] = useState(false)
 
-    const handleSearch = () => {};
+    const handleSearch = async () => {
+        console.log('search')
+        const q = db.collection("users").where("first", "==", username);
+        try {
+            const querySnapshot = await q.get();
+            querySnapshot.forEach((doc) => {
+                setUser(doc.data());
+            });
+        } catch (err) {
+            setErr(true);
+        };
+    };    
 
-    const handleKey = e=>{
-        e.code ==="Enter" && handleSearch();
-    };
-
+    const handleKey = (event) => {
+        if (event.key === 'Enter') {
+          handleSearch();
+        }
+      }
+      
     return(
         <div className='search'>
             <div className='searchForm'>
             <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                 <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                <TextField id="input" label="Search for a Zoommate" variant="standard" fullWidth  onKeyDown={{handleKey}} onChange={e=>setUsername(e.target.value)}/>
+                <TextField id="input" label="Search for a Zoommate" variant="standard" fullWidth onKeyPress={handleKey} onChange={e=>setUsername(e.target.value)}/>
             </Box>
             </div>
-            <div className='userChat'>
-                <img className='searchImg' src='https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_200_200/0/1645509304205?e=1684972800&v=beta&t=SiDCEUwwLAG2guS7vl3zkfs7AEP3UH0og3CWNioPvU0'/>
+            {err && <span>User not found!</span>}
+            {user && <div className='userChat'>}
+                <img className='searchImg' src='https://images.unsplash.com/photo-1568495341369-1066472c7a27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80'/>
                 <div className='userChatInfo'>
-                    <span className='userChatInfo'>Vyomesh Iyengar</span>
+                    <span className='userChatInfo'>{user.first} + {user.last}</span>
                 </div>
-            </div>
+            </div>}
 
         </div>
     )
-}
-
+    };
 export default Search

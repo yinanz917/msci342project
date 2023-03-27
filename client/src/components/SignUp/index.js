@@ -9,8 +9,12 @@ import { useRef, useState } from 'react';
 import { useAuth } from '../Firebase/context';
 import firebase from "firebase/app";
 import 'firebase/firestore';
+import 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore'
 import { auth } from "../Firebase/firebase";
+import { collection, addDoc, set } from 'firebase/firestore';
+import app from "../Firebase/firebase";
+import db from "../Firebase/firebase";
 
 const serverURL = "";
 
@@ -25,7 +29,12 @@ const SignUp = () => {
     const { signup } = useAuth()
     const history = useHistory()
 
-    const res = "";
+    const usersCollection = firebase.firestore().collection('users')
+    const newUser = {
+        firstRef: firstRef,
+        lastRef: lastRef,
+        emailRef: emailRef
+    }
 
     const [enteredFirstName, setFirstName] = React.useState('');
     const [enteredLastName, setLastName] = React.useState('');
@@ -151,28 +160,30 @@ const SignUp = () => {
         if (errors) {
             return;
         }
-    
-        try {
-            await signup(auth, emailRef.current.value, passwordRef.current.value) //creates account in Firebase (see context.js)
-            callApiAddUser()
-            history.push('/home') //navigate to landing page once successfully made an account
-        } catch {
+
+          try {
+            await signup(emailRef.current.value, passwordRef.current.value)
+              .then(async (userCredential) => {
+                console.log("New user UID:", userCredential.user.uid);
+                console.log("Email:", emailRef.current.value);
+                var lol = db.collection("users").doc()
+                console.log(lol)
+                lol.set({
+                }).then(a=>console.log("pony", a));
+                console.log('User data added to Firestore.');
+                // db.collection("usersChats").add({     
+                // });
+                console.log('run it back');
+              });
+          
+            await callApiAddUser();
+            history.push('/home');
+          } catch (error) {
+            console.log('Error adding user:', error);
             setEmailError(true);
             setEmailErrorMsg('An account with this email already exists');
-        }
-
-        try {
-            // await firebase.firestore().setDoc(firebase.firestore().doc(db, "users", res.user.uid), {
-            //     userUID: res.user.uid,
-            //     first: firstRef.current.value,
-            //     last: lastRef.current.value,
-            //     email: emailRef.current.value
-            //   });
-            console.log({firstRef})
-        } catch {
-            setEmailError(true);
-            setEmailErrorMsg('I am an apple pie');
-        }
+          }
+          
     }
 
     return (
@@ -183,11 +194,11 @@ const SignUp = () => {
             <div style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '30%' }}>
                 <div className='div-form-style'>
                     <label className='label-text'>First Name:</label>
-                    <NameField handleNameChange={handleFirstNameChange} nameError={firstNameError} nameErrorMsg={firstNameErrorMsg} inputRef={firstRef}></NameField>
+                    <NameField handleNameChange={handleFirstNameChange} nameError={firstNameError} nameErrorMsg={firstNameErrorMsg} nameRef={firstRef}></NameField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Last Name:</label>
-                    <NameField handleNameChange={handleLastNameChange} nameError={lastNameError} nameErrorMsg={lastNameErrorMsg} inputRef={lastRef}></NameField>
+                    <NameField handleNameChange={handleLastNameChange} nameError={lastNameError} nameErrorMsg={lastNameErrorMsg} nameRef={lastRef}></NameField>
                 </div>
                 <div className='div-form-style'>
                     <label className='label-text'>Email Address:</label>
