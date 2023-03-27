@@ -40,7 +40,7 @@ const Matches = () => {
         
         var parsed = JSON.parse(res.express);
        
-        setVisibleProfiles(parsed);
+        setProfiles(parsed);
       })
   }
 

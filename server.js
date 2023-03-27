@@ -102,6 +102,7 @@ app.post('/api/loadUserSettings', (req, res) => {
 });
 
 app.post('/api/setMyProfile', (req, res) => {
+
 	let username = account.username;
 	let age = req.body.age;
 	let sex = req.body.sex;
@@ -126,7 +127,7 @@ app.post('/api/setMyProfile', (req, res) => {
 });
 
 app.post('/api/setMyQuestions', (req, res) => {
-	let id = account.id;
+	
 	let AgeMax = req.body.AgeMax;
 	let AgeMin = req.body.AgeMin;
 	let ZMSex = req.body.ZMSex;
