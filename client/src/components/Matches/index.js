@@ -52,6 +52,10 @@ const Matches = () => {
     React.useEffect(() => {
     }, [profiles]);
 
+    const handleRefresh = () => {
+
+    }
+
     return (
         <div>
             <NavBar />
@@ -65,7 +69,7 @@ const Matches = () => {
                         <Button variant="contained" component={Link} to="/starred">
                             View Starred
                         </Button>
-                        <Button variant="outlined" startIcon={<RefreshIcon />}>
+                        <Button variant="outlined" onClick={handleRefresh} startIcon={<RefreshIcon />}>
                             Refresh
                         </Button>
                     </Stack>
@@ -180,6 +184,7 @@ export function ProfileDialog(props) {
         if (clickEdit) {
             setButtonMessage("Save Review");
         };
+        handleLoadReviews(); // API
     }, [clickEdit])
 
     // reviews 
@@ -189,6 +194,11 @@ export function ProfileDialog(props) {
 
     const handleReviewScore = (event) => {
         setReviewScore(event.target.value);
+    }
+
+    // API
+    const handleLoadReviews = () => {
+        setReviews();
     }
 
     const handleAddReview = (event) => {

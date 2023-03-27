@@ -196,9 +196,7 @@ const MyProfile = (props) => {
 
           <Grid>
             <Stack direction='row' display='flex' justifyContent='space-between'>
-              {profile.map((person) => (
-                <Typography variant='h2'>My Zoommate</Typography>
-              ))}
+              <Typography variant='h2'>My Zoommate</Typography>
               <Grid item paddingTop={4}>
                 <Button variant="outlined" paddingTop={8} component={Link} to="/zmprofile">Edit Profile</Button>
               </Grid>
@@ -209,21 +207,21 @@ const MyProfile = (props) => {
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Max Age</Typography>
                 {zprofile.map((person) => (
-                  <Typography variant='h5'>{person.age}</Typography>
+                  <Typography variant='h5'>{person.AgeMax}</Typography>
                 ))}
               </Box>
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Min Age</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.sex}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.AgeMin}</Typography>
                 ))}
               </Box>
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Preferred Sex</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.pronouns}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.ZMSex}</Typography>
                 ))}
               </Box>
             </Stack>
@@ -231,36 +229,29 @@ const MyProfile = (props) => {
             <Grid container spacing={4} paddingY={8}>
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Cleanliness</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.budget}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.Clean}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Noise Level</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.city}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.Noise}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Share Level</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.pets}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.Share}</Typography>
                 ))}
               </Grid>
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Social Level</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.hobbies}</Typography>
-                ))}
-              </Grid>
-
-              <Grid item>
-                <Typography variant="overline" display="block" paddingTop={4}>Social Level</Typography>
-                {profile.map((person) => (
-                  <Typography variant='h5'>{person.hobbies}</Typography>
+                {zprofile.map((person) => (
+                  <Typography variant='h5'>{person.Social}</Typography>
                 ))}
               </Grid>
 
