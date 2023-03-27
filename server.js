@@ -46,16 +46,24 @@ app.post('/api/loadProfile', (req, res) => {
 	let connection = mysql.createConnection(config);
 	let userID = req.body.userID;
 
-	let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = 1;`;
-	console.log(sql);
+	let sql = "select userID from zoommates_account where email = ${userEmail}"
 
-	connection.query(sql, (error, results, fields) => {
+	connection.query(sql, (error, userID, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
 
-		let string = JSON.stringify(results);
-		res.send({ express: string });
+		let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = ${userID}`;
+		console.log(sql);
+
+		connection.query(sql, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+		});
 	});
 	connection.end();
 });
