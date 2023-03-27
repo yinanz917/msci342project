@@ -40,6 +40,7 @@ const MyProfile = (props) => {
     loadZProfile();
   }, []);
 
+
   // Calling user profiles
   const loadProfile = () => {
     callApiLoadProfile()
@@ -66,6 +67,7 @@ const MyProfile = (props) => {
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
+
 
   React.useEffect(() => {
     loadZProfile();
@@ -218,7 +220,7 @@ const MyProfile = (props) => {
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Preferred Sex</Typography>
-                {profile.map((person) => (
+                {zprofile.map((person) => (
                   <Typography variant='h5'>{person.ZMSex}</Typography>
                 ))}
               </Box>
@@ -255,7 +257,7 @@ const MyProfile = (props) => {
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Weekly Guests</Typography>
-                {zprofile.map((person) => (
+                {profile.map((person) => (
                   <Typography variant='h5'>{person.Guest}</Typography>
                 ))}
               </Grid>
@@ -269,6 +271,11 @@ const MyProfile = (props) => {
               <Typography variant='h3' charset='UTF-8'>Profile Reviews 📋 </Typography>
             </Grid>
             <Grid>
+              {/* {profile.map((person)=>
+            <Grid marginTop={8} marginBottom={4}>
+            <Typography variant='h4' charset ='UTF-8'>{person.username}'s average score is 9 </Typography>
+          </Grid>
+            )} */}
               {reviews.map((review) => (
                 <Grid>
                   <Grid marginTop={4}>

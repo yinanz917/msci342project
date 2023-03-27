@@ -83,6 +83,10 @@ const Matches = () => {
     React.useEffect(() => {
     }, [profiles]);
 
+    const handleRefresh = () => {
+
+    }
+
     return (
         <div>
             <NavBar />
@@ -96,7 +100,7 @@ const Matches = () => {
                         <Button variant="contained" component={Link} to="/starred">
                             View Starred
                         </Button>
-                        <Button variant="outlined" startIcon={<RefreshIcon />}>
+                        <Button variant="outlined" onClick={handleRefresh} startIcon={<RefreshIcon />}>
                             Refresh
                         </Button>
                     </Stack>
@@ -160,12 +164,10 @@ const MatchProfile = (props) => {
                 </Card>
                 :
                 <Card sx={{ maxWidth: 200, maxHeight: 400 }}>
-
                     <CardMedia
                         sx={{ height: 200 }}
                         image={profile.photo}
                     />
-
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             {profile.name}
@@ -194,7 +196,6 @@ const MatchProfile = (props) => {
                             <DeleteIcon />
                         </IconButton>
                     </CardActions>
-                    {/* </Div> */}
                 </Card>
             }
         </div>
@@ -214,6 +215,7 @@ export function ProfileDialog(props) {
         if (clickEdit) {
             setButtonMessage("Save Review");
         };
+        handleLoadReviews(); // API
     }, [clickEdit])
 
     // reviews 
@@ -223,6 +225,11 @@ export function ProfileDialog(props) {
 
     const handleReviewScore = (event) => {
         setReviewScore(event.target.value);
+    }
+
+    // API
+    const handleLoadReviews = () => {
+        setReviews();
     }
 
     const handleAddReview = (event) => {
