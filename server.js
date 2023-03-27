@@ -475,5 +475,48 @@ app.post('/api/loadMatches', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/getAccountInfo', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT firstName, lastName, photo FROM zoommates_account WHERE email = ?`;
+	console.log(sql);
+	let data = [req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
+app.post('/api/uploadProfilePhoto', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `UPDATE zoommates_account AS z1
+	JOIN zoommates_account AS z2 ON z1.userID = z2.userID
+	SET z1.photo = ?
+	WHERE z2.email = ?;`;
+	console.log(sql);
+	let data = [req.body.photo, req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server

@@ -12,6 +12,7 @@ import SignUp from "../SignUp";
 import ZoommateProfile from "../Zoommate";
 import history from './history';
 import PrivateRouting from "./PrivateRouting";
+import Account from "../Account";
 
 export default function PrivateRoute({
   //authenticated,
@@ -44,6 +45,7 @@ export default function PrivateRoute({
         <PrivateRouting path="/chat" exact component={Chat} />
         <PrivateRouting path="/starred" exact component={Starred} />
         <PrivateRouting path="/zmprofile" exact component={ZoommateProfile} />
+        <PrivateRouting path="/account" exact component={Account} />
       </Switch>
     </Router>
   );
