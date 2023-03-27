@@ -28,26 +28,14 @@ import NavBar from '../Navigation/NavBar';
 import { Container, Stack } from '@mui/system';
 
 const Matches = () => {
-
-    //for dialog
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     // @andre directly pull from database
     const initialProfiles = [
         { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 2, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 3, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 4, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 5, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 6, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" }
+        { profileID: 2, name: "Vyomesh Iyenr", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4" },
+        { profileID: 3, name: "Yinan Zhang", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 4, name: "Seb Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 5, name: "Lolla Palooza", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 6, name: "Matt Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg" }
     ]
 
     const initialReviews = [
@@ -59,25 +47,160 @@ const Matches = () => {
     ]
 
     //stateful list
-    const [profiles, setVisibleProfiles] = React.useState(initialProfiles);
-    const [reviews, setReviews] = React.useState(initialReviews);
-    const [userReview, setUserReview] = React.useState(''); // new review to be added 
+    const [profiles, setProfiles] = React.useState(initialProfiles);
+
+    React.useEffect(() => {
+    }, [profiles]);
+
+    return (
+        <div>
+            <NavBar />
+            <Grid>
+                <Typography variant="h3" marginY={4} gutterTop color="inherit" noWrap align='center'>
+                    Here Are Your Matches!
+                </Typography>
+
+                <Container>
+                    <Stack direction="row" marginTop={4} display='flex' justifyContent='space-between'>
+                        <Button variant="contained" component={Link} to="/starred">
+                            View Starred
+                        </Button>
+                        <Button variant="outlined" startIcon={<RefreshIcon />}>
+                            Refresh
+                        </Button>
+                    </Stack>
+
+                    <Grid container justifyContent='space-between' marginTop={4} direction="row">
+                        {profiles.slice(0, 5).map((profile) => {
+                            return (
+                                <Grid item>
+                                    <MatchProfile
+                                        profile={profile}
+                                        initialReviews={initialReviews}
+                                    />
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Container>
+            </Grid>
+        </div>
+    );
+}
+
+const MatchProfile = (props) => {
+    const profile = (props.profile);
+    const [starred, setStarred] = React.useState(profile.starred);
+    const [removed, setRemoved] = React.useState(profile.reject);
+    const [open, setOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        handleStarred();
+        handleRemove();
+    }, []);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleStarred = () => {
+        setStarred(!starred);
+        profile.starred = starred;
+    }
+
+    const handleRemove = () => {
+        setRemoved(!removed);
+        profile.reject = removed;
+    }
+
+    return (
+        <div>
+            {(profile.reject)
+                ?
+                <Card alignContent='center' sx={{ justifyContent: 'center', textAlign: 'center', width: 200, height: 400, backgroundColor: 'rgba(255, 100, 100, 0.25)' }}>
+                    <Stack margin={4} spacing={4} direction='column'>
+                        <Typography variant='h6'><b>Awh!</b></Typography>
+                        <Typography>You've rejected this match</Typography>
+                    </Stack>
+                </Card>
+                :
+                <Card sx={{ maxWidth: 200, maxHeight: 400 }}>
+
+                    <CardMedia
+                        sx={{ height: 200 }}
+                        image={profile.photo}
+                    />
+
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {profile.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {profile.sex} | {profile.age}
+                        </Typography>
+                    </CardContent>
+
+                    <CardActions>
+                        <Button size="small" onClick={handleClickOpen}>View Profile</Button>
+
+                        <ProfileDialog
+                            profile={profile}
+                            initialReviews={props.initialReviews}
+                            open={open}
+                            onClose={handleClose}
+                        />
+                        <IconButton aria-label="add to favorites" onClick={handleStarred}>
+                            {(profile.starred)
+                                ? <StarIcon color="primary" />
+                                : <StarBorderIcon />
+                            }
+                        </IconButton>
+                        <IconButton aria-label="reject" onClick={handleRemove}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </CardActions>
+                    {/* </Div> */}
+                </Card>
+            }
+        </div>
+    );
+}
+
+export function ProfileDialog(props) {
+    const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
+    const [reviewScore, setReviewScore] = React.useState('');
+    const [reviews, setReviews] = React.useState(props.initialReviews);
     const [hasReview, setHasReview] = React.useState(false);
     const [firstTime, setFirstTime] = React.useState(true);
     const [clickEdit, setClickEdit] = React.useState(false);
+    const [buttonMessage, setButtonMessage] = React.useState('Add Review');
 
-    const [starred, setStarred] = React.useState(initialProfiles.starred);
+    React.useEffect(() => {
+        if (clickEdit) {
+            setButtonMessage("Save Review");
+        };
+    }, [clickEdit])
 
     // reviews 
     const handleEnteredReview = (event) => {
         setUserReview(event.target.value);
     }
 
+    const handleReviewScore = (event) => {
+        setReviewScore(event.target.value);
+    }
+
     const handleAddReview = (event) => {
+
+        // update with user info 
         const newReview = reviews.concat({
             name: "John Doe",
             photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk",
-            score: "4.7",
+            score: reviewScore,
             review: userReview,
         });
 
@@ -91,8 +214,9 @@ const Matches = () => {
 
         if (clickEdit) {
             const current = [...reviews];
-            const edit = current.find(user => user.name === 'John Doe');
+            const edit = current.find(user => user.name === 'John Doe'); // replace with user ID or name
             edit.review = userReview;
+            edit.score = reviewScore
             setReviews(current);
         }
     }
@@ -103,201 +227,96 @@ const Matches = () => {
         setHasReview(true);
     }
 
-    // TO-DO: favouriting 
-
-    const handleRemoveProfile = (person) => {
-        const newProfiles = profiles.filter(
-            (initialProfiles) = person.profileID !== initialProfiles.profileID);
-        setVisibleProfiles(newProfiles);
-    };
-
-    const handleStarred = (event) => {
-        starred = profiles.starred;
-        setStarred(!profiles.starred);
-        profiles.starred = starred;
-    }
-
-    // const handleChangeActive = () => {
-    //     setActive((starred) => {
-    //         return !starred;
-    //     });
-    // };
-
-    // const reset = () => { // function that resets submit and valid states
-    //     setStarred(false);
-    //   }
-
     return (
         <div>
-            <NavBar />
-            <Grid>
-                <Typography variant="h3" marginTop={2} gutterTop color="inherit" noWrap align='center' paddingBottom={1}>
-                    Here Are Your Matches!
-                </Typography>
-                <Container>
-                    <Stack direction="row" spacing={4} marginTop={4}>
-                        <Button variant="outlined" startIcon={<RefreshIcon />}>
-                            Refresh
-                        </Button>
-                        <Button variant="contained" component={Link} to="/starred">
-                            View Starred
-                        </Button>
-                    </Stack>
+            <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
+                <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
+                <DialogContent>
+                    <DialogContentText spacing={4}>
+                        <Stack direction='row' spacing={4} marginBottom={4}>
+                            <Avatar
+                                alt="Andre Laroque"
+                                sx={{ width: 240, height: 240 }}
+                                src={props.profile.photo} />
+                            <div>
+                                <Typography variant='h4'>{props.profile.name}</Typography>
+                                <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Sex:</b> {props.profile.sex}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                            </div>
+                        </Stack>
 
-                    <Grid container spacing={4} marginTop={4} direction="row">
-                        {profiles.slice(0, 5).map((profile) => {
-                            return (
-                                <Grid item>
-                                    <MatchProfile
-                                        profile={profile}
-                                        onClick={handleClickOpen}
-                                        open={open}
-                                        onClose={handleClose}
-                                        reviews={reviews}
-                                        onAdd={handleAddReview}
-                                        onChange={handleEnteredReview}
-                                        userReview={userReview}
-                                        hasReview={hasReview}
-                                        firstTime={firstTime}
-                                        onEdit={handleEditReview}
-                                        edit={clickEdit}
-                                    />
-                                </Grid>
-                            );
-                        }
-                        )}
-                    </Grid>
-                </Container>
-            </Grid>
-        </div>
-    );
-}
+                        <Divider>
+                            <Chip margin={4} label="Reviews" />
+                        </Divider>
 
-const MatchProfile = (props) => {
-    const [starred, setStarred] = React.useState(false);
-    const [buttonMessage, setButtonMessage] = React.useState('Add Review');
-
-    React.useEffect(() => {
-        if (props.edit) {
-            setButtonMessage("Save Review.");
-        };
-    }, [props.edit])
-
-    const handleStarred = (event) => {
-        starred = props.profile.starred;
-        setStarred(!props.profiles.starred);
-        props.profiles.starred = starred;
-    }
-
-    return (
-        <div>
-            {/* <Grid item> */}
-            <Card sx={{ maxWidth: 200 }}>
-                <CardMedia
-                    sx={{ height: 200 }}
-                    image={props.profile.photo}
-                    title="green iguana"
-                />
-
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {props.profile.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {props.profile.sex} | {props.profile.age}
-                    </Typography>
-                </CardContent>
-
-                <CardActions>
-                    <Button size="small" onClick={props.onClick}>View Profile</Button>
-
-                    <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
-                        <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
-                        <DialogContent>
-                            <DialogContentText spacing={4}>
-                                <Stack direction='row' spacing={4} marginBottom={4}>
-                                    <Avatar
-                                        alt="Andre Laroque"
-                                        sx={{ width: 240, height: 240 }}
-                                        src={props.profile.photo} />
-                                    <div>
-                                        <Typography variant='h4'>{props.profile.name}</Typography>
-                                        <Typography><b>Sex:</b> {props.profile.sex}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Sex:</b> {props.profile.sex}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                        <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                    </div>
-                                </Stack>
-
-                                <Divider>
-                                    <Chip margin={4} label="Reviews" />
-                                </Divider>
-
-                                {props.reviews.map((review) => (
-                                    <Grid>
-                                        <Grid marginTop={4}>
-                                            <Stack direction="row" spacing={4}>
-                                                <Avatar
-                                                    alt={review.name}
-                                                    sx={{ width: 56, height: 56 }}
-                                                    src={review.photo} />
-                                                <Stack direction="column">
-                                                    <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
-                                                    <Typography variant='body'>{review.review} </Typography>
-                                                    <Typography variant='overline'><b>{review.name}</b></Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Grid>
-                                    </Grid>
-                                ))}
-
-                                {(props.firstTime || props.edit) ?
-                                    <div>
-                                        <Stack marginTop={4} spacing={2}>
-                                            <Typography variant='h6'>Your review</Typography>
-                                            <TextField
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                placeholder="Write your review here!"
-                                                defaultValue={props.userReview}
-                                                fullWidth
-                                                onChange={props.onChange}
-                                            />
-                                            <Button variant="contained" size="small" onClick={props.onAdd}>
-                                                {buttonMessage}
-                                            </Button>
+                        {reviews.map((review) => (
+                            <Grid>
+                                <Grid marginTop={4}>
+                                    <Stack direction="row" spacing={4}>
+                                        <Avatar
+                                            alt={review.name}
+                                            sx={{ width: 56, height: 56 }}
+                                            src={review.photo} />
+                                        <Stack direction="column">
+                                            <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
+                                            <Typography variant='body'>{review.review} </Typography>
+                                            <Typography variant='overline'><b>{review.name}</b></Typography>
                                         </Stack>
-                                    </div>
-                                    :
-                                    <div>
-                                        <Button variant='text' onClick={props.onEdit}>Edit Review</Button>
-                                    </div>
-                                }
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        ))}
 
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={props.onClose}>Back to Matches</Button>
-                        </DialogActions>
-                    </Dialog>
-
-                    <IconButton aria-label="add to favorites" onStar={handleStarred}>
-                        {(props.profile.starred)
-                            ? <StarIcon color="primary" />
-                            : <StarBorderIcon />
+                        {(firstTime || clickEdit) ?
+                            <div>
+                                <Stack marginTop={4} spacing={2} direction='column'>
+                                    <Typography variant='h6'>Your review</Typography>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        multiline
+                                        rows={3}
+                                        placeholder="Write your review here!"
+                                        defaultValue={userReview}
+                                        fullWidth
+                                        onChange={handleEnteredReview}
+                                    />
+                                    <Typography variant='body'>Rating</Typography>
+                                    <Stack direction='row' alignItems='center' spacing={2}>
+                                        <TextField
+                                            id="outlined-basic"
+                                            size="small"
+                                            placeholder='0.0'
+                                            defaultValue={reviewScore}
+                                            onChange={handleReviewScore}
+                                            width="8px"
+                                        />
+                                        <Typography variant='body'>/5.0</Typography>
+                                    </Stack>
+                                </Stack>
+                                <Box marginTop={2}>
+                                    <Button variant="contained" alignSelf='flex-start' size="small" onClick={handleAddReview} width="24px">
+                                        {buttonMessage}
+                                    </Button>
+                                </Box>
+                            </div>
+                            :
+                            <div>
+                                <Button variant='text' onClick={handleEditReview}>Edit Review</Button>
+                            </div>
                         }
-                    </IconButton>
-                    <IconButton aria-label="reject">
-                        <DeleteIcon />
-                    </IconButton>
-                </CardActions>
-            </Card>
-            {/* </Grid> */}
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={props.onClose}>Back to Matches</Button>
+                </DialogActions>
+            </Dialog>
         </div>
-    );
+    )
 }
 
 export default Matches;
