@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import { Avatar, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Firebase/context';
 
 
 import NavBar from '../Navigation/NavBar';
@@ -17,6 +18,9 @@ import '../../index.css';
 const serverURL = "";
 
 const MyProfile = (props) => {
+
+  const { currentUser } = useAuth()
+    const email = currentUser.email
 
   const [profile, setProfile] = React.useState([]);
   const [zprofile, setZProfile] = React.useState([]);
@@ -60,7 +64,10 @@ const MyProfile = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+      body: JSON.stringify({
+        email: email
+      })
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -90,7 +97,10 @@ const MyProfile = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+      body: JSON.stringify({
+        email: email
+      })
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -218,7 +228,7 @@ const MyProfile = (props) => {
 
               <Box>
                 <Typography variant="overline" display="block" paddingTop={4}>Preferred Sex</Typography>
-                {profile.map((person) => (
+                {zprofile.map((person) => (
                   <Typography variant='h5'>{person.ZMSex}</Typography>
                 ))}
               </Box>

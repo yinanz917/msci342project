@@ -1,8 +1,4 @@
-import { useAuth } from '../Firebase/context';
 
-const { currentUser } = useAuth()
-
-let userEmail = currentUser.email;
 
 let mysql = require('mysql');
 let config = require('./config.js');
@@ -44,39 +40,51 @@ app.post('/api/loadStarred', (req, res) => {
 app.post('/api/loadProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
-
-	let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = 1;`;
-	console.log(sql);
-
-	connection.query(sql, (error, results, fields) => {
+  
+	let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+  
+	connection.query(sql, data, (error, userID, fields) => {
+	  if (error) {
+		return console.error(error.message);
+	  }
+  
+	  let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = ?`;
+	  connection.query(sql, userID[0].userID, (error, results, fields) => {
 		if (error) {
-			return console.error(error.message);
+		  return console.error(error.message);
 		}
-
+  
 		let string = JSON.stringify(results);
 		res.send({ express: string });
+		connection.end(); // close the connection here
+	  });
 	});
-	connection.end();
-});
+  });
+  
 
 app.post('/api/loadZProfile', (req, res) => {
-
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
-
-	let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = 1;`;
-	console.log(sql);
-
-	connection.query(sql, (error, results, fields) => {
+  
+	let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+  
+	connection.query(sql, data, (error, userID, fields) => {
+	  if (error) {
+		return console.error(error.message);
+	  }
+  
+	  let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = ?`;
+	  connection.query(sql, userID[0].userID, (error, results, fields) => {
 		if (error) {
-			return console.error(error.message);
+		  return console.error(error.message);
 		}
-
+  
 		let string = JSON.stringify(results);
 		res.send({ express: string });
+		connection.end(); // close the connection here
+	  });
 	});
-	connection.end();
 });
 
 app.post('/api/loadUserSettings', (req, res) => {
