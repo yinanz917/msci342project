@@ -31,11 +31,11 @@ const Matches = () => {
     // @andre directly pull from database
     const initialProfiles = [
         { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 2, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 3, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 4, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 5, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 6, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" }
+        { profileID: 2, name: "Vyomesh Iyenr", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4" },
+        { profileID: 3, name: "Yinan Zhang", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 4, name: "Seb Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 5, name: "Lolla Palooza", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+        { profileID: 6, name: "Matt Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg" }
     ]
 
     const initialReviews = [
@@ -47,32 +47,10 @@ const Matches = () => {
     ]
 
     //stateful list
-    const [profiles, setVisibleProfiles] = React.useState(initialProfiles);
-    const [starred, setStarred] = React.useState(initialProfiles.starred);
+    const [profiles, setProfiles] = React.useState(initialProfiles);
 
-    // TO-DO: favouriting 
-
-    const handleRemoveProfile = (person) => {
-        const newProfiles = profiles.filter(
-            (initialProfiles) = person.profileID !== initialProfiles.profileID);
-        setVisibleProfiles(newProfiles);
-    };
-
-    const handleStarred = (event) => {
-        starred = profiles.starred;
-        setStarred(!profiles.starred);
-        profiles.starred = starred;
-    }
-
-    // const handleChangeActive = () => {
-    //     setActive((starred) => {
-    //         return !starred;
-    //     });
-    // };
-
-    // const reset = () => { // function that resets submit and valid states
-    //     setStarred(false);
-    //   }
+    React.useEffect(() => {
+    }, [profiles]);
 
     return (
         <div>
@@ -81,17 +59,18 @@ const Matches = () => {
                 <Typography variant="h3" marginY={4} gutterTop color="inherit" noWrap align='center'>
                     Here Are Your Matches!
                 </Typography>
+
                 <Container>
-                    <Stack direction="row" spacing={4} marginTop={4}>
-                        <Button variant="outlined" startIcon={<RefreshIcon />}>
-                            Refresh
-                        </Button>
+                    <Stack direction="row" marginTop={4} display='flex' justifyContent='space-between'>
                         <Button variant="contained" component={Link} to="/starred">
                             View Starred
                         </Button>
+                        <Button variant="outlined" startIcon={<RefreshIcon />}>
+                            Refresh
+                        </Button>
                     </Stack>
 
-                    <Grid container spacing={4} marginTop={4} direction="row">
+                    <Grid container justifyContent='space-between' marginTop={4} direction="row">
                         {profiles.slice(0, 5).map((profile) => {
                             return (
                                 <Grid item>
@@ -101,8 +80,7 @@ const Matches = () => {
                                     />
                                 </Grid>
                             );
-                        }
-                        )}
+                        })}
                     </Grid>
                 </Container>
             </Grid>
@@ -111,8 +89,15 @@ const Matches = () => {
 }
 
 const MatchProfile = (props) => {
-    const [starred, setStarred] = React.useState(false);
+    const profile = (props.profile);
+    const [starred, setStarred] = React.useState(profile.starred);
+    const [removed, setRemoved] = React.useState(profile.reject);
     const [open, setOpen] = React.useState(false);
+
+    React.useEffect(() => {
+        handleStarred();
+        handleRemove();
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -122,54 +107,70 @@ const MatchProfile = (props) => {
         setOpen(false);
     };
 
-    const handleStarred = (event) => {
-        starred = props.profile.starred;
-        setStarred(!props.profiles.starred);
-        props.profiles.starred = starred;
+    const handleStarred = () => {
+        setStarred(!starred);
+        profile.starred = starred;
+    }
+
+    const handleRemove = () => {
+        setRemoved(!removed);
+        profile.reject = removed;
     }
 
     return (
         <div>
-            <Card sx={{ maxWidth: 200 }}>
-                <CardMedia
-                    sx={{ height: 200 }}
-                    image={props.profile.photo}
-                />
+            {(profile.reject)
+                ?
+                <Card alignContent='center' sx={{ justifyContent: 'center', textAlign: 'center', width: 200, height: 400, backgroundColor: 'rgba(255, 100, 100, 0.25)' }}>
+                    <Stack margin={4} spacing={4} direction='column'>
+                        <Typography variant='h6'><b>Awh!</b></Typography>
+                        <Typography>You've rejected this match</Typography>
+                    </Stack>
+                </Card>
+                :
+                <Card sx={{ maxWidth: 200, maxHeight: 400 }}>
 
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {props.profile.name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {props.profile.sex} | {props.profile.age}
-                    </Typography>
-                </CardContent>
-
-                <CardActions>
-                    <Button size="small" onClick={handleClickOpen}>View Profile</Button>
-
-                    <ProfileDialog
-                        profile={props.profile}
-                        initialReviews={props.initialReviews}
-                        open={open}
-                        onClose={handleClose}
+                    <CardMedia
+                        sx={{ height: 200 }}
+                        image={profile.photo}
                     />
-                    <IconButton aria-label="add to favorites" onStar={handleStarred}>
-                        {(props.profile.starred)
-                            ? <StarIcon color="primary" />
-                            : <StarBorderIcon />
-                        }
-                    </IconButton>
-                    <IconButton aria-label="reject">
-                        <DeleteIcon />
-                    </IconButton>
-                </CardActions>
-            </Card>
+
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {profile.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {profile.sex} | {profile.age}
+                        </Typography>
+                    </CardContent>
+
+                    <CardActions>
+                        <Button size="small" onClick={handleClickOpen}>View Profile</Button>
+
+                        <ProfileDialog
+                            profile={profile}
+                            initialReviews={props.initialReviews}
+                            open={open}
+                            onClose={handleClose}
+                        />
+                        <IconButton aria-label="add to favorites" onClick={handleStarred}>
+                            {(profile.starred)
+                                ? <StarIcon color="primary" />
+                                : <StarBorderIcon />
+                            }
+                        </IconButton>
+                        <IconButton aria-label="reject" onClick={handleRemove}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </CardActions>
+                    {/* </Div> */}
+                </Card>
+            }
         </div>
     );
 }
 
-export function ProfileDialog (props) {
+export function ProfileDialog(props) {
     const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
     const [reviewScore, setReviewScore] = React.useState('');
     const [reviews, setReviews] = React.useState(props.initialReviews);
@@ -301,7 +302,6 @@ export function ProfileDialog (props) {
                                         {buttonMessage}
                                     </Button>
                                 </Box>
-
                             </div>
                             :
                             <div>
