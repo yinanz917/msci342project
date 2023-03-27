@@ -12,9 +12,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import CottageIcon from '@mui/icons-material/Cottage';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from '../Firebase/context';
 
-const pages = ['Login', 'Profile', 'Matches', 'Chat'];
+
+
+const pages = ['Profiles', 'MyProfile', 'Matches', 'Chat', 'Starred', 'ZMProfile'];
 const settings = ['Account', 'Logout'];
 
 const NavBar = () => {
@@ -36,6 +39,18 @@ const NavBar = () => {
         setAnchorElUser(null);
     };
 
+    const { logout, currentUser } = useAuth()
+    const history = useHistory()
+
+    async function handleLogout() {
+        try {
+            await logout()
+            history.push('/')
+        } catch {
+            console.log('failed to logout')
+        }
+    }
+
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -46,7 +61,7 @@ const NavBar = () => {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href="/home"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -104,7 +119,7 @@ const NavBar = () => {
                         variant="h5"
                         noWrap
                         component="a"
-                        href="/"
+                        href="/home"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -133,7 +148,7 @@ const NavBar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={currentUser.email} src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -152,9 +167,21 @@ const NavBar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                            {/*If the setting is 'Logout', onClick the function handleLogout will execute, else handleCloseUserMenu*/}
+                            {/* {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : handleCloseUserMenu}>
                                     <Typography textAlign="center">{setting}</Typography>
+                                </MenuItem>
+                            ))} */}
+                            {settings.map((setting) => (
+                                <MenuItem key={setting} onClick={setting === 'Logout' ? handleLogout : null}>
+                                    {setting === 'Account' ? (
+                                        <Link to="/account" onClick={handleCloseUserMenu} style={{ textDecoration: 'none', color: 'black' }}>
+                                            <Typography textAlign="center">{setting}</Typography>
+                                        </Link>
+                                    ) : (
+                                        <Typography textAlign="center">{setting}</Typography>
+                                    )}
                                 </MenuItem>
                             ))}
                         </Menu>

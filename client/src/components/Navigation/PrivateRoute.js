@@ -9,8 +9,10 @@ import Chat from "../Chat";
 import Starred from "../Starred";
 import Login from "../Login";
 import SignUp from "../SignUp";
-import ZoommateQuestionnaire from "../Zoommate";
+import ZoommateProfile from "../Zoommate";
 import history from './history';
+import PrivateRouting from "./PrivateRouting";
+import Account from "../Account";
 
 export default function PrivateRoute({
   //authenticated,
@@ -23,17 +25,27 @@ export default function PrivateRoute({
     // back to landing after using AppBar to navigate to different page
     <Router history={history}>
       <Switch>
-        <Route path="/" exact component={Landing} />
+        {/* <PrivateRouting path="/" exact component={Landing} />
         <Route path="/landing" exact component={Landing} />
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={SignUp} />
-        <Route path="/profile" exact component={Profile} />
-        <Route path="/myprofile" exact component={MyProfile} />
+        <Route path="/profiles" exact component={MyProfile} />
+        <Route path="/myprofile" exact component={Profile} />
         <Route path="/matches" exact component={Matches} />
         <Route path="/chat" exact component={Chat} />
         <Route path="/starred" exact component={Starred} />
-        <Route path="/zoommatequestionnaire" exact component={ZoommateQuestionnaire} />
-        <Route path="/chat" exact component={Chat} />
+        <Route path="/zoommateprofile" exact component={ZoommateProfile} />
+        <Route path="/chat" exact component={Chat} /> */}
+        <Route path='/' exact component={Login} />
+        <Route path="/signup" exact component={SignUp} />
+        <PrivateRouting path="/home" exact component={Landing} />
+        <PrivateRouting path="/profiles" exact component={MyProfile} />
+        <PrivateRouting path="/myprofile" exact component={Profile} />
+        <PrivateRouting path="/matches" exact component={Matches} />
+        <PrivateRouting path="/chat" exact component={Chat} />
+        <PrivateRouting path="/starred" exact component={Starred} />
+        <PrivateRouting path="/zmprofile" exact component={ZoommateProfile} />
+        <PrivateRouting path="/account" exact component={Account} />
       </Switch>
     </Router>
   );

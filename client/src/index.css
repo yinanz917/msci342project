@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: white;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -21,4 +22,17 @@ img {
   color: black;
   text-align: center;
   padding-top: 28px;
+}
+
+.div-form-style {
+  display: flex;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  flex-direction: column;
+}
+
+.label-text {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 500;
 }

@@ -54,6 +54,24 @@ app.post('/api/loadProfile', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/loadZProfile', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	let userID = req.body.userID;
+
+	let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = 1;`;
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
 
 app.post('/api/loadUserSettings', (req, res) => {
 
@@ -124,6 +142,77 @@ app.post('/api/setMyQuestions', (req, res) => {
 	});
 	connection.end();
 
+});
+
+app.post('/api/addUser', (req, res) => {
+	//console.log(req);
+	let connection = mysql.createConnection(config);
+
+	let sql = `INSERT INTO a3larocq.zoommates_account (firstName, lastName, email, pw, stat) VALUES (?, ?, ?, ?, ?)`;
+	console.log(sql);
+
+	const data = [
+		req.body.firstName,
+		req.body.lastName,
+		req.body.email,
+		req.body.pw,
+		req.body.stat
+	];
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		let obj = JSON.parse(string);
+		console.log(string);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
+app.post('/api/getAccountInfo', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT firstName, lastName, photo FROM zoommates_account WHERE email = ?`;
+	console.log(sql);
+	let data = [req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
+app.post('/api/uploadProfilePhoto', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `UPDATE zoommates_account AS z1
+	JOIN zoommates_account AS z2 ON z1.userID = z2.userID
+	SET z1.photo = ?
+	WHERE z2.email = ?;`;
+	console.log(sql);
+	let data = [req.body.photo, req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
