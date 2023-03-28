@@ -111,7 +111,6 @@ const Matches = () => {
                         {profiles.slice(0, 5).map((profile) => {
                             return (
                                 <Grid item>
-                                    <Typography>{profile.name}</Typography>
                                     <MatchProfile
                                         profile={profile}
                                         initialReviews={initialReviews}
@@ -280,7 +279,7 @@ const MatchProfile = (props) => {
 
                         <ProfileDialog
                             profile={profile}
-                            initialReviews={props.initialReviews}
+                            // initialReviews={props.initialReviews}
                             open={open}
                             onClose={handleClose}
                         />
@@ -302,68 +301,52 @@ const MatchProfile = (props) => {
 }
 
 export function ProfileDialog(props) {
-    const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
-    const [reviewScore, setReviewScore] = React.useState('');
+    // const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
+    // const [reviewScore, setReviewScore] = React.useState('');
     const [reviews, setReviews] = React.useState([]);
-    const [hasReview, setHasReview] = React.useState(false);
-    const [firstTime, setFirstTime] = React.useState(true);
-    const [clickEdit, setClickEdit] = React.useState(false);
-    const [buttonMessage, setButtonMessage] = React.useState('Add Review');
+    // const [hasReview, setHasReview] = React.useState(false);
+    // const [firstTime, setFirstTime] = React.useState(true);
+    // const [clickEdit, setClickEdit] = React.useState(false);
+    // const [buttonMessage, setButtonMessage] = React.useState('Add Review');
 
     const { currentUser } = useAuth()
     const email = currentUser.email
 
     React.useEffect(() => {
-        if (clickEdit) {
-            setButtonMessage("Save Review");
-        };
+        // if (clickEdit) {
+        //     setButtonMessage("Save Review");
+        // };
         getReviews();
-    }, [clickEdit])
+        console.log("api called")
+    }, [])
 
-    // reviews 
-    const handleEnteredReview = (event) => {
-        setUserReview(event.target.value);
-    }
+    // // reviews 
+    // const handleEnteredReview = (event) => {
+    //     setUserReview(event.target.value);
+    // }
 
-    const handleReviewScore = (event) => {
-        setReviewScore(event.target.value);
-    }
+    // const handleReviewScore = (event) => {
+    //     setReviewScore(event.target.value);
+    // }
 
-    const handleAddReview = (event) => {
-        // update with user info 
-        const newReview = reviews.concat({
-            name: "John Doe",
-            photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk",
-            score: reviewScore,
-            review: userReview,
-        });
+    // const handleAddReview = () => {
+    //     if (!hasReview) {
+    //         // setReviews(newReview);
+    //         setHasReview(true);
+    //         setFirstTime(false);
+    //     }
 
-        setClickEdit(false);
+    //     setClickEdit(false);
 
-        if (!hasReview) {
-            setReviews(newReview);
-            setHasReview(true);
-            setFirstTime(false);
-        }
+    //     setReview();
+    //     getReviews();
+    // }
 
-        if (clickEdit) {
-            const current = [...reviews];
-            const edit = current.find(user => user.name === 'John Doe'); // replace with user ID or name
-            edit.review = userReview;
-            edit.score = reviewScore
-            setReviews(current);
-        }
-    }
-
-    const handleEditReview = (event) => {
-        setClickEdit(true);
-        setFirstTime(false);
-        setHasReview(true);
-    }
-
-    /**
-     * WIP Get reviews
-     */
+    // const handleEditReview = (event) => {
+    //     setClickEdit(true);
+    //     setFirstTime(false);
+    //     setHasReview(true);
+    // }
 
     const getReviews = () => {
         callApiGetReviews()
@@ -385,13 +368,46 @@ export function ProfileDialog(props) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: email
+                userID: props.profile.userID
             })
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
+
+    // const setReview = async () => {
+    //     callApiSetReview()
+    //         .then(res => {
+    //             console.log("callApiSetReview returned: ", res)
+    //             var parsed = JSON.parse(res.express);
+    //             console.log("callApiSetReview parsed: ", parsed[0])
+    //         });
+    // }
+
+    // const callApiSetReview = async () => {
+    //     const url = serverURL + "/api/setReview";
+    //     console.log(url);
+
+
+    //     const response = await fetch(url, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             //authorization: `Bearer ${this.state.token}`
+    //         },
+    //         body: JSON.stringify({
+    //             email: email, // you to be set as otherUserID
+    //             userID: props.profile.userID, // person being reviewed
+    //             body: userReview,
+    //             score: reviewScore,
+    //         })
+    //     });
+    //     const body = await response.json();
+    //     if (response.status !== 200) throw Error(body.message);
+    //     console.log("Found profile: ", body);
+    //     return body;
+    // }
 
     return (
         <div>
@@ -428,14 +444,14 @@ export function ProfileDialog(props) {
                                             src={review.photo} />
                                         <Stack direction="column">
                                             <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
-                                            <Typography variant='body'>{review.review} </Typography>
+                                            <Typography variant='body'>{review.body} </Typography>
                                             <Typography variant='overline'><b>{review.name}</b></Typography>
                                         </Stack>
                                     </Stack>
                                 </Grid>
                             </Grid>
                         ))}
-
+{/* 
                         {(firstTime || clickEdit) ?
                             <div>
                                 <Stack marginTop={4} spacing={2} direction='column'>
@@ -472,7 +488,7 @@ export function ProfileDialog(props) {
                             <div>
                                 <Button variant='text' onClick={handleEditReview}>Edit Review</Button>
                             </div>
-                        }
+                        } */}
 
                     </DialogContentText>
                 </DialogContent>

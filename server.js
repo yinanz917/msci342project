@@ -49,10 +49,11 @@ app.post('/api/loadStarred', (req, res) => {
 	  SELECT zoommates_account_userID
 	  FROM personal_profile
 	  WHERE userID IN (
-		SELECT ?
+		SELECT otherUserID
 		FROM favourites
+		WHERE userID = ? AND otherUserID IS NOT NULL
 	  )
-	);`;
+	)`;
 	console.log(sql);
 
 	connection.query(sql, userID, (error, results, fields) => {
@@ -795,26 +796,97 @@ app.post('/api/getProfilePicture', (req, res) => {
 app.post('/api/getReviews', (req, res) => {
 	let connection = mysql.createConnection(config);
 
-	let sql = `SELECT userID FROM a3larocq.zoommates_account WHERE email = ?`;
-	let data = [req.body.email];
-
-	connection.query(sql, data, (error, userID, fields) => {
-		if (error) {
-			return console.error(error.message);
-		}
 
 		let sql = `SELECT * FROM a3larocq.accuracy_reviews where userID = ?`;
-		connection.query(sql, userID[0].userID, (error, results, fields) => {
+
+		console.log(req.body.userID)
+
+		connection.query(sql, req.body.userID, (error, results, fields) => {
 			if (error) {
 				return console.error(error.message);
 			}
 
+			console.log(results)
 			let string = JSON.stringify(results);
+
+
+
+			
 			res.send({ express: string });
 			connection.end(); // close the connection here
-		});
+		
 	});
 });
+
+app.post('/api/setReview', (req, res) => {
+    let connection = mysql.createConnection(config);
+
+
+    let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
+    let data = [req.body.email];
+
+    console.log("test");
+    console.log(sql);
+
+
+    connection.query(sql, data, (error, results, fields) => {
+        if (error) {
+            console.error(error.message);
+            console.error(sql);
+            connection.end();
+            return;
+        }
+
+
+        let otherUserID = results[0].userID;
+        let body = req.body.body;
+        let score = req.body.score;
+        let userID = req.body.userID;
+
+
+        sql = `select * from accuracy_reviews where userID = ?`;
+
+
+        console.log(sql);
+
+
+        connection.query(sql, userID, (error, check, fields) => {
+            if (error) {
+                console.error(error.message);
+                connection.end();
+                return;
+            }
+
+			console.log(check)
+
+
+            if (check.length === 1) {
+                sql = `UPDATE a3larocq.accuracy_reviews SET
+                                body = ?
+                                score = ?
+                                otherUserId = ?
+                                WHERE userID = ?`;
+            } else {
+                sql = `INSERT INTO a3larocq.accuracy_reviews(body, score, otherUserID, userID) values (?,?,?,?)`;
+            }
+
+
+            console.log(sql);
+
+
+            let data = [body, score, otherUserID, userID];
+
+
+            connection.query(sql, data, (error, results, fields) => {
+                if (error) {
+                    console.error(error.message);
+                }
+                connection.end();
+            });
+        });
+    });
+});
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
