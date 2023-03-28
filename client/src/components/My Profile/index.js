@@ -20,30 +20,29 @@ const serverURL = "";
 const MyProfile = (props) => {
 
   const { currentUser } = useAuth()
-    const email = currentUser.email
-
+  const email = currentUser.email
+  const [accountInfo, setAccountInfo] = React.useState([]);
+  const [profilePhoto, setProfilePhoto] = React.useState([]);
   const [profile, setProfile] = React.useState([]);
   const [zprofile, setZProfile] = React.useState([]);
+  const [reviews, setReviews] = React.useState([]);
+  const index = 0;
 
-  const reviews =
-    [{ name: "Vyomesh Iyengar", photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4", score: "5.0", review: "Amazing roommate, was very clean and always helped out with the dishes!" },
-    { name: "Andre Larocque", photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk", score: "4.0", review: "Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! " },
-    { name: "Keegan Fernandes", photo: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_100_100/0/1673411388008?e=1683158400&v=beta&t=9NrzIE8R3NYrVh7vK9B1G6PVQ-aSZVn7IpMGGIuIIPE", score: "5.0", review: "Sick!" },
-    { name: "Harry Potter", photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg", score: "3.5", review: "Very cool" },
-    { name: "Hermione Granger", photo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Hermione_Granger_poster.jpg/220px-Hermione_Granger_poster.jpg", score: "4.0", review: "Do better." }
-    ]
-
-  const avgScore = 0;
-  const score = 0;
+  // const reviews =
+  //   [{ name: "Vyomesh Iyengar", photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4", score: "5.0", review: "Amazing roommate, was very clean and always helped out with the dishes!" },
+  //   { name: "Andre Larocque", photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk", score: "4.0", review: "Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! Amazing roommate, was very clean and always helped out with the dishes! " },
+  //   { name: "Keegan Fernandes", photo: "https://media.licdn.com/dms/image/D5603AQH2mcZBrbuEYQ/profile-displayphoto-shrink_100_100/0/1673411388008?e=1683158400&v=beta&t=9NrzIE8R3NYrVh7vK9B1G6PVQ-aSZVn7IpMGGIuIIPE", score: "5.0", review: "Sick!" },
+  //   { name: "Harry Potter", photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg", score: "3.5", review: "Very cool" },
+  //   { name: "Hermione Granger", photo: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Hermione_Granger_poster.jpg/220px-Hermione_Granger_poster.jpg", score: "4.0", review: "Do better." }
+  //   ]
 
   React.useEffect(() => {
     loadProfile();
-  }, []);
-
-  React.useEffect(() => {
     loadZProfile();
+    getReviews();
+    getProfilePicture();
+    getAccountInfo();
   }, []);
-
 
   // Calling user profiles
   const loadProfile = () => {
@@ -75,11 +74,6 @@ const MyProfile = (props) => {
     return body;
   }
 
-
-  React.useEffect(() => {
-    loadZProfile();
-  }, []);
-
   const loadZProfile = () => {
     callApiLoadZProfile()
       .then(res => {
@@ -109,6 +103,133 @@ const MyProfile = (props) => {
     return body;
   }
 
+  const getProfilePicture = () => {
+    callApiGetProfilePicture()
+      .then(res => {
+        console.log("callApiGetProfilePicture returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetProfilePicture parsed: ", parsed)
+        setProfilePhoto(parsed);
+      });
+  }
+
+  //API to get first name, last name, and photo
+  const callApiGetProfilePicture = async () => {
+    const url = serverURL + "/api/getProfilePicture";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+  /**
+   * WORK IN PROGRESS: REVIEWS API CALLS
+   */
+
+  const getReviews = () => {
+    callApiGetReviews()
+      .then(res => {
+        console.log("callApiGetReviews returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetReviews parsed: ", parsed)
+        setReviews(parsed);
+      });
+  }
+
+  const callApiGetReviews = async () => {
+    const url = serverURL + "/api/getReviews";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+  const getAccountInfo = () => {
+    callApiGetAccountInfo()
+      .then(res => {
+        console.log("callApiGetAccountInfo returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetAccountInfo() parsed: ", parsed)
+        setAccountInfo(parsed);
+      });
+  }
+
+  //API to get first name, last name, and photo
+  const callApiGetAccountInfo = async () => {
+    const url = serverURL + "/api/getAccountInfo";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+
+
+  /**
+   * WIP GET OTHER USER ACC INFO
+   */
+
+  const getOtherAccount = () => {
+    callApiGetOtherAccount()
+      .then(res => {
+        console.log("callApiGetOtherAccount returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetOtherAccount() parsed: ", parsed)
+        setAccountInfo(parsed);
+      });
+  }
+
+  //API to get first name, last name, and photo
+  const callApiGetOtherAccount = async () => {
+    const url = serverURL + "/api/getOtherAccount";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+
+
   return (
     <div>
       <NavBar />
@@ -123,16 +244,14 @@ const MyProfile = (props) => {
             <Grid spacing={8} align="center">
               <Grid item>
                 <Avatar
-                  alt="Yinan Zhang"
+                  alt={currentUser.email}
                   sx={{ width: 240, height: 240 }}
-                  src="https://media.licdn.com/dms/image/C4E03AQG9NqDyKiM7xA/profile-displayphoto-shrink_800_800/0/1636655410891?e=1682553600&v=beta&t=2p-PKSLrMmCxCLXEmswjWrmdZNmVWwqniYm4uDMuONg" />
+                  src={profilePhoto && profilePhoto[0] && profilePhoto[0].photo} />
               </Grid>
 
               <Grid item paddingTop={4}>
                 <Button variant="outlined" paddingTop={8} component={Link} to="/myprofile">Edit Profile</Button>
               </Grid>
-
-
             </Grid>
             <Grid>
               {profile.map((person) => (
@@ -197,7 +316,6 @@ const MyProfile = (props) => {
             </Grid>
           </Stack>
 
-
           <Divider>
             <Chip margin={4} label="Zoommate Profile" />
           </Divider>
@@ -211,7 +329,6 @@ const MyProfile = (props) => {
                 <Button variant="outlined" paddingTop={8} component={Link} to="/zmprofile">Edit Profile</Button>
               </Grid>
             </Stack>
-
 
             <Stack direction="row" spacing={8}>
               <Box>
@@ -267,7 +384,7 @@ const MyProfile = (props) => {
 
               <Grid item>
                 <Typography variant="overline" display="block" paddingTop={4}>Weekly Guests</Typography>
-                {profile.map((person) => (
+                {zprofile.map((person) => (
                   <Typography variant='h5'>{person.Guest}</Typography>
                 ))}
               </Grid>
@@ -281,28 +398,26 @@ const MyProfile = (props) => {
               <Typography variant='h3' charset='UTF-8'>Profile Reviews 📋 </Typography>
             </Grid>
             <Grid>
-              {/* {profile.map((person)=>
-            <Grid marginTop={8} marginBottom={4}>
-            <Typography variant='h4' charset ='UTF-8'>{person.username}'s average score is 9 </Typography>
-          </Grid>
-            )} */}
-              {reviews.map((review) => (
-                <Grid>
-                  <Grid marginTop={4}>
-                    <Stack direction="row" spacing={4}>
-                      <Avatar
-                        alt={review.name}
-                        sx={{ width: 56, height: 56 }}
-                        src={review.photo} />
-                      <Stack direction="column">
-                        <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
-                        <Typography variant='h6'>{review.review} </Typography>
-                        <Typography variant='overline'><b>{review.name}</b></Typography>
+              {reviews.map((review, index) => {
+                index++;
+                return (
+                  <Grid>
+                    <Grid marginTop={4}>
+                      <Stack direction="row" spacing={4}>
+                        <Avatar
+                          alt={accountInfo[0].firstName + " " + accountInfo[0].lastName}
+                          sx={{ width: 56, height: 56 }}
+                          src={accountInfo[0].photo} />
+                        <Stack direction="column">
+                          <Typography variant='h6'><b>⭐ {review.score}</b> </Typography>
+                          <Typography variant='h6'>{review.body} </Typography>
+                          <Typography variant='overline'><b>{accountInfo[0].firstName + " " + accountInfo[0].lastName}</b></Typography>
+                        </Stack>
                       </Stack>
-                    </Stack>
+                    </Grid>
                   </Grid>
-                </Grid>
-              ))}
+                );
+              })}
             </Grid>
 
           </Grid>

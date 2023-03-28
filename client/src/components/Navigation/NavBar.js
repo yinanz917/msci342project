@@ -15,9 +15,8 @@ import CottageIcon from '@mui/icons-material/Cottage';
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from '../Firebase/context';
 
-
 const serverURL = "";
-const pages = ['Profiles', 'MyProfile', 'Matches', 'Chat', 'Starred', 'ZMProfile'];
+const pages = ['Profiles', 'Matches', 'Chat'];
 const settings = ['Account', 'Logout'];
 
 const NavBar = () => {
@@ -57,7 +56,7 @@ const NavBar = () => {
     React.useEffect(() => {
         console.log('test console');
         getProfilePicture();
-    }, []);
+    }, [profile]);
 
     const getProfilePicture = () => {
         callApiGetProfilePicture()
