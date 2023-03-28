@@ -23,6 +23,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import { useAuth } from '../Firebase/context';
 
 import NavBar from '../Navigation/NavBar';
 import { Container, Stack } from '@mui/system';
@@ -30,44 +31,51 @@ import { Container, Stack } from '@mui/system';
 const serverURL = "";
 
 const Matches = () => {
+    const { currentUser } = useAuth()
+    const email = currentUser.email
+
 
     React.useEffect(() => {
         loadMatches();
-      }, []);
+
+    }, []);
+
     const loadMatches = () => {
-    callApiLoadMatches()
-      .then(res => {
-        
-        var parsed = JSON.parse(res.express);
-       
-        setProfiles(parsed);
-      })
-  }
+        callApiLoadMatches()
+            .then(res => {
+                var parsed = JSON.parse(res.express);
+                setProfiles(parsed);
 
-  const callApiLoadMatches = async () => {
-    const url = serverURL + "/api/loadProfile";
-   
+            })
+    }
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      }
-    });
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  }
+    const callApiLoadMatches = async () => {
+        const url = serverURL + "/api/loadMatches";
+
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
 
     // @andre directly pull from database
-    const initialProfiles = [
-        { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 2, name: "Vyomesh Iyenr", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4" },
-        { profileID: 3, name: "Yinan Zhang", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 4, name: "Seb Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 5, name: "Lolla Palooza", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
-        { profileID: 6, name: "Matt Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg" }
-    ]
+    // const initialProfiles = [
+    //     { profileID: 1, name: "Andre Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+    //     { profileID: 2, name: "Vyomesh Iyenr", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4" },
+    //     { profileID: 3, name: "Yinan Zhang", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+    //     { profileID: 4, name: "Seb Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+    //     { profileID: 5, name: "Lolla Palooza", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://media.licdn.com/dms/image/D5603AQFBxavaiU9LiQ/profile-displayphoto-shrink_800_800/0/1670381697821?e=1683158400&v=beta&t=M7JLVnDJr6yqtOduxSX3KzAkiEHjm9pLyB1QQLHFMXk" },
+    //     { profileID: 6, name: "Matt Laroque", age: '21', sex: 'ooga booga', starred: false, reject: false, photo: "https://images.ctfassets.net/usf1vwtuqyxm/3SQ3X2km8wkQIsQWa02yOY/8801d7055a3e99dae8e60f54bb4b1db8/HarryPotter_WB_F4_HarryPotterMidshot_Promo_080615_Port.jpg?w=914&q=70&fm=jpg" }
+    // ]
 
     const initialReviews = [
         { name: "Vyomesh Iyengar", photo: "https://media.licdn.com/dms/image/C5603AQHqrtHXE7ewZA/profile-displayphoto-shrink_800_800/0/1645509304205?e=1683158400&v=beta&t=Fiy4Lb2knxD6Ka-WsfsC5PJJH50YCfL1N_YGgTe7oF4", score: "5.0", review: "Amazing roommate, was very clean and always helped out with the dishes!" },
@@ -78,10 +86,11 @@ const Matches = () => {
     ]
 
     //stateful list
-    const [profiles, setProfiles] = React.useState(initialProfiles);
+    const [profiles, setProfiles] = React.useState([]);
 
-    React.useEffect(() => {
-    }, [profiles]);
+    const handleRefresh = () => {
+        loadMatches();
+    }
 
     return (
         <div>
@@ -96,7 +105,7 @@ const Matches = () => {
                         <Button variant="contained" component={Link} to="/starred">
                             View Starred
                         </Button>
-                        <Button variant="outlined" startIcon={<RefreshIcon />}>
+                        <Button variant="outlined" onClick={handleRefresh} startIcon={<RefreshIcon />}>
                             Refresh
                         </Button>
                     </Stack>

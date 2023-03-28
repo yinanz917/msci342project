@@ -281,7 +281,7 @@ app.post('/api/addUser', (req, res) => {
 app.post('/api/loadMatches', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
+	
 
 	
 
@@ -289,6 +289,7 @@ app.post('/api/loadMatches', (req, res) => {
 		if (error) {
 			return console.error(error.message);
 		}
+		console.log("in server.js")
 
 		connection.query("select * from zoommate_profile", (error, zProfileData, fields) => {
 			if (error) {
