@@ -40,50 +40,50 @@ app.post('/api/loadStarred', (req, res) => {
 app.post('/api/loadProfile', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-  
+
 	let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
 	let data = [req.body.email];
-  
+
 	connection.query(sql, data, (error, userID, fields) => {
-	  if (error) {
-		return console.error(error.message);
-	  }
-  
-	  let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = ?`;
-	  connection.query(sql, userID[0].userID, (error, results, fields) => {
 		if (error) {
-		  return console.error(error.message);
+			return console.error(error.message);
 		}
-  
-		let string = JSON.stringify(results);
-		res.send({ express: string });
-		connection.end(); // close the connection here
-	  });
+
+		let sql = `SELECT * FROM a3larocq.personal_profile where zoommates_account_userID = ?`;
+		connection.query(sql, userID[0].userID, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+			connection.end(); // close the connection here
+		});
 	});
-  });
-  
+});
+
 
 app.post('/api/loadZProfile', (req, res) => {
 	let connection = mysql.createConnection(config);
-  
+
 	let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
 	let data = [req.body.email];
-  
+
 	connection.query(sql, data, (error, userID, fields) => {
-	  if (error) {
-		return console.error(error.message);
-	  }
-  
-	  let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = ?`;
-	  connection.query(sql, userID[0].userID, (error, results, fields) => {
 		if (error) {
-		  return console.error(error.message);
+			return console.error(error.message);
 		}
-  
-		let string = JSON.stringify(results);
-		res.send({ express: string });
-		connection.end(); // close the connection here
-	  });
+
+		let sql = `SELECT * FROM a3larocq.zoommate_profile where zoommates_account_userID = ?`;
+		connection.query(sql, userID[0].userID, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+			connection.end(); // close the connection here
+		});
 	});
 });
 
@@ -111,43 +111,43 @@ app.post('/api/loadUserSettings', (req, res) => {
 
 app.post('/api/setMyProfile', (req, res) => {
 	let connection = mysql.createConnection(config);
-  
+
 	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
 	let data = [req.body.email];
-  
+
 	console.log(sql);
-  
+
 	connection.query(sql, data, (error, results, fields) => {
-	  if (error) {
-		console.error(error.message);
-		console.error(sql);
-		connection.end();
-		return;
-	  }
-  
-	  let username = results[0].firstName + " " + results[0].lastName;
-	  let userID = results[0].userID;
-	  let age = req.body.age;
-	  let sex = req.body.sex;
-	  let pronouns = req.body.pronouns;
-	  let budget = req.body.budget;
-	  let city = req.body.city;
-	  let pets = req.body.pets;
-	  let hobbies = req.body.hobbies;
-  
-	  sql = `select * from personal_profile where zoommates_account_userID = ?`;
-  
-	  console.log(sql);
-  
-	  connection.query(sql, userID, (error, check, fields) => {
 		if (error) {
-		  console.error(error.message);
-		  connection.end();
-		  return;
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
 		}
-  
-		if (check.length === 1) {
-		  sql = `UPDATE a3larocq.personal_profile SET 
+
+		let username = results[0].firstName + " " + results[0].lastName;
+		let userID = results[0].userID;
+		let age = req.body.age;
+		let sex = req.body.sex;
+		let pronouns = req.body.pronouns;
+		let budget = req.body.budget;
+		let city = req.body.city;
+		let pets = req.body.pets;
+		let hobbies = req.body.hobbies;
+
+		sql = `select * from personal_profile where zoommates_account_userID = ?`;
+
+		console.log(sql);
+
+		connection.query(sql, userID, (error, check, fields) => {
+			if (error) {
+				console.error(error.message);
+				connection.end();
+				return;
+			}
+
+			if (check.length === 1) {
+				sql = `UPDATE a3larocq.personal_profile SET 
 		  username = ?,
 		  age = ?,
 		  sex = ?,
@@ -157,71 +157,71 @@ app.post('/api/setMyProfile', (req, res) => {
 		  pets = ?,
 		  hobbies = ?
 		  WHERE zoommates_account_userID = ?`;
-		} else {
-		  sql = `INSERT INTO a3larocq.personal_profile(username, age, sex, pronouns, budget, city, pets, hobbies, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?)`;
-		}
-  
-		console.log(sql);
-  
-		let data = [username, age, sex, pronouns, budget, city, pets, hobbies, userID];
-  
-		connection.query(sql, data, (error, results, fields) => {
-		  if (error) {
-			console.error(error.message);
-		  }
-		  connection.end();
+			} else {
+				sql = `INSERT INTO a3larocq.personal_profile(username, age, sex, pronouns, budget, city, pets, hobbies, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?)`;
+			}
+
+			console.log(sql);
+
+			let data = [username, age, sex, pronouns, budget, city, pets, hobbies, userID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
 		});
-	  });
 	});
-  });
-  
-  
-  app.post('/api/setMyQuestions', (req, res) => {
+});
+
+
+app.post('/api/setMyQuestions', (req, res) => {
 
 	let connection = mysql.createConnection(config);
 
 	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
 	let data = [req.body.email];
-  
+
 	console.log(sql);
 
 	console.log(data);
-  
+
 	connection.query(sql, data, (error, results, fields) => {
-	  if (error) {
-		console.error(error.message);
-		console.error(sql);
-		connection.end();
-		return;
-	  }
-
-	  console.log(results[0].userID)
-
-	let AgeMax = req.body.AgeMax;
-	let AgeMin = req.body.AgeMin;
-	let ZMSex = req.body.ZMSex;
-	let Clean = req.body.Clean;
-	let Noise = req.body.Noise;
-	let Share = req.body.Share;
-	let Social = req.body.Social;
-	let Guest = req.body.Guest;
-	let userID = results[0].userID;
-	
-	sql = `select * from zoommate_profile where zoommates_account_userID = ?`;
-
-	console.log(userID);
-  
-	  console.log(sql);
-  
-	  connection.query(sql, userID, (error, check, fields) => {
 		if (error) {
-		  console.error(error.message);
-		  connection.end();
-		  return;
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
 		}
 
-		if (check.length === 1) {
-			sql = `UPDATE a3larocq.zoommate_profile SET 
+		console.log(results[0].userID)
+
+		let AgeMax = req.body.AgeMax;
+		let AgeMin = req.body.AgeMin;
+		let ZMSex = req.body.ZMSex;
+		let Clean = req.body.Clean;
+		let Noise = req.body.Noise;
+		let Share = req.body.Share;
+		let Social = req.body.Social;
+		let Guest = req.body.Guest;
+		let userID = results[0].userID;
+
+		sql = `select * from zoommate_profile where zoommates_account_userID = ?`;
+
+		console.log(userID);
+
+		console.log(sql);
+
+		connection.query(sql, userID, (error, check, fields) => {
+			if (error) {
+				console.error(error.message);
+				connection.end();
+				return;
+			}
+
+			if (check.length === 1) {
+				sql = `UPDATE a3larocq.zoommate_profile SET 
 			AgeMax = ?,
 			AgeMin = ?,
 			ZMSex = ?,
@@ -231,22 +231,22 @@ app.post('/api/setMyProfile', (req, res) => {
 			Social = ?,
 			Guest = ?
 			WHERE zoommates_account_userID = ?`;
-		  } else {
-			sql = `INSERT INTO a3larocq.zoommate_profile(AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?);`;
-		  }
-  
+			} else {
+				sql = `INSERT INTO a3larocq.zoommate_profile(AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?);`;
+			}
 
-	let data = [AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, userID]
 
-	connection.query(sql, data, (error, results, fields) => {
-		if (error) {
-			return console.error(error.message);
-		}
+			let data = [AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, userID]
 
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					return console.error(error.message);
+				}
+
+			});
+			connection.end();
+		});
 	});
-	connection.end();
-});
-});
 });
 
 
@@ -281,299 +281,319 @@ app.post('/api/addUser', (req, res) => {
 app.post('/api/loadMatches', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	
-
-	
 
 	connection.query("select * from personal_profile", (error, profileData, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
-		console.log("in server.js")
+		console.log(profileData[0].zoommates_account_userID);
 
 		connection.query("select * from zoommate_profile", (error, zProfileData, fields) => {
 			if (error) {
 				return console.error(error.message);
 			}
+			console.log(zProfileData[1].zoommates_account_userID);
 
 			connection.query("select * from rejects", (error, rejectsData, fields) => {
 				if (error) {
 					return console.error(error.message);
 				}
-	
+
+				console.log(rejectsData[0].userID);
+
 				connection.query("select * from favourites", (error, favouritesData, fields) => {
 					if (error) {
 						return console.error(error.message);
 					}
-					
-					let sql = "select userID from zoommates_account where email = ${userEmail}"
 
-					connection.query(sql, (error, userIDData, fields) => {
+					console.log(favouritesData[0].userID);
+
+					
+
+					let sql = "select userID from zoommates_account where email = ?"
+
+					let data = [req.body.email];
+
+					console.log(data);
+
+					connection.query(sql, data, (error, userIDData, fields) => {
 						if (error) {
 							return console.error(error.message);
 						}
 
-					let one = profileData[0].zoommates_account_userID;
-					let oneScore = 0;
-					let oneIndex = 0;
-					let two = profileData[0].zoommates_account_userID;
-					let twoScore = 0;
-					let twoIndex = 0;
-					let three = profileData[0].zoommates_account_userID;
-					let threeScore = 0;
-					let threeIndex = 0;
-					let four = profileData[0].zoommates_account_userID;
-					let fourScore = 0;
-					let fourIndex = 0;
-					let five = profileData[0].zoommates_account_userID;
-					let fiveScore = 0;
-					let fiveIndex = 0;
-
-					let profileIndex = 0;
-					let zProfileIndex = 0;
-
-					while (!(userIDData = profileData[profileIndex].userID)){
-						profileIndex++;
-					}
-
-					while (!(userIDData = zProfileData[zProfileIndex].userID)){
-						zProfileIndex++;
-					}
-
-
-
-					for (let i = 1; i < profileData.length; i++) {
+						console.log(userIDData);
+						console.log(userIDData[0].userID)
 						
-						if (i = profileIndex){
-							continue;
+
+						let one = profileData[0].zoommates_account_userID;
+						let oneScore = 0;
+						let oneIndex = 0;
+						let two = profileData[0].zoommates_account_userID;
+						let twoScore = 0;
+						let twoIndex = 0;
+						let three = profileData[0].zoommates_account_userID;
+						let threeScore = 0;
+						let threeIndex = 0;
+						let four = profileData[0].zoommates_account_userID;
+						let fourScore = 0;
+						let fourIndex = 0;
+						let five = profileData[0].zoommates_account_userID;
+						let fiveScore = 0;
+						let fiveIndex = 0;
+
+						let profileIndex = 0;
+						let zProfileIndex = 0;
+
+						while (!(userIDData[0].userID == profileData[profileIndex].zoommates_account_userID)) {
+							
+							profileIndex++;
 						}
 
-						let newUser = profileData[i].userID
-
-						let fr = false;
-
-						for (let K = 0; K < rejectsData.length; K++) {
-							if ((rejectsData[K].otherUserID = newUser) && (rejectsData[K].userID = profileData[profileIndex].userID)) {
-								fr = true;
-								break;
-							}
-						  }
-
-						  for (let K = 0; K < favouritesData.length; K++) {
-							if ((favouritesData[K].otherUserID = newUser) && (favouritesData[K].userID = profileData[profileIndex].userID)) {
-								fr = true;
-								break;
-							}
-						  }
-
-						  if (fr){
-							continue;
-						  }						
+						console.log(profileIndex)
 						
-						zoommates_account_userID;
 
-						let j = 0;
 
-						while (!(zProfileData[j].zoommates_account_userID = newUser)){
-							j++;
+
+						while (!(userIDData[0].userID == zProfileData[zProfileIndex].zoommates_account_userID)) {
+							zProfileIndex++;
 						}
 
-						let newScore = 0;
+						console.log(zProfileIndex)
 
-						let subtract = 0;
+						
 
-						subtract += Math.abs(zProfileData[zProfileIndex].Clean - zProfileData[j].Clean);
+						for (let i = 1; i < profileData.length; i++) {
 
-						subtract += Math.abs(zProfileData[zProfileIndex].Noise - zProfileData[j].Noise);
+							if (i == profileIndex) {
+								continue;
+							}
 
-						subtract += Math.abs(zProfileData[zProfileIndex].Share - zProfileData[j].Share);
+							let newUser = profileData[i].zoommates_account_userID
 
-						subtract += Math.abs(zProfileData[zProfileIndex].Social - zProfileData[j].Social);
+							console.log(newUser)
 
-						subtract += Math.abs(zProfileData[zProfileIndex].Guest - zProfileData[j].Guest);
+							let fr = false;
 
-						if ((profileData[profileIndex].age > zProfileData[j].AgeMax) && (profileData[profileIndex].age < zProfileData[j].AgeMin)) {
-							subtract += 40
-						}
+							for (let K = 0; K < rejectsData.length; K++) {
+								if ((rejectsData[K].otherUserID == newUser) && (rejectsData[K].userID == profileData[profileIndex].userID)) {
+									fr = true;
+									break;
+								}
+							}
 
-						if (zProfileData[zProfileIndex].ZMSex = "Female only") {
-							if (!(profileData[i].sex = "Female")){
+							for (let K = 0; K < favouritesData.length; K++) {
+								if ((favouritesData[K].otherUserID == newUser) && (favouritesData[K].userID == profileData[profileIndex].userID)) {
+									fr = true;
+									break;
+								}
+							}
+
+							if (fr) {
+								continue;
+							}
+
+							console.log(zProfileData[0].zoommates_account_userID)
+
+							let j = 0;
+
+							while (!(zProfileData[j].zoommates_account_userID == newUser)) {
+								j++;
+							}
+
+							let newScore = 0;
+
+							let subtract = 0;
+
+							subtract += Math.abs(zProfileData[zProfileIndex].Clean - zProfileData[j].Clean);
+
+							subtract += Math.abs(zProfileData[zProfileIndex].Noise - zProfileData[j].Noise);
+
+							subtract += Math.abs(zProfileData[zProfileIndex].Share - zProfileData[j].Share);
+
+							subtract += Math.abs(zProfileData[zProfileIndex].Social - zProfileData[j].Social);
+
+							subtract += Math.abs(zProfileData[zProfileIndex].Guest - zProfileData[j].Guest);
+
+							if ((profileData[profileIndex].age > zProfileData[j].AgeMax) && (profileData[profileIndex].age < zProfileData[j].AgeMin)) {
 								subtract += 40
 							}
 
-						} else if (zProfileData[zProfileIndex].ZMSex = "Male only") {
-							if (!(profileData[i].sex = "Male")){
-								subtract += 40
+							if (zProfileData[zProfileIndex].ZMSex == "Female only") {
+								if (!(profileData[i].sex == "Female")) {
+									subtract += 40
+								}
+
+							} else if (zProfileData[zProfileIndex].ZMSex == "Male only") {
+								if (!(profileData[i].sex == "Male")) {
+									subtract += 40
+								}
 							}
+
+							if (profileData[i].city == profileData[profileIndex].city) {
+								newScore += 100
+							}
+
+							newScore = newScore - subtract;
+
+							if (newScore > oneScore) {
+								five = four;
+								fiveScore = fourScore;
+								fiveIndex = fourIndex;
+								four = three;
+								fourScore = threeScore;
+								fourIndex = threeIndex;
+								three = two;
+								threeScore = twoScore;
+								threeIndex = twoIndex;
+								two = one;
+								twoScore = oneScore;
+								twoIndex = oneIndex;
+								one = newUser;
+								oneScore = newScore;
+								oneIndex = i;
+							}
+							else if (newScore > twoScore) {
+								five = four;
+								fiveScore = fourScore;
+								fiveIndex = fourIndex;
+								four = three;
+								fourScore = threeScore;
+								fourIndex = threeIndex;
+								three = two;
+								threeScore = twoScore;
+								threeIndex = twoIndex;
+								two = newUser;
+								twoScore = newScore;
+								twoIndex = i;
+							}
+							else if (newScore > threeScore) {
+								five = four;
+								fiveScore = fourScore;
+								fiveIndex = fourIndex;
+								four = three;
+								fourScore = threeScore;
+								fourIndex = threeIndex;
+								three = newUser;
+								threeScore = newScore;
+								threeIndex = i;
+							}
+							else if (newScore > fourScore) {
+								five = four;
+								fiveScore = fourScore;
+								fiveIndex = fourIndex;
+								four = newUser;
+								fourScore = newScore;
+								fourIndex = i;
+							}
+							else if (newScore > fiveScore) {
+								five = newUser;
+								fiveScore = newScore;
+								fiveIndex = i;
+							}
+
+							console.log(one, two, three, four, five)
+
+
 						}
 
-						if (profileData[i].city = profileData[profileIndex].city) {
-							newScore += 100
-						}
+						console.log(one, two, three, four, five)
 
-						newScore = newScore - subtract;
+						let sql = "select photo from zoommates_account where userID = ?"
 
-						if (newScore > oneScore){
-							five = four;
-							fiveScore = fourScore;
-							fiveIndex = fourIndex;
-							four = three;
-							fourScore = threeScore;
-							fourIndex = threeIndex;
-							three = two;
-							threeScore = twoScore;
-							threeIndex = twoIndex;
-							two = one;
-							twoScore = oneScore;
-							twoIndex = oneIndex;
-							one = newUser;
-							oneScore = newScore;
-							oneIndex = i;
-						}
-						else if (newScore > twoScore){
-							five = four;
-							fiveScore = fourScore;
-							fiveIndex = fourIndex;
-							four = three;
-							fourScore = threeScore;
-							fourIndex = threeIndex;
-							three = two;
-							threeScore = twoScore;
-							threeIndex = twoIndex;
-							two = newUser;
-							twoScore = newScore;
-							twoIndex = i;
-						}
-						else if (newScore > threeScore){
-							five = four;
-							fiveScore = fourScore;
-							fiveIndex = fourIndex;
-							four = three;
-							fourScore = threeScore;
-							fourIndex = threeIndex;
-							three = newUser;
-							threeScore = newScore;
-							threeIndex = i;
-						}
-						else if (newScore > fourScore){
-							five = four;
-							fiveScore = fourScore;
-							fiveIndex = fourIndex;
-							four = newUser;
-							fourScore = newScore;
-							fourIndex = i;
-						}
-						else if (newScore > fiveScore){
-							five = newUser;
-							fiveScore = newScore;
-							fiveIndex = i;
-						}
+						connection.query(sql, one, (error, onePhoto, fields) => {
+							if (error) {
+								return console.error(error.message);
+							}
+
+							connection.query(sql, two, (error, twoPhoto, fields) => {
+								if (error) {
+									return console.error(error.message);
+								}
+
+							
+
+								connection.query(sql, three, (error, threePhoto, fields) => {
+									if (error) {
+										return console.error(error.message);
+									}
 
 
-					}
+									connection.query(sql, four, (error, fourPhoto, fields) => {
+										if (error) {
+											return console.error(error.message);
+										}
 
-					let sql = "select photo from zoommates_account where userID = ${one}"
+										connection.query(sql, five, (error, fivePhoto, fields) => {
+											if (error) {
+												return console.error(error.message);
+											}
 
-					connection.query("photo", (error, onePhoto, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-					
-					let sql = "select photo from zoommates_account where userID = ${two}"
 
-					connection.query("photo", (error, twoPhoto, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-					
-					let sql = "select photo from zoommates_account where userID = ${three}"
+											const topFive = [
+												{
+													profileID: 1,
+													name: profileData[oneIndex].username,
+													age: profileData[oneIndex].age,
+													sex: profileData[oneIndex].sex,
+													starred: false,
+													reject: false,
+													photo: onePhoto
+												},
 
-					connection.query("photo", (error, threePhoto, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-				
+												{
+													profileID: 2,
+													name: profileData[twoIndex].username,
+													age: profileData[twoIndex].age,
+													sex: profileData[twoIndex].sex,
+													starred: false,
+													reject: false,
+													photo: twoPhoto
+												},
 
-					let sql = "select photo from zoommates_account where userID = ${four}"
+												{
+													profileID: 3,
+													name: profileData[threeIndex].username,
+													age: profileData[threeIndex].age,
+													sex: profileData[threeIndex].sex,
+													starred: false,
+													reject: false,
+													photo: threePhoto
+												},
 
-					connection.query("photo", (error, fourPhoto, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
+												{
+													profileID: 4,
+													name: profileData[fourIndex].username,
+													age: profileData[fourIndex].age,
+													sex: profileData[fourIndex].sex,
+													starred: false,
+													reject: false,
+													photo: fourPhoto
+												},
 
-					let sql = "select photo from zoommates_account where userID = ${five}"
-
-					connection.query("photo", (error, fivePhoto, fields) => {
-						if (error) {
-							return console.error(error.message);
-						}
-
-		
-							const topFive = [
-								{
-									profileID: 1,
-									name: profileData[oneIndex].username,
-									age: profileData[oneIndex].age,
-									sex: profileData[oneIndex].sex,
-									starred: false,
-									reject: false,
-									photo: onePhoto
-								},
-
-								{
-									profileID: 2,
-									name: profileData[twoIndex].username,
-									age: profileData[twoIndex].age,
-									sex: profileData[twoIndex].sex,
-									starred: false,
-									reject: false,
-									photo: twoPhoto
-								},
-
-								{
-									profileID: 3,
-									name: profileData[threeIndex].username,
-									age: profileData[threeIndex].age,
-									sex: profileData[threeIndex].sex,
-									starred: false,
-									reject: false,
-									photo: threePhoto
-								},
-
-								{
-									profileID: 4,
-									name: profileData[fourIndex].username,
-									age: profileData[fourIndex].age,
-									sex: profileData[fourIndex].sex,
-									starred: false,
-									reject: false,
-									photo: fourPhoto
-								},
-
-								{
-									profileID: 5,
-									name: profileData[fiveIndex].username,
-									age: profileData[fiveIndex].age,
-									sex: profileData[fiveIndex].sex,
-									starred: false,
-									reject: false,
-									photo: fivePhoto
-								},
-							];
-
-							res.json(topFive);
-
-						});
-						});
-						});	
-						});
+												{
+													profileID: 5,
+													name: profileData[fiveIndex].username,
+													age: profileData[fiveIndex].age,
+													sex: profileData[fiveIndex].sex,
+													starred: false,
+													reject: false,
+													photo: fivePhoto
+												},
+											];
+											console.log(topFive)
+											res.json(topFive);
+											connection.end();
+										});
+									});
+								});
+							});
 						});
 					});
 				});
 			});
 		});
 	});
-	connection.end();
+	
 });
 
 app.post('/api/getAccountInfo', (req, res) => {

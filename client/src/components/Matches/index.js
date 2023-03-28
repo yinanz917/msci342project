@@ -45,7 +45,7 @@ const Matches = () => {
             .then(res => {
                 var parsed = JSON.parse(res.express);
                 setProfiles(parsed);
-
+                console.log(parsed);
             })
     }
 
@@ -89,7 +89,9 @@ const Matches = () => {
     const [profiles, setProfiles] = React.useState([]);
 
     const handleRefresh = () => {
+        console.log("refreshed!");
         loadMatches();
+        
     }
 
     return (
