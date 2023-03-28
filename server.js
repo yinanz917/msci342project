@@ -11,6 +11,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const { response } = require('express');
+const { allowedNodeEnvironmentFlags } = require('process');
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -175,7 +176,6 @@ app.post('/api/setMyProfile', (req, res) => {
 	});
 });
 
-
 app.post('/api/setMyQuestions', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -300,15 +300,12 @@ app.post('/api/loadMatches', (req, res) => {
 				}
 
 				console.log(rejectsData[0].userID);
-
 				connection.query("select * from favourites", (error, favouritesData, fields) => {
 					if (error) {
 						return console.error(error.message);
 					}
 
 					console.log(favouritesData[0].userID);
-
-
 
 					let sql = "select userID from zoommates_account where email = ?"
 
@@ -323,8 +320,6 @@ app.post('/api/loadMatches', (req, res) => {
 
 						console.log(userIDData);
 						console.log(userIDData[0].userID)
-
-
 						let one = profileData[0].zoommates_account_userID;
 						let oneScore = 0;
 						let oneIndex = 0;
@@ -346,21 +341,16 @@ app.post('/api/loadMatches', (req, res) => {
 
 						while (!(userIDData[0].userID == profileData[profileIndex].zoommates_account_userID)) {
 
-							profileIndex++;
+            profileIndex++;
 						}
 
 						console.log(profileIndex)
-
-
-
 
 						while (!(userIDData[0].userID == zProfileData[zProfileIndex].zoommates_account_userID)) {
 							zProfileIndex++;
 						}
 
 						console.log(zProfileIndex)
-
-
 
 						for (let i = 1; i < profileData.length; i++) {
 
@@ -509,25 +499,24 @@ app.post('/api/loadMatches', (req, res) => {
 								if (error) {
 									return console.error(error.message);
 								}
-
-
-
+                
 								connection.query(sql, three, (error, threePhoto, fields) => {
+
 									if (error) {
 										return console.error(error.message);
 									}
 
-
 									connection.query(sql, four, (error, fourPhoto, fields) => {
+
 										if (error) {
 											return console.error(error.message);
 										}
 
 										connection.query(sql, five, (error, fivePhoto, fields) => {
+
 											if (error) {
 												return console.error(error.message);
 											}
-
 
 											const topFive = [
 												{
@@ -585,6 +574,7 @@ app.post('/api/loadMatches', (req, res) => {
 											res.send({ express: string });
 											console.log(topFive)
 											connection.end();
+
 										});
 									});
 								});
@@ -639,6 +629,50 @@ app.post('/api/uploadProfilePhoto', (req, res) => {
 		res.send({ express: string });
 	});
 	connection.end();
+});
+
+app.post('/api/getProfilePicture', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT photo FROM zoommates_account WHERE email = ?`;
+	console.log(sql);
+	let data = [req.body.email];
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		console.log(results);
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
+app.post('/api/getReviews', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT userID FROM a3larocq.zoommates_account WHERE email = ?`;
+	let data = [req.body.email];
+
+	connection.query(sql, data, (error, userID, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let sql = `SELECT * FROM a3larocq.accuracy_reviews where userID = ?`;
+		connection.query(sql, userID[0].userID, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+			connection.end(); // close the connection here
+		});
+	});
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

@@ -49,7 +49,6 @@ const Matches = () => {
 
     const callApiLoadMatches = async() => {
         const url = serverURL + "/api/loadMatches";
-
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -212,16 +211,20 @@ const MatchProfile = (props) => {
 export function ProfileDialog(props) {
     const [userReview, setUserReview] = React.useState(''); // new review to be added to DB
     const [reviewScore, setReviewScore] = React.useState('');
-    const [reviews, setReviews] = React.useState(props.initialReviews);
+    const [reviews, setReviews] = React.useState([]);
     const [hasReview, setHasReview] = React.useState(false);
     const [firstTime, setFirstTime] = React.useState(true);
     const [clickEdit, setClickEdit] = React.useState(false);
     const [buttonMessage, setButtonMessage] = React.useState('Add Review');
 
+    const { currentUser } = useAuth()
+    const email = currentUser.email
+
     React.useEffect(() => {
         if (clickEdit) {
             setButtonMessage("Save Review");
         };
+        getReviews();
     }, [clickEdit])
 
     // reviews 
@@ -234,7 +237,6 @@ export function ProfileDialog(props) {
     }
 
     const handleAddReview = (event) => {
-
         // update with user info 
         const newReview = reviews.concat({
             name: "John Doe",
@@ -264,6 +266,38 @@ export function ProfileDialog(props) {
         setClickEdit(true);
         setFirstTime(false);
         setHasReview(true);
+    }
+
+    /**
+     * WIP Get reviews
+     */
+
+    const getReviews = () => {
+        callApiGetReviews()
+            .then(res => {
+                console.log("callApiGetReviews returned: ", res)
+                var parsed = JSON.parse(res.express);
+                console.log("callApiGetReviews parsed: ", parsed)
+                setReviews(parsed);
+            });
+    }
+
+    const callApiGetReviews = async () => {
+        const url = serverURL + "/api/getReviews";
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
     }
 
     return (
