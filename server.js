@@ -354,6 +354,70 @@ app.post('/api/setMyQuestions', (req, res) => {
 });
 
 
+/**
+ * WIPPP 
+ */
+app.post('/api/setReview', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT userID FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+
+	console.log("test");
+	console.log(sql);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let otherUserID = results[0].userID;
+		let body = req.body.body;
+		let score = req.body.score;
+		let userID = req.body.userID;
+
+		sql = `select * from accuracy_reviews where zoommates_account_userID = ?`;
+
+		console.log(sql);
+
+		connection.query(sql, userID, (error, check, fields) => {
+			if (error) {
+				console.error(error.message);
+				connection.end();
+				return;
+			}
+
+			if (check.length === 1) {
+				sql = `UPDATE a3larocq.accuracy_reviews SET 
+								body = ?
+								score = ?
+								otherUserId = ?
+								WHERE userID = ?`;
+			} else {
+				sql = `INSERT INTO a3larocq.accuracy_reviews(body, score, otherUserID, userID) values (?,?,?,?)`;
+			}
+
+			console.log(sql);
+
+			let data = [body, score, otherUserID, userID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
+		});
+	});
+});
+
+
+
+
+
 app.post('/api/addUser', (req, res) => {
 	//console.log(req);
 	let connection = mysql.createConnection(config);

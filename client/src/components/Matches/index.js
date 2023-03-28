@@ -47,7 +47,7 @@ const Matches = () => {
             })
     }
 
-    const callApiLoadMatches = async() => {
+    const callApiLoadMatches = async () => {
         const url = serverURL + "/api/loadMatches";
         const response = await fetch(url, {
             method: "POST",
@@ -411,7 +411,7 @@ export function ProfileDialog(props) {
 
     return (
         <div>
-            <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
+            <Dialog open={props.open} container onClose={props.onClose} width='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
                 <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
                 <DialogContent>
                     <DialogContentText spacing={4}>
