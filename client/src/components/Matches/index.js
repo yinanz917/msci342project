@@ -136,9 +136,9 @@ const MatchProfile = (props) => {
     const [open, setOpen] = React.useState(false);
 
     React.useEffect(() => {
-        handleStarred();
-        handleRemove();
-    }, []);
+       initialHandleStarred();
+       initialHandleRemove();
+    }, [profile]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -148,16 +148,71 @@ const MatchProfile = (props) => {
         setOpen(false);
     };
 
+    const initialHandleStarred = () => {
+
+        if (!profile.starred) {
+            setStarred(!starred);
+            
+        }
+        // profile.starred = starred;
+        
+    }
+
     const handleStarred = () => {
-        setStarred(!starred);
-        profile.starred = starred;
-        //add api call, same as rejects
+
+        if (!profile.starred) {
+            setStarred(!starred);
+            profile.starred = starred;
+            setFavourites();
+        }
+        // profile.starred = starred;
+        
+    }
+
+    const setFavourites = async () => {
+        callApiSetFavourites()
+          .then(res => {
+            var parsed = JSON.parse(res.express);
+          });
+      }
+    
+      const callApiSetFavourites = async () => {
+        const url = serverURL + "/api/setMyFavourites";
+        console.log(url);
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            //authorization: `Bearer ${this.state.token}`
+          },
+          body: JSON.stringify({
+            email: email,
+            otherUserID: profile.userID
+            
+          })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log("Found profile: ", body);
+        return body;
+      }
+
+    const initialHandleRemove = () => {
+
+        if (!profile.reject) {
+            setRemoved(!removed); 
+        }     
     }
 
     const handleRemove = () => {
-        setRemoved(!removed);
-        profile.reject = removed;
-        setRejects();
+
+        if (!profile.reject) {
+            setRemoved(!removed);
+            profile.reject = removed;
+            setRejects(); 
+        }  
+        
     }
 
     const setRejects = async () => {
@@ -179,7 +234,7 @@ const MatchProfile = (props) => {
           },
           body: JSON.stringify({
             email: email,
-            //userID
+            otherUserID: profile.userID
             
           })
         });
@@ -188,6 +243,8 @@ const MatchProfile = (props) => {
         console.log("Found profile: ", body);
         return body;
       }
+
+
 
     
 

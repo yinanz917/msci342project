@@ -22,12 +22,40 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.post('/api/loadStarred', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
+	
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
 
-	let sql = `SELECT * FROM a3larocq.zoommates_account;`;
+	console.log(sql);
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID
+
+		
+
+
+
+	let sql = `SELECT *
+	FROM zoommates_account
+	WHERE userID IN (
+	  SELECT zoommates_account_userID
+	  FROM personal_profile
+	  WHERE userID IN (
+		SELECT ?
+		FROM favourites
+	  )
+	);`;
 	console.log(sql);
 
-	connection.query(sql, (error, results, fields) => {
+	connection.query(sql, userID, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
@@ -36,6 +64,7 @@ app.post('/api/loadStarred', (req, res) => {
 		res.send({ express: string });
 	});
 	connection.end();
+});
 });
 
 app.post('/api/loadProfile', (req, res) => {
@@ -176,6 +205,80 @@ app.post('/api/setMyProfile', (req, res) => {
 	});
 });
 
+app.post('/api/setMyRejects', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+
+	console.log(sql);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID;
+		
+		let otherUserID = req.body.otherUserID;
+
+		
+			sql = `INSERT INTO a3larocq.rejects(userID, otherUserID) values (?,?)`;
+			
+
+			console.log(sql);
+
+			let data = [userID, otherUserID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
+	});
+});
+
+app.post('/api/setMyFavourites', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+
+	console.log(sql);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID;
+		
+		let otherUserID = req.body.otherUserID;
+
+		
+			sql = `INSERT INTO a3larocq.favourites(userID, otherUserID) values (?,?)`;
+			
+
+			console.log(sql);
+
+			let data = [userID, otherUserID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
+	});
+});
+
 app.post('/api/setMyQuestions', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -279,6 +382,7 @@ app.post('/api/addUser', (req, res) => {
 });
 
 app.post('/api/loadMatches', (req, res) => {
+	console.log("api called");
 
 	let connection = mysql.createConnection(config);
 
@@ -299,13 +403,11 @@ app.post('/api/loadMatches', (req, res) => {
 					return console.error(error.message);
 				}
 
-				console.log(rejectsData[0].userID);
+				
 				connection.query("select * from favourites", (error, favouritesData, fields) => {
 					if (error) {
 						return console.error(error.message);
 					}
-
-					console.log(favouritesData[0].userID);
 
 					let sql = "select userID from zoommates_account where email = ?"
 
