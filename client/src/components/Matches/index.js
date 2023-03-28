@@ -43,10 +43,11 @@ const Matches = () => {
             .then(res => {
                 var parsed = JSON.parse(res.express);
                 setProfiles(parsed);
+                console.log(parsed);
             })
     }
 
-    const callApiLoadMatches = async () => {
+    const callApiLoadMatches = async() => {
         const url = serverURL + "/api/loadMatches";
         const response = await fetch(url, {
             method: "POST",
@@ -84,6 +85,7 @@ const Matches = () => {
     const [profiles, setProfiles] = React.useState([]);
 
     const handleRefresh = () => {
+        console.log("refreshed!");
         loadMatches();
     }
 
@@ -109,6 +111,7 @@ const Matches = () => {
                         {profiles.slice(0, 5).map((profile) => {
                             return (
                                 <Grid item>
+                                    <Typography>{profile.name}</Typography>
                                     <MatchProfile
                                         profile={profile}
                                         initialReviews={initialReviews}
