@@ -110,32 +110,93 @@ app.post('/api/loadUserSettings', (req, res) => {
 });
 
 app.post('/api/setMyProfile', (req, res) => {
-
-	let username = account.username;
-	let age = req.body.age;
-	let sex = req.body.sex;
-	let pronouns = req.body.pronouns;
-	let budget = req.body.budget;
-	let city = req.body.city;
-	let pets = req.body.pets;
-	let hobbies = req.body.hobbies;
+	let connection = mysql.createConnection(config);
+  
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+  
+	console.log(sql);
+  
+	connection.query(sql, data, (error, results, fields) => {
+	  if (error) {
+		console.error(error.message);
+		console.error(sql);
+		connection.end();
+		return;
+	  }
+  
+	  let username = results[0].firstName + " " + results[0].lastName;
+	  let userID = results[0].userID;
+	  let age = req.body.age;
+	  let sex = req.body.sex;
+	  let pronouns = req.body.pronouns;
+	  let budget = req.body.budget;
+	  let city = req.body.city;
+	  let pets = req.body.pets;
+	  let hobbies = req.body.hobbies;
+  
+	  sql = `select * from personal_profile where zoommates_account_userID = ?`;
+  
+	  console.log(sql);
+  
+	  connection.query(sql, userID, (error, check, fields) => {
+		if (error) {
+		  console.error(error.message);
+		  connection.end();
+		  return;
+		}
+  
+		if (check.length === 1) {
+		  sql = `UPDATE a3larocq.personal_profile SET 
+		  username = ?,
+		  age = ?,
+		  sex = ?,
+		  pronouns = ?,
+		  budget = ?,
+		  city = ?,
+		  pets = ?,
+		  hobbies = ?
+		  WHERE zoommates_account_userID = ?`;
+		} else {
+		  sql = `INSERT INTO a3larocq.personal_profile(username, age, sex, pronouns, budget, city, pets, hobbies, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?)`;
+		}
+  
+		console.log(sql);
+  
+		let data = [username, age, sex, pronouns, budget, city, pets, hobbies, userID];
+  
+		connection.query(sql, data, (error, results, fields) => {
+		  if (error) {
+			console.error(error.message);
+		  }
+		  connection.end();
+		});
+	  });
+	});
+  });
+  
+  
+  app.post('/api/setMyQuestions', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let sql = `INSERT INTO a3larocq.personal_profile(username, age, sex, pronouns, budget, city, pets, hobbies) values (?,?,?,?,?,?,?,?);`;
-	let data = [username, age, sex, pronouns, budget, city, pets, hobbies]
 
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+  
+	console.log(sql);
+
+	console.log(data);
+  
 	connection.query(sql, data, (error, results, fields) => {
-		if (error) {
-			return console.error(error.message);
-		}
+	  if (error) {
+		console.error(error.message);
+		console.error(sql);
+		connection.end();
+		return;
+	  }
 
-	});
-	connection.end();
+	  console.log(results[0].userID)
 
-});
-
-app.post('/api/setMyQuestions', (req, res) => {
-	
 	let AgeMax = req.body.AgeMax;
 	let AgeMin = req.body.AgeMin;
 	let ZMSex = req.body.ZMSex;
@@ -144,10 +205,38 @@ app.post('/api/setMyQuestions', (req, res) => {
 	let Share = req.body.Share;
 	let Social = req.body.Social;
 	let Guest = req.body.Guest;
+	let userID = results[0].userID;
+	
+	sql = `select * from zoommate_profile where zoommates_account_userID = ?`;
 
-	let connection = mysql.createConnection(config);
-	let sql = `INSERT INTO a3larocq.zoommate_profile(zoommates_account_userId, AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest) values (?,?,?,?,?,?,?,?,?);`;
-	let data = [id, AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest]
+	console.log(userID);
+  
+	  console.log(sql);
+  
+	  connection.query(sql, userID, (error, check, fields) => {
+		if (error) {
+		  console.error(error.message);
+		  connection.end();
+		  return;
+		}
+
+		if (check.length === 1) {
+			sql = `UPDATE a3larocq.zoommate_profile SET 
+			AgeMax = ?,
+			AgeMin = ?,
+			ZMSex = ?,
+			Clean = ?,
+			Noise = ?,
+			Share = ?,
+			Social = ?,
+			Guest = ?
+			WHERE zoommates_account_userID = ?`;
+		  } else {
+			sql = `INSERT INTO a3larocq.zoommate_profile(AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, zoommates_account_userID) values (?,?,?,?,?,?,?,?,?);`;
+		  }
+  
+
+	let data = [AgeMax, AgeMin, ZMSex, Clean, Noise, Share, Social, Guest, userID]
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
@@ -156,8 +245,10 @@ app.post('/api/setMyQuestions', (req, res) => {
 
 	});
 	connection.end();
-
 });
+});
+});
+
 
 app.post('/api/addUser', (req, res) => {
 	//console.log(req);

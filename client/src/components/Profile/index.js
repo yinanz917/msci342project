@@ -21,10 +21,14 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import NavBar from '../Navigation/NavBar';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Firebase/context';
 
 const serverURL = ""; // dev mode
 
 const Profile = () => {
+
+  const { currentUser } = useAuth()
+  const email = currentUser.email
 
   //defining states
   const [enteredAge, setAge] = React.useState('');
@@ -149,12 +153,12 @@ const Profile = () => {
         //authorization: `Bearer ${this.state.token}`
       },
       body: JSON.stringify({
+        email: email,
         age: enteredAge,
         sex: selectedSex,
         pronouns: selectedPronouns,
         budget: enteredBudget,
         city: enteredLocation,
-
         pets: hasPet,
         hobbies: hobbyList
       })

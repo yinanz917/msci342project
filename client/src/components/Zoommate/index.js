@@ -21,12 +21,18 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Firebase/context';
+
+
 
 import NavBar from '../Navigation/NavBar';
 
 const serverURL = ""; // dev mode
 
 const ZoommateQuestionnaire = () => {
+
+  const { currentUser } = useAuth()
+  const email = currentUser.email
 
   //defining states
   const [enteredMaxAge, setMaxAge] = React.useState('');
@@ -146,6 +152,7 @@ const ZoommateQuestionnaire = () => {
         //authorization: `Bearer ${this.state.token}`
       },
       body: JSON.stringify({
+        email: email,
         AgeMax: enteredMaxAge,
         AgeMin: enteredMinAge,
         ZMSex: selectedSex,
