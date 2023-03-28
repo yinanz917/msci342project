@@ -47,7 +47,7 @@ const Matches = () => {
             })
     }
 
-    const callApiLoadMatches = async() => {
+    const callApiLoadMatches = async () => {
         const url = serverURL + "/api/loadMatches";
         const response = await fetch(url, {
             method: "POST",
@@ -225,6 +225,7 @@ export function ProfileDialog(props) {
             setButtonMessage("Save Review");
         };
         getReviews();
+        setReview();
     }, [clickEdit])
 
     // reviews 
@@ -300,9 +301,45 @@ export function ProfileDialog(props) {
         return body;
     }
 
+    /**
+     * WIP - ADD REVIEW 
+     */
+
+    const setReview = async () => {
+        callApiSetReview()
+            .then(res => {
+                console.log("callApiSetReview returned: ", res)
+                var parsed = JSON.parse(res.express);
+                console.log("callApiSetReview parsed: ", parsed[0])
+            });
+    }
+
+    const callApiSetReview = async () => {
+        const url = serverURL + "/api/setReview";
+        console.log(url);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                //authorization: `Bearer ${this.state.token}`
+            },
+            body: JSON.stringify({
+                email: email, // you to be set as otherUserID
+                userID: props.profile.userID, // person being reviewed
+                body: userReview,
+                score: reviewScore,
+            })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log("Found profile: ", body);
+        return body;
+    }
+
     return (
         <div>
-            <Dialog open={props.open} onClose={props.onClose} maxWidth='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
+            <Dialog open={props.open} container onClose={props.onClose} width='md' sx={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', zIndex: 1 }}  >
                 <DialogTitle marginBottom={4}>Match Profile Details</DialogTitle >
                 <DialogContent>
                     <DialogContentText spacing={4}>
