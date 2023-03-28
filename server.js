@@ -308,7 +308,7 @@ app.post('/api/loadMatches', (req, res) => {
 
 					console.log(favouritesData[0].userID);
 
-					
+
 
 					let sql = "select userID from zoommates_account where email = ?"
 
@@ -323,7 +323,7 @@ app.post('/api/loadMatches', (req, res) => {
 
 						console.log(userIDData);
 						console.log(userIDData[0].userID)
-						
+
 
 						let one = profileData[0].zoommates_account_userID;
 						let oneScore = 0;
@@ -345,12 +345,12 @@ app.post('/api/loadMatches', (req, res) => {
 						let zProfileIndex = 0;
 
 						while (!(userIDData[0].userID == profileData[profileIndex].zoommates_account_userID)) {
-							
+
 							profileIndex++;
 						}
 
 						console.log(profileIndex)
-						
+
 
 
 
@@ -360,7 +360,7 @@ app.post('/api/loadMatches', (req, res) => {
 
 						console.log(zProfileIndex)
 
-						
+
 
 						for (let i = 1; i < profileData.length; i++) {
 
@@ -510,7 +510,7 @@ app.post('/api/loadMatches', (req, res) => {
 									return console.error(error.message);
 								}
 
-							
+
 
 								connection.query(sql, three, (error, threePhoto, fields) => {
 									if (error) {
@@ -537,7 +537,7 @@ app.post('/api/loadMatches', (req, res) => {
 													sex: profileData[oneIndex].sex,
 													starred: false,
 													reject: false,
-													photo: onePhoto
+													photo: onePhoto[0].photo
 												},
 
 												{
@@ -547,7 +547,7 @@ app.post('/api/loadMatches', (req, res) => {
 													sex: profileData[twoIndex].sex,
 													starred: false,
 													reject: false,
-													photo: twoPhoto
+													photo: twoPhoto[0].photo
 												},
 
 												{
@@ -557,7 +557,7 @@ app.post('/api/loadMatches', (req, res) => {
 													sex: profileData[threeIndex].sex,
 													starred: false,
 													reject: false,
-													photo: threePhoto
+													photo: threePhoto[0].photo
 												},
 
 												{
@@ -567,7 +567,7 @@ app.post('/api/loadMatches', (req, res) => {
 													sex: profileData[fourIndex].sex,
 													starred: false,
 													reject: false,
-													photo: fourPhoto
+													photo: fourPhoto[0].photo
 												},
 
 												{
@@ -577,11 +577,13 @@ app.post('/api/loadMatches', (req, res) => {
 													sex: profileData[fiveIndex].sex,
 													starred: false,
 													reject: false,
-													photo: fivePhoto
+													photo: fivePhoto[0].photo
 												},
 											];
+											let string = JSON.stringify(topFive);
+											//let obj = JSON.parse(string);
+											res.send({ express: string });
 											console.log(topFive)
-											res.json(topFive);
 											connection.end();
 										});
 									});
@@ -593,7 +595,7 @@ app.post('/api/loadMatches', (req, res) => {
 			});
 		});
 	});
-	
+
 });
 
 app.post('/api/getAccountInfo', (req, res) => {

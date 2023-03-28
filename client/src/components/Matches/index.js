@@ -34,10 +34,8 @@ const Matches = () => {
     const { currentUser } = useAuth()
     const email = currentUser.email
 
-
     React.useEffect(() => {
         loadMatches();
-
     }, []);
 
     const loadMatches = () => {
@@ -49,9 +47,8 @@ const Matches = () => {
             })
     }
 
-    const callApiLoadMatches = async () => {
+    const callApiLoadMatches = async() => {
         const url = serverURL + "/api/loadMatches";
-
 
         const response = await fetch(url, {
             method: "POST",
@@ -91,7 +88,6 @@ const Matches = () => {
     const handleRefresh = () => {
         console.log("refreshed!");
         loadMatches();
-        
     }
 
     return (
@@ -116,6 +112,7 @@ const Matches = () => {
                         {profiles.slice(0, 5).map((profile) => {
                             return (
                                 <Grid item>
+                                    <Typography>{profile.name}</Typography>
                                     <MatchProfile
                                         profile={profile}
                                         initialReviews={initialReviews}
