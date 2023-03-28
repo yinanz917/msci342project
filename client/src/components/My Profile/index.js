@@ -20,8 +20,9 @@ const serverURL = "";
 const MyProfile = (props) => {
 
   const { currentUser } = useAuth()
-    const email = currentUser.email
+  const email = currentUser.email
 
+  const [profilePhoto, setProfilePhoto] = React.useState([]);
   const [profile, setProfile] = React.useState([]);
   const [zprofile, setZProfile] = React.useState([]);
 
@@ -43,7 +44,6 @@ const MyProfile = (props) => {
   React.useEffect(() => {
     loadZProfile();
   }, []);
-
 
   // Calling user profiles
   const loadProfile = () => {
@@ -75,11 +75,6 @@ const MyProfile = (props) => {
     return body;
   }
 
-
-  React.useEffect(() => {
-    loadZProfile();
-  }, []);
-
   const loadZProfile = () => {
     callApiLoadZProfile()
       .then(res => {
@@ -93,6 +88,40 @@ const MyProfile = (props) => {
 
   const callApiLoadZProfile = async () => {
     const url = serverURL + "/api/loadZProfile";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email
+      })
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+
+  React.useEffect(() => {
+    console.log('test console');
+    getProfilePicture();
+  }, []);
+
+  const getProfilePicture = () => {
+    callApiGetProfilePicture()
+      .then(res => {
+        console.log("callApiGetProfilePicture returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetProfilePicture parsed: ", parsed)
+        setProfilePhoto(parsed);
+      });
+  }
+
+  //API to get first name, last name, and photo
+  const callApiGetProfilePicture = async () => {
+    const url = serverURL + "/api/getProfilePicture";
     console.log(url);
 
     const response = await fetch(url, {
@@ -123,9 +152,9 @@ const MyProfile = (props) => {
             <Grid spacing={8} align="center">
               <Grid item>
                 <Avatar
-                  alt="Yinan Zhang"
+                  alt={currentUser.email}
                   sx={{ width: 240, height: 240 }}
-                  src="https://media.licdn.com/dms/image/C4E03AQG9NqDyKiM7xA/profile-displayphoto-shrink_800_800/0/1636655410891?e=1682553600&v=beta&t=2p-PKSLrMmCxCLXEmswjWrmdZNmVWwqniYm4uDMuONg" />
+                  src={profilePhoto && profilePhoto[0] && profilePhoto[0].photo} />
               </Grid>
 
               <Grid item paddingTop={4}>
