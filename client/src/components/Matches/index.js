@@ -127,6 +127,9 @@ const Matches = () => {
 }
 
 const MatchProfile = (props) => {
+    const { currentUser } = useAuth()
+    const email = currentUser.email
+
     const profile = (props.profile);
     const [starred, setStarred] = React.useState(profile.starred);
     const [removed, setRemoved] = React.useState(profile.reject);
@@ -148,12 +151,45 @@ const MatchProfile = (props) => {
     const handleStarred = () => {
         setStarred(!starred);
         profile.starred = starred;
+        //add api call, same as rejects
     }
 
     const handleRemove = () => {
         setRemoved(!removed);
         profile.reject = removed;
+        setRejects();
     }
+
+    const setRejects = async () => {
+        callApiSetRejects()
+          .then(res => {
+            var parsed = JSON.parse(res.express);
+          });
+      }
+    
+      const callApiSetRejects = async () => {
+        const url = serverURL + "/api/setMyRejects";
+        console.log(url);
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            //authorization: `Bearer ${this.state.token}`
+          },
+          body: JSON.stringify({
+            email: email,
+            //userID
+            
+          })
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log("Found profile: ", body);
+        return body;
+      }
+
+    
 
     return (
         <div>
@@ -315,10 +351,9 @@ export function ProfileDialog(props) {
                                 <Typography variant='h4'>{props.profile.name}</Typography>
                                 <Typography><b>Sex:</b> {props.profile.sex}</Typography>
                                 <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                <Typography><b>Sex:</b> {props.profile.sex}</Typography>
-                                <Typography><b>Age:</b> {props.profile.age}</Typography>
-                                <Typography><b>Age:</b> {props.profile.age}</Typography>
+                                <Typography><b>Pronouns:</b> {props.profile.pronouns}</Typography>
+                                <Typography><b>Budget:</b> {props.profile.budget}</Typography>
+                                <Typography><b>Location:</b> {props.profile.location}</Typography>
                             </div>
                         </Stack>
 

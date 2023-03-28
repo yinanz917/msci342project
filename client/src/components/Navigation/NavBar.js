@@ -54,9 +54,8 @@ const NavBar = () => {
     }
 
     React.useEffect(() => {
-        console.log('test console');
         getProfilePicture();
-    }, [profile]);
+    }, []);
 
     const getProfilePicture = () => {
         callApiGetProfilePicture()
