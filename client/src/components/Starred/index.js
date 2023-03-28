@@ -10,10 +10,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useAuth } from '../Firebase/context';
 
 const serverURL = "";
 
 const Starred = (props) => {
+  const { currentUser } = useAuth()
+    const email = currentUser.email
 
     const [starredPeople, setStarredPeople] = React.useState([]);
 
@@ -40,7 +43,10 @@ const Starred = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-      }
+      },
+      body: JSON.stringify({
+          email: email
+      })
     });
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
@@ -66,7 +72,7 @@ const Starred = (props) => {
                         <Avatar alt={person.name} src={person.photo} sx={{ width: 56, height: 56 }} />
                         }
                         title= {<Typography gutterBottom variant="h5" component="h2">
-                        {person.name}
+                        {person.firstName + " " + person.lastName}
                      </Typography>}
                         subheader={person.username}
                     />

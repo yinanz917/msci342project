@@ -22,12 +22,40 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.post('/api/loadStarred', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let userID = req.body.userID;
+	
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
 
-	let sql = `SELECT * FROM a3larocq.zoommates_account;`;
+	console.log(sql);
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID
+
+		
+
+
+
+	let sql = `SELECT *
+	FROM zoommates_account
+	WHERE userID IN (
+	  SELECT zoommates_account_userID
+	  FROM personal_profile
+	  WHERE userID IN (
+		SELECT ?
+		FROM favourites
+	  )
+	);`;
 	console.log(sql);
 
-	connection.query(sql, (error, results, fields) => {
+	connection.query(sql, userID, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
 		}
@@ -36,6 +64,7 @@ app.post('/api/loadStarred', (req, res) => {
 		res.send({ express: string });
 	});
 	connection.end();
+});
 });
 
 app.post('/api/loadProfile', (req, res) => {
@@ -173,6 +202,80 @@ app.post('/api/setMyProfile', (req, res) => {
 				connection.end();
 			});
 		});
+	});
+});
+
+app.post('/api/setMyRejects', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+
+	console.log(sql);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID;
+		
+		let otherUserID = req.body.otherUserID;
+
+		
+			sql = `INSERT INTO a3larocq.rejects(userID, otherUserID) values (?,?)`;
+			
+
+			console.log(sql);
+
+			let data = [userID, otherUserID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
+	});
+});
+
+app.post('/api/setMyFavourites', (req, res) => {
+	let connection = mysql.createConnection(config);
+
+	let sql = `SELECT * FROM a3larocq.zoommates_account where email = ?`;
+	let data = [req.body.email];
+
+	console.log(sql);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			console.error(error.message);
+			console.error(sql);
+			connection.end();
+			return;
+		}
+
+		let userID = results[0].userID;
+		
+		let otherUserID = req.body.otherUserID;
+
+		
+			sql = `INSERT INTO a3larocq.favourites(userID, otherUserID) values (?,?)`;
+			
+
+			console.log(sql);
+
+			let data = [userID, otherUserID];
+
+			connection.query(sql, data, (error, results, fields) => {
+				if (error) {
+					console.error(error.message);
+				}
+				connection.end();
+			});
 	});
 });
 
@@ -343,6 +446,7 @@ app.post('/api/addUser', (req, res) => {
 });
 
 app.post('/api/loadMatches', (req, res) => {
+	console.log("api called");
 
 	let connection = mysql.createConnection(config);
 
@@ -363,13 +467,11 @@ app.post('/api/loadMatches', (req, res) => {
 					return console.error(error.message);
 				}
 
-				console.log(rejectsData[0].userID);
+				
 				connection.query("select * from favourites", (error, favouritesData, fields) => {
 					if (error) {
 						return console.error(error.message);
 					}
-
-					console.log(favouritesData[0].userID);
 
 					let sql = "select userID from zoommates_account where email = ?"
 
@@ -382,8 +484,7 @@ app.post('/api/loadMatches', (req, res) => {
 							return console.error(error.message);
 						}
 
-						console.log(userIDData);
-						console.log(userIDData[0].userID)
+						
 						let one = profileData[0].zoommates_account_userID;
 						let oneScore = 0;
 						let oneIndex = 0;
@@ -414,39 +515,48 @@ app.post('/api/loadMatches', (req, res) => {
 							zProfileIndex++;
 						}
 
-						console.log(zProfileIndex)
+						console.log("forloop start")
 
-						for (let i = 1; i < profileData.length; i++) {
+						for (let i = 0; i < profileData.length; i++) {
 
-							if (i == profileIndex) {
-								continue;
-							}
 
 							let newUser = profileData[i].zoommates_account_userID
 
-							console.log(newUser)
+							console.log("------------------------------------")
+
+							console.log("checking user :" + newUser)
+
+							if (i == profileIndex) {
+								console.log("same user")
+								continue;
+							}
+
+							
 
 							let fr = false;
 
 							for (let K = 0; K < rejectsData.length; K++) {
-								if ((rejectsData[K].otherUserID == newUser) && (rejectsData[K].userID == profileData[profileIndex].userID)) {
+								
+								if ((rejectsData[K].otherUserID == newUser) && (rejectsData[K].userID == profileData[profileIndex].zoommates_account_userID)) {
 									fr = true;
 									break;
 								}
 							}
 
 							for (let K = 0; K < favouritesData.length; K++) {
-								if ((favouritesData[K].otherUserID == newUser) && (favouritesData[K].userID == profileData[profileIndex].userID)) {
+								if ((favouritesData[K].otherUserID == newUser) && (favouritesData[K].userID == profileData[profileIndex].zoommates_account_userID)) {
 									fr = true;
 									break;
 								}
 							}
 
 							if (fr) {
+								console.log("rejected or favourited")
 								continue;
+								
 							}
 
-							console.log(zProfileData[0].zoommates_account_userID)
+							
 
 							let j = 0;
 
@@ -468,18 +578,24 @@ app.post('/api/loadMatches', (req, res) => {
 
 							subtract += Math.abs(zProfileData[zProfileIndex].Guest - zProfileData[j].Guest);
 
-							if ((profileData[profileIndex].age > zProfileData[j].AgeMax) && (profileData[profileIndex].age < zProfileData[j].AgeMin)) {
+							console.log(profileData[profileIndex].age)
+							console.log(zProfileData[j].AgeMax)
+
+							if ((profileData[i].age > zProfileData[zProfileIndex].AgeMax) || (profileData[i].age < zProfileData[zProfileIndex].AgeMin)) {
 								subtract += 40
+								console.log("bad age")
 							}
 
 							if (zProfileData[zProfileIndex].ZMSex == "Female only") {
 								if (!(profileData[i].sex == "Female")) {
 									subtract += 40
+									console.log("bad sex")
 								}
 
 							} else if (zProfileData[zProfileIndex].ZMSex == "Male only") {
 								if (!(profileData[i].sex == "Male")) {
 									subtract += 40
+									console.log("bad sex")
 								}
 							}
 
@@ -488,6 +604,10 @@ app.post('/api/loadMatches', (req, res) => {
 							}
 
 							newScore = newScore - subtract;
+
+							
+							console.log(newScore);
+							console.log("------------------------------------")
 
 							if (newScore > oneScore) {
 								five = four;
@@ -585,7 +705,12 @@ app.post('/api/loadMatches', (req, res) => {
 											const topFive = [
 												{
 													profileID: 1,
-													name: profileData[oneIndex].username,
+													userID: profileData[oneIndex].zoommates_account_userID,
+													pronouns: profileData[oneIndex].pronouns,
+													budget: profileData[oneIndex].budget,
+													location: profileData[oneIndex].city,
+													name: profileData
+													[oneIndex].username,
 													age: profileData[oneIndex].age,
 													sex: profileData[oneIndex].sex,
 													starred: false,
@@ -595,6 +720,10 @@ app.post('/api/loadMatches', (req, res) => {
 
 												{
 													profileID: 2,
+													userID: profileData[twoIndex].zoommates_account_userID,
+													pronouns: profileData[twoIndex].pronouns,
+													budget: profileData[twoIndex].budget,
+													location: profileData[twoIndex].city,
 													name: profileData[twoIndex].username,
 													age: profileData[twoIndex].age,
 													sex: profileData[twoIndex].sex,
@@ -605,6 +734,10 @@ app.post('/api/loadMatches', (req, res) => {
 
 												{
 													profileID: 3,
+													userID: profileData[threeIndex].zoommates_account_userID,
+													pronouns: profileData[threeIndex].pronouns,
+													budget: profileData[threeIndex].budget,
+													location: profileData[threeIndex].city,
 													name: profileData[threeIndex].username,
 													age: profileData[threeIndex].age,
 													sex: profileData[threeIndex].sex,
@@ -615,6 +748,10 @@ app.post('/api/loadMatches', (req, res) => {
 
 												{
 													profileID: 4,
+													userID: profileData[fourIndex].zoommates_account_userID,
+													pronouns: profileData[fourIndex].pronouns,
+													budget: profileData[fourIndex].budget,
+													location: profileData[fourIndex].city,
 													name: profileData[fourIndex].username,
 													age: profileData[fourIndex].age,
 													sex: profileData[fourIndex].sex,
@@ -625,6 +762,10 @@ app.post('/api/loadMatches', (req, res) => {
 
 												{
 													profileID: 5,
+													userID: profileData[fiveIndex].zoommates_account_userID,
+													pronouns: profileData[fiveIndex].pronouns,
+													budget: profileData[fiveIndex].budget,
+													location: profileData[fiveIndex].city,
 													name: profileData[fiveIndex].username,
 													age: profileData[fiveIndex].age,
 													sex: profileData[fiveIndex].sex,
